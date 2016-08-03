@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="uninvoice" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a5301d6a-1105-4a69-8a74-407015b61d53">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT DISTINCT veBillID, BillDate, PONumber, InvoiceNumber, veBill.rxMasterID, CONCAT(rxMaster.Name, ' ', rxMaster.FirstName) AS PayableTo, BillAmount, AppliedAmount,veBill.vePOID,veBill.joReleaseDetailID,veBill.DueDate, (SELECT DISTINCT GROUP_CONCAT(CAST(vph.checkNo AS CHAR)) FROM veBillPaymentHistory vph WHERE vph.veBillID = veBill.veBillID) AS reference, (SELECT DISTINCT GROUP_CONCAT(CAST(vph.datePaid AS CHAR)) FROM veBillPaymentHistory vph WHERE vph.veBillID = veBill.veBillID) AS datePaid, (SELECT DISTINCT GROUP_CONCAT(CAST(vph.amountVal AS CHAR)) FROM veBillPaymentHistory vph WHERE vph.veBillID = veBill.veBillID) AS Amount, veBill.TransactionStatus,veBill.creditUsed,veBill.ReceiveDate AS ReceiveDate,joMaster.JobNumber AS JobNumber,joMaster.Description AS JobName   FROM  veBill LEFT OUTER JOIN rxMaster ON veBill.rxMasterID = rxMaster.rxMasterID  LEFT OUTER JOIN joReleaseDetail ON joReleaseDetail.joReleaseDetailID=veBill.joReleaseDetailID  LEFT OUTER JOIN joRelease ON joRelease.joReleaseID =joReleaseDetail.joReleaseID  LEFT OUTER JOIN joMaster ON joMaster.joMasterID =joRelease.joMasterID  LEFT OUTER JOIN vePO ON vePO.vePOID=veBill.vePOID  LEFT OUTER JOIN moTransaction ON moTransactionID = (SELECT DISTINCT moTransactionID FROM moLinkageDetail WHERE veBillID = veBill.veBillID  GROUP BY veBillID) WHERE veBill.joReleaseDetailID IS NOT NULL AND  joReleaseDetail.CustomerInvoiceDate IS NULL AND joReleaseDetail.CustomerInvoiceAmount IS NULL]]>
+	</queryString>
+	<field name="veBillID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BillDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PONumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InvoiceNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxMasterID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PayableTo" class="java.lang.String"/>
+	<field name="BillAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AppliedAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vePOID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joReleaseDetailID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DueDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="reference" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="datePaid" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Amount" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TransactionStatus" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="creditUsed" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ReceiveDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="JobNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="JobName" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="92" splitType="Stretch">
+			<rectangle>
+				<reportElement x="185" y="11" width="225" height="39" uuid="27f8428e-e440-4974-b831-248e444617a4"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="187" y="24" width="223" height="26" uuid="4a80b802-d0c2-4ecc-b424-8a274091061e"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vendor Invoices/No Customer Billing]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="61" width="58" height="31" uuid="080cb24f-c682-41b7-a894-87729050c84e"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Recieve
+ Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="59" y="61" width="75" height="31" uuid="5b13bde4-12d0-4680-a6c3-dde4d5c25eaa"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Job Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="61" width="50" height="31" uuid="e0a58a8e-8318-4495-a0d7-6bc7250743b5"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Invoice #]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="187" y="61" width="159" height="31" uuid="d12077e7-725d-45e9-b7d0-14b39a3542ff"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Payable To]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="347" y="61" width="145" height="31" uuid="6d309e8d-9224-4372-a9f0-3e8045670199"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Job Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="493" y="61" width="62" height="31" uuid="d2616c6e-d1e7-4f16-8076-ffc881339fc1"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="59" y="0" width="75" height="20" isPrintWhenDetailOverflows="true" uuid="819f0eeb-056d-49cd-8117-51086297a688"/>
+				<textFieldExpression><![CDATA[$F{PONumber}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="347" y="0" width="145" height="20" isPrintWhenDetailOverflows="true" uuid="ff28915e-6f92-4456-b2ed-14b49881a0f1"/>
+				<textFieldExpression><![CDATA[$F{JobName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="493" y="0" width="62" height="20" isPrintWhenDetailOverflows="true" uuid="c4920d19-42b1-4ad4-8a28-322428889bf2"/>
+				<textFieldExpression><![CDATA[( $F{BillAmount}!=null ? new BigDecimal($F{BillAmount}) : null )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="58" height="20" isPrintWhenDetailOverflows="true" uuid="aa25c82a-da99-4a7c-bc26-1395be67ee0b"/>
+				<textFieldExpression><![CDATA[$F{ReceiveDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="135" y="0" width="50" height="20" isPrintWhenDetailOverflows="true" uuid="b12754f9-bc4f-47a4-845e-502bfee3af92"/>
+				<textFieldExpression><![CDATA[$F{InvoiceNumber}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="187" y="0" width="159" height="20" isPrintWhenDetailOverflows="true" uuid="c94229c8-10b3-4890-bc9a-198b852f4875"/>
+				<textFieldExpression><![CDATA[$F{PayableTo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

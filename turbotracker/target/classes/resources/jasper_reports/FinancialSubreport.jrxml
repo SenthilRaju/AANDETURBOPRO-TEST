@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FinancialSubreport" language="groovy" pageWidth="500" pageHeight="802" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1e824d5b-e919-4f99-bb2b-98bb4a6253e4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="joMasterID" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT vb.BillDate,rx.Name,'Miscellaneous',vbd.ExpenseAmount FROM veBillDistribution vbd
+JOIN veBill vb USING(veBillID)
+JOIN rxMaster rx USING(rxMasterID)
+WHERE vbd.joMasterID=$P{joMasterID}]]>
+	</queryString>
+	<field name="BillDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Miscellaneous" class="java.lang.String"/>
+	<field name="ExpenseAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="0" width="87" height="20" uuid="bd25ba3f-547b-4c35-8850-4044907123b1"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[PostDate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="89" y="0" width="206" height="20" uuid="9903fe9b-3059-490f-8d43-49fc75d0d591"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Vendor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="295" y="0" width="86" height="20" uuid="d15d3a12-e21e-44fd-beab-1d25c935d2de"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Expense]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="381" y="0" width="121" height="20" uuid="8b3b5b91-58ff-4601-9bb6-d768c86912a1"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Expense Amount]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="2" y="0" width="87" height="20" uuid="8932b5c3-8881-438a-be40-3c642f828519"/>
+				<textFieldExpression><![CDATA[$F{BillDate}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="89" y="0" width="206" height="20" uuid="92eea925-2718-4679-a885-5789b1c939ed"/>
+				<textFieldExpression><![CDATA[$F{Name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="295" y="0" width="86" height="20" uuid="08464da7-0a2a-48a3-8b6a-fc6efffd2be2"/>
+				<textFieldExpression><![CDATA[$F{Miscellaneous}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00" isBlankWhenNull="true">
+				<reportElement x="381" y="0" width="119" height="20" uuid="d70d717c-123f-4d13-9958-b875994f5eff"/>
+				<textFieldExpression><![CDATA[$F{ExpenseAmount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

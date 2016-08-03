@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="QuotePDF" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="5" bottomMargin="14" whenResourceMissingType="Empty" uuid="7bfaa171-5113-4e71-bc63-5eb4075b1ff5">
+	<property name="ireport.zoom" value="1.0000000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="44"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FAEBD7">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFE4BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#FAEBD7">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFE4BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="HeaderAddress" class="java.lang.String"/>
+	<parameter name="project" class="java.lang.String"/>
+	<parameter name="location" class="java.lang.String"/>
+	<parameter name="Quote" class="java.lang.String"/>
+	<parameter name="attention" class="java.lang.String"/>
+	<parameter name="quote#" class="java.lang.String"/>
+	<parameter name="biddate" class="java.util.Date"/>
+	<parameter name="architect" class="java.lang.String"/>
+	<parameter name="engineer" class="java.lang.String"/>
+	<parameter name="plandate" class="java.util.Date"/>
+	<parameter name="revision#" class="java.lang.String"/>
+	<parameter name="columnNote" class="java.lang.String"/>
+	<parameter name="quantity" class="java.lang.String"/>
+	<parameter name="joQuoteHeaderID" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Discount" class="java.lang.String"/>
+	<parameter name="Notes" class="java.lang.String"/>
+	<parameter name="SubmittedBy" class="java.lang.String"/>
+	<parameter name="logo" class="java.awt.Image"/>
+	<parameter name="col1_Header" class="java.lang.String"/>
+	<parameter name="col1_Heade2" class="java.lang.String"/>
+	<parameter name="col1_Heade3" class="java.lang.String"/>
+	<parameter name="col1_Heade4" class="java.lang.String"/>
+	<parameter name="col1_Heade5" class="java.lang.String"/>
+	<parameter name="col1_Header6" class="java.lang.String"/>
+	<parameter name="col1_Header7" class="java.lang.String"/>
+	<parameter name="col1_Header8" class="java.lang.String"/>
+	<parameter name="headerAdress1" class="java.lang.String"/>
+	<parameter name="headerAddress2" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+        jqd.joQuoteDetailID,
+        jqd.joQuoteHeaderID,
+        jqd.Product, jqd.ProductNote,
+        jqd.ItemQuantity,
+        jqd.Paragraph,
+        jqd.Price, jqd.Cost,
+        jqd.Mult, jqd.Spec,
+        jqd.InlineNote,
+        rm.Name As Name,
+        vf.Description AS Manufacturer,
+        jqd.rxManufacturerID,
+        jqd.veFactoryID, jqd.position,
+        vf.InActive, jqh.Remarks,
+        (select companyLogo from tsUserSetting) as logo,
+        (select Terms from tsUserSetting) as terms,
+        (select HeaderText from tsUserSetting) as headerText
+        FROM joQuoteDetail jqd
+	LEFT JOIN veFactory vf ON jqd.veFactoryID = vf.veFactoryID
+	LEFT JOIN rxMaster rm ON rm.rxMasterID = vf.rxMasterID
+	LEFT JOIN joQuoteHeader jqh ON jqd.joQuoteHeaderID = jqh.joQuoteHeaderID
+        WHERE jqd.joQuoteheaderID = $P{joQuoteHeaderID} ORDER BY jqd.position;]]>
+	</queryString>
+	<field name="joQuoteDetailID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joQuoteHeaderID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Product" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ProductNote" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ItemQuantity" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Paragraph" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Price" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Cost" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Mult" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Spec" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InlineNote" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Manufacturer" class="java.lang.String"/>
+	<field name="rxManufacturerID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="veFactoryID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="position" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InActive" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Remarks" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="logo" class="java.io.InputStream"/>
+	<field name="terms" class="java.lang.String"/>
+	<field name="headerText" class="java.lang.String"/>
+	<variable name="Price_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{Price}]]></variableExpression>
+	</variable>
+	<variable name="row_count" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{Price} == null ? ($V{REPORT_COUNT} - 1) : $V{REPORT_COUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="inline_Count" class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="112" splitType="Stretch">
+			<componentElement>
+				<reportElement mode="Transparent" x="342" y="11" width="228" height="96" forecolor="#FFFFFF" backcolor="#000000" uuid="e3c4150f-c69e-4de5-bd95-3d8034f259e6"/>
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RealSize" horizontalAlign="Left" verticalAlign="Middle">
+					<hc:htmlContentExpression><![CDATA[$F{headerText}.replaceAll("`and`amp;", "&").replaceAll("`and`nbsp;", " ")]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
+			<staticText>
+				<reportElement x="235" y="11" width="100" height="28" uuid="a3173ad2-2d0b-4037-847a-bdd2f01ecf5f"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Quotes]]></text>
+			</staticText>
+			<image>
+				<reportElement x="27" y="9" width="200" height="98" uuid="9b2a7b7e-935e-43d9-82be-2bc9486aadce"/>
+				<imageExpression><![CDATA[$F{logo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="149" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER} ==1]]></printWhenExpression>
+			<rectangle>
+				<reportElement x="41" y="25" width="239" height="98" uuid="4eb0a519-8b75-479b-853e-997a9f06f139"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="280" y="25" width="254" height="98" uuid="8713452d-ca24-4f83-8646-3da87e1699fc"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="61" y="34" width="75" height="18" uuid="95c6c5cc-d424-4ac5-ae4f-a32a4e6fcdec"/>
+				<textElement>
+					<font fontName="SansSerif" size="11" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Project:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="61" y="52" width="75" height="15" uuid="0f603928-645a-4564-809c-b3211def77c8"/>
+				<textElement>
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Location:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="61" y="83" width="75" height="14" uuid="4808d524-ddd7-4ad8-b249-1d8493a5fac9"/>
+				<textElement>
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Attention:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="61" y="67" width="75" height="16" uuid="3716bd61-5720-4c8c-a267-46b11161b624"/>
+				<textElement>
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Quote To:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="61" y="97" width="75" height="16" uuid="9a80318b-f399-44a5-b5c4-39c5c54de9bf"/>
+				<textElement>
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Quote#:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="34" width="81" height="18" uuid="d1159fc3-5871-4ce2-ab7e-66ec168a207d"/>
+				<textElement>
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Bid Date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="52" width="81" height="15" uuid="beff1fea-ac52-49bd-94f8-96e3afa54c20"/>
+				<textElement>
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Architect :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="67" width="81" height="16" uuid="aae92dd4-af77-4978-b9de-226e6475f5c8"/>
+				<textElement>
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Engineer :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="83" width="81" height="16" uuid="73437883-61a1-452e-afa4-c64aeabad8a2"/>
+				<textElement>
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Plan Date :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="98" width="81" height="17" uuid="00890066-aebf-4414-9838-5df0594a383c"/>
+				<textElement>
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Revision #:]]></text>
+			</staticText>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="142" y="37" width="131" height="15" uuid="55710409-8f4d-4896-b498-0ca5f36e91c3"/>
+				<textFieldExpression><![CDATA[$P{project}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="142" y="52" width="131" height="15" uuid="67c84772-dff1-4af4-9a9b-ff96ffb3e8ad"/>
+				<textFieldExpression><![CDATA[$P{location}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="142" y="67" width="131" height="16" uuid="d2962917-8bf8-4e34-a1de-f5dd85cf0124"/>
+				<textFieldExpression><![CDATA[$P{Quote}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="142" y="83" width="131" height="13" uuid="c6fddc39-9a9d-4f36-8645-ad4b387592d8"/>
+				<textFieldExpression><![CDATA[$P{attention}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="142" y="97" width="131" height="16" uuid="a8178a0b-6d24-4fc9-a23b-4e53ab76ff08"/>
+				<textFieldExpression><![CDATA[$P{quote#}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="383" y="34" width="139" height="18" uuid="f0bd5cce-c51f-4d56-acfc-0c07dfca9a97"/>
+				<textFieldExpression><![CDATA[$P{biddate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="383" y="52" width="139" height="15" uuid="d36b4222-3225-490b-a3d2-dcf0ac558020"/>
+				<textFieldExpression><![CDATA[$P{architect}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="383" y="67" width="139" height="16" uuid="f053d683-463a-4bbf-bca6-f21a5bde3ecb"/>
+				<textFieldExpression><![CDATA[$P{engineer}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="383" y="85" width="139" height="13" uuid="ee3fdad4-4821-4440-998e-38d61ba419e7"/>
+				<textFieldExpression><![CDATA[$P{plandate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="383" y="99" width="139" height="16" uuid="326b84e7-00cc-4c95-9354-6c795af0b0ff"/>
+				<textFieldExpression><![CDATA[$P{revision#}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="136" y="130" width="375" height="15" uuid="21a7be11-02c3-474e-bec1-a5c4dc95a20d"/>
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RetainShape" horizontalAlign="Left" verticalAlign="Middle">
+					<hc:htmlContentExpression><![CDATA[$F{terms}]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
+			<textField>
+				<reportElement x="505" y="4" width="31" height="19" uuid="46eddafa-8f6c-470e-9f0f-75fb60f4d025"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="444" y="4" width="52" height="19" uuid="9ddb736d-d787-4246-96d4-38885298056b"/>
+				<text><![CDATA[Page No :]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="71" y="4" width="105" height="20" uuid="5384a456-b82b-4d14-a8bc-fe305cd2720b"/>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Item]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="4" width="42" height="20" uuid="480ea326-030e-470e-8d64-161b80c50836"/>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Qty.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="307" y="4" width="133" height="20" uuid="65e20df2-78d6-4d53-9c8d-65d3e0402c51"/>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Manufacturer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="442" y="5" width="92" height="20" uuid="039b3392-48f0-4943-a99d-1bf7f000e3f0"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="226" y="5" width="81" height="20" uuid="f88ef08e-f81e-41fb-86f6-f999314c5e50"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Paragraph]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<rectangle>
+				<reportElement isPrintRepeatedValues="false" x="292" y="0" width="65" height="20" forecolor="#FFFFFF" uuid="5fc4cac8-6b03-4220-9969-4c4678bbdfc3"/>
+			</rectangle>
+			<rectangle>
+				<reportElement isPrintRepeatedValues="false" x="33" y="0" width="64" height="20" forecolor="#FFFFFF" uuid="3be723c0-12b7-4b5e-8bc4-d35585e81dd8"/>
+			</rectangle>
+			<rectangle>
+				<reportElement isPrintRepeatedValues="false" x="357" y="0" width="74" height="20" forecolor="#FFFFFF" uuid="59b061b4-8cea-48a5-8b92-e3e3142fef8c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement isPrintRepeatedValues="false" x="94" y="0" width="71" height="20" forecolor="#FFFFFF" uuid="e64c2c0d-8923-4517-9db3-0f098fdd78f4"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement isPrintRepeatedValues="false" x="68" y="0" width="108" height="18" uuid="2e11cdfb-1db8-4847-9453-e705750f64d4"/>
+				<textFieldExpression><![CDATA[$F{Product}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="307" y="0" width="133" height="20" isPrintWhenDetailOverflows="true" uuid="36e086bb-069a-42cd-bc44-507a74f0837f"/>
+				<textFieldExpression><![CDATA[$F{Manufacturer}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="41" y="-2" width="23" height="20" uuid="87823047-6030-45cf-a8c4-5f585fb5da8d"/>
+				<textElement>
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT} + "."]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="180" y="1" width="42" height="19" isPrintWhenDetailOverflows="true" uuid="6cff754e-52d1-43b3-b67c-f5483d1eb87d"/>
+				<textFieldExpression><![CDATA[$F{ItemQuantity}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="440" y="0" width="93" height="20" isPrintInFirstWholeBand="true" uuid="6e2c3583-9a04-49c6-ad08-984a0619ccf3"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[($F{Price} == null) ? "" : "$"+$F{Price}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="224" y="2" width="83" height="18" uuid="a0ce4030-d54c-452f-8e06-69e6854caf0c"/>
+				<textFieldExpression><![CDATA[$F{Paragraph}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="15">
+			<printWhenExpression><![CDATA[$F{InlineNote}!=null||$F{InlineNote}==""]]></printWhenExpression>
+			<componentElement>
+				<reportElement x="73" y="1" width="463" height="13" isPrintWhenDetailOverflows="true" uuid="164e62c7-4345-4d4f-a427-86435e95a8d9"/>
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="Clip" horizontalAlign="Left" verticalAlign="Top">
+					<hc:htmlContentExpression><![CDATA[com.turborep.turbotracker.util.ReportUtils.toHtml($F{InlineNote})]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="22">
+			<staticText>
+				<reportElement x="421" y="0" width="57" height="20" uuid="12fbb017-0aaa-4f5f-a980-82f3739b55d5"/>
+				<textElement textAlignment="Right">
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TOTAL :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="479" y="0" width="53" height="20" uuid="dc476de2-1a07-4f65-943c-374b5ed19fa0"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{Price_1}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<lastPageFooter>
+		<band height="69">
+			<rectangle>
+				<reportElement positionType="FixRelativeToBottom" x="41" y="37" width="164" height="31" uuid="a247fb8b-63b8-42d4-81c1-eed2ce1328bc"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="FixRelativeToBottom" x="205" y="37" width="148" height="31" uuid="bd0cb9eb-cc37-4433-b3b9-d718e301dd2c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="FixRelativeToBottom" x="353" y="37" width="190" height="31" uuid="9f0bfddb-486e-4e64-b041-c85cb8d4cd26"/>
+			</rectangle>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="48" y="46" width="82" height="14" uuid="abf94bb8-c0cf-4f78-854c-595b5f20681e"/>
+				<textElement>
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Submitted By:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="357" y="45" width="122" height="20" uuid="885bf3eb-ffab-49a3-991d-3cc8fa5d8584"/>
+				<textElement>
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Through Addendum :-1]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="130" y="45" width="75" height="16" uuid="00228874-a931-49ab-a4a0-2a70b20b3236"/>
+				<textFieldExpression><![CDATA[$P{SubmittedBy}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="213" y="45" width="41" height="16" uuid="8598e850-c7a7-460b-a310-ab5a052a04f3"/>
+				<text><![CDATA[Dated : ]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement positionType="FixRelativeToBottom" x="254" y="45" width="84" height="14" uuid="8a6ccf21-27a0-4ba8-a042-f7945e718667"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement positionType="FixRelativeToBottom" mode="Transparent" x="42" y="3" width="502" height="20" uuid="30c032cc-c8df-443e-b53a-0958c3a05c22"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Remarks}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>

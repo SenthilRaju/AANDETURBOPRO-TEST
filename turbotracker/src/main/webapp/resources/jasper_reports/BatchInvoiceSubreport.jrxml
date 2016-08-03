@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BatchInvoiceSubreport" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4cc33fb9-64d3-4dec-bf58-a1792f220a98">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cuInvoiceID" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select  cuInvoiceDetail.*,cuInvoiceDetail.UnitCost*cuInvoiceDetail.QuantityBilled AS ExtList,
+ (IFNULL(NULLIF(cuInvoiceDetail.UnitCost, '' ), 0) * IFNULL(NULLIF(cuInvoiceDetail.QuantityBilled, '' ), 0)*IFNULL(NULLIF(cuInvoiceDetail.PriceMultiplier , '' ),1)) AS total,
+prMaster.ItemCode from cuInvoiceDetail LEFT JOIN prMaster ON prMaster.prMasterID = cuInvoiceDetail.prMasterID where cuInvoiceDetail.cuInvoiceID=$P{cuInvoiceID}]]>
+	</queryString>
+	<field name="cuInvoiceDetailID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuInvoiceID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuSODetailID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prMasterID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Note" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QuantityBilled" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="UnitCost" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="UnitPrice" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PriceMultiplier" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Taxable" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="HasSingleItemTaxAmount" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="coAccountID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="whseCost" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ExtList" class="java.math.BigDecimal"/>
+	<field name="total" class="java.math.BigDecimal"/>
+	<field name="ItemCode" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="mytotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="31" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="140" y="0" width="132" height="15" uuid="bb46d178-cb5d-4287-8703-6894a38b02b6"/>
+				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+			<textField pattern=" ###0.####" isBlankWhenNull="true">
+				<reportElement x="91" y="0" width="39" height="15" uuid="df69e5d7-1225-4024-9d5f-a92e1b578a72"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{QuantityBilled}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="3" y="0" width="88" height="15" uuid="243db2a9-8d6c-4a90-b716-d0a1e1fb6f84"/>
+				<textFieldExpression><![CDATA[$F{ItemCode}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="272" y="0" width="61" height="15" uuid="cbab8b0d-631e-4099-91d0-0c763ff5bdc7"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{UnitCost}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="333" y="0" width="73" height="15" uuid="a86d280e-d319-4b8e-8de2-ba6e772fa20a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{ExtList}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="406" y="0" width="79" height="15" uuid="8981c08f-6c72-4102-87e0-b698b3482624"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{PriceMultiplier}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="485" y="0" width="76" height="15" uuid="22b59dbf-c3db-46b8-bb67-6895725e8a28"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="140" y="15" width="132" height="15" isPrintWhenDetailOverflows="true" uuid="52ae438c-1903-4c44-8b28-aee7d3f39c4a"/>
+				<textElement markup="html">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Note}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AccountRecievablesecondgrid" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" isFloatColumnFooter="true" uuid="dbdf6f95-def6-4db2-87d7-27adc14e8bec">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="254"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="frmBillDate" class="java.lang.String"/>
+	<parameter name="toBillDate" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT vb.veBillID,vb.BillDate,vp.PONumber,vb.InvoiceNumber,vb.rxMasterID,CONCAT(rx.Name, ' ', rx.FirstName) AS PayableTo,
+vb.BillAmount,vb.AppliedAmount,vb.vePOID,vb.joReleaseDetailID,vb.DueDate,mo.Reference,mo.TransactionDate,(mLD.Amount+mLD.Discount) AS amountVal,
+vb.TransactionStatus,vb.creditUsed,(DATEDIFF($P{toBillDate},vb.BillDate)) AS age ,
+(CASE WHEN (DATEDIFF($P{toBillDate},vb.BillDate))<=30 THEN (IF(DATE(mo.TransactionDate)>$P{toBillDate},vb.BillAmount-(vb.AppliedAmount-(mLD.Amount+mLD.Discount)),vb.BillAmount-vb.AppliedAmount)) ELSE 0 END) AS currentAmount,
+(CASE WHEN (DATEDIFF($P{toBillDate},vb.BillDate)>30 AND DATEDIFF($P{toBillDate},vb.BillDate)<=60) THEN  (IF(DATE(mo.TransactionDate)>$P{toBillDate},vb.BillAmount-(vb.AppliedAmount-(mLD.Amount+mLD.Discount)),vb.BillAmount-vb.AppliedAmount)) ELSE 0 END) AS age30Amount ,
+(CASE WHEN (DATEDIFF($P{toBillDate},vb.BillDate)>60 AND DATEDIFF($P{toBillDate},vb.BillDate)<=90) THEN (IF(DATE(mo.TransactionDate)>$P{toBillDate},  vb.BillAmount-(vb.AppliedAmount-(mLD.Amount+mLD.Discount)),vb.BillAmount-vb.AppliedAmount)) ELSE 0 END) AS age60Amount ,
+(CASE WHEN (DATEDIFF($P{toBillDate},vb.BillDate))>90 THEN (IF(DATE(mo.TransactionDate)>$P{toBillDate},vb.BillAmount-(vb.AppliedAmount-(mLD.Amount+mLD.Discount)), vb.BillAmount-vb.AppliedAmount)) ELSE 0 END) AS age90Amount ,
+IF(DATE(mo.TransactionDate)>$P{toBillDate},vb.BillAmount-(vb.AppliedAmount-(mLD.Amount+mLD.Discount)), vb.BillAmount-vb.AppliedAmount)AS Balance
+FROM veBill vb
+LEFT JOIN moLinkageDetail mLD ON vb.veBillID = mLD.vebillID LEFT JOIN moTransaction mo ON mLD.moTransactionID = mo.moTransactionID and mo.Void<>1
+LEFT OUTER JOIN rxMaster rx ON vb.rxMasterID = rx.rxMasterID
+LEFT OUTER JOIN vePO vp ON vb.vePOID = vp.vePOID
+WHERE (vb.vePOID IS NULL OR vb.vePOID IS NOT NULL) AND vb.TransactionStatus >0 AND DATE(BillDate) >= $P{frmBillDate} AND
+DATE(BillDate) <=$P{toBillDate} GROUP BY vb.veBillID HAVING (Balance >0.01 OR Balance < -0.01) ORDER BY PayableTo  ASC]]>
+	</queryString>
+	<field name="veBillID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BillDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PONumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InvoiceNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxMasterID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PayableTo" class="java.lang.String"/>
+	<field name="BillAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AppliedAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vePOID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joReleaseDetailID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DueDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Reference" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TransactionDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="amountVal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TransactionStatus" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="creditUsed" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="age" class="java.lang.Integer"/>
+	<field name="currentAmount" class="java.math.BigDecimal"/>
+	<field name="age30Amount" class="java.math.BigDecimal"/>
+	<field name="age60Amount" class="java.math.BigDecimal"/>
+	<field name="age90Amount" class="java.math.BigDecimal"/>
+	<field name="Balance" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="sumof90" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{age90Amount}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="sumof60" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{age60Amount}]]></variableExpression>
+	</variable>
+	<variable name="sumof30" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{age30Amount}]]></variableExpression>
+	</variable>
+	<variable name="sumofamtcur" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{currentAmount}]]></variableExpression>
+	</variable>
+	<variable name="sumoftotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{Balance}]]></variableExpression>
+	</variable>
+	<title>
+		<band height="135" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="115" width="100" height="20" uuid="1b402cf4-e062-4a7f-a476-b28b1a931a5a"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Invoice Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="115" width="100" height="20" uuid="76fe4075-e2a5-4b4e-97cb-223d006a34eb"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PO #]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="115" width="100" height="20" uuid="e12d9bb3-9047-4ad7-8654-605d89ea0844"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Invoice #]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="115" width="100" height="20" uuid="f0123b00-524c-4d14-aa76-389706a00f6c"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vendor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="115" width="100" height="20" uuid="2f13ccdb-2ba0-468e-8289-4a2334f2c786"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Age]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="500" y="115" width="100" height="20" uuid="b3a3ce13-00fc-43a1-bb2e-b31672ea0506"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Current]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="600" y="115" width="100" height="20" uuid="9d9b0c79-b01f-43f4-a151-b5a56046545e"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[30 Days]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="700" y="115" width="100" height="20" uuid="08bf8cf5-76ea-41a0-8dcd-02905e7a760a"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[60 Days]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="800" y="115" width="100" height="20" uuid="8c899b4b-5305-403a-b11b-95ea3aae9093"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[90 Days]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="900" y="115" width="100" height="20" uuid="6c78f2b9-4912-4a61-a700-8aa31baa32d2"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="89" width="100" height="20" uuid="53faf9f8-adf3-456c-afe2-c1e1b518291a"/>
+				<text><![CDATA[   As Of]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="500" y="89" width="100" height="20" uuid="0d3d3a4d-a1ec-45dd-9d82-7d4a121c3bba"/>
+				<textFieldExpression><![CDATA[$P{toBillDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="400" y="45" width="200" height="20" uuid="a9436d36-e456-4449-ab4a-14bba31f77f0"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="false" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ACCOUNTS PAYABLE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="1" width="100" height="20" uuid="41ad7d96-0a04-415a-95a8-31bf5d7dcdd9"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy HH:MM").format(new Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="0" y="0" width="100" height="20" uuid="9b489944-dec6-467b-b3fc-4d0bdaa877fd"/>
+				<textFieldExpression><![CDATA[$F{BillDate}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="0" width="100" height="20" uuid="d5c0b37a-4e3d-4b34-9797-1d68ed742b7a"/>
+				<textFieldExpression><![CDATA[$F{PONumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="100" height="20" uuid="766f60f2-5194-4c48-9805-dce26a33524b"/>
+				<textFieldExpression><![CDATA[$F{InvoiceNumber}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="300" y="0" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="85272860-f632-4492-8377-a67353e97a78"/>
+				<textFieldExpression><![CDATA[$F{PayableTo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="0" width="100" height="20" uuid="4eee4b45-36ec-4a63-a4f2-f1812e73e481"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{age}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="500" y="0" width="100" height="20" uuid="a355fb9b-e65c-410d-99b5-c1ca42b3ca34"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{currentAmount}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="600" y="0" width="100" height="20" uuid="f5739ab7-a9f9-41f5-b82c-027d45d2627d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{age30Amount}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="700" y="0" width="100" height="20" uuid="35725c2e-f4ba-4596-b52b-db032f1145ff"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{age60Amount}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="800" y="0" width="100" height="20" uuid="b57e7861-cd81-403d-bb04-b2c38c23e129"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{age90Amount}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="900" y="0" width="100" height="20" uuid="948caa4d-7b8c-4638-9b12-dc15391cf975"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Balance}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="50">
+			<line>
+				<reportElement x="500" y="9" width="499" height="1" uuid="5a48ae33-e859-461f-b0de-2e66bb8c2b7a"/>
+			</line>
+			<line>
+				<reportElement x="500" y="32" width="499" height="1" uuid="980cc518-1bc3-4778-bb20-e3ccc3682a96"/>
+			</line>
+			<staticText>
+				<reportElement x="400" y="11" width="100" height="20" uuid="bb29e5ed-7892-425d-8b0f-2cb8cfc2ec1d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Totals]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00">
+				<reportElement x="800" y="11" width="100" height="20" uuid="8bdc9cab-98f3-47a7-913a-d06de7d747bf"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumof90}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00">
+				<reportElement x="700" y="11" width="100" height="20" uuid="73358149-1b1b-4e9f-985c-3a5115951c3c"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumof60}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00">
+				<reportElement x="600" y="11" width="100" height="20" uuid="826521ec-eb99-4643-ac8e-c6d2c1f4999c"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumof30}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00">
+				<reportElement x="500" y="11" width="100" height="20" uuid="24b90cd2-f842-4d52-8c92-bda231bcfecd"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumofamtcur}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00">
+				<reportElement x="900" y="11" width="100" height="20" uuid="7c9ffd06-bbc2-422c-a271-15f73431f038"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumoftotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>

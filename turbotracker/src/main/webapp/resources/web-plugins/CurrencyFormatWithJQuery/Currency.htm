@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Format Currency Sample</title>
+
+    <script type="text/javascript" src="./external/jquery-1.4.2.min.js"></script>
+
+    <script type="text/javascript" src="./jquery.formatCurrency-1.4.0.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            //Registerting the click event to “currency button”
+            $('#currencyButton').click(function() {
+                $('#currencyField').formatCurrency();
+                $('#currencyField').formatCurrency('.currencyLabel');
+            });
+
+            //Registerting the blur event to “currency text box”
+            $('.currency').blur(function() {
+                $('.currency').formatCurrency();
+            });
+        });        
+
+    </script>
+
+</head>
+<body>
+    <table border="0" cellpadding="0" cellspacing="0" width="50%" align="center">
+        <tr>
+            <td align="left" colspan="2" style="height: 10px;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2">
+                <h1>
+                    Dollar - Format Currency Sample</h1>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td align="left" colspan="2">
+                            <h3>
+                                Formatting Using Button Click</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left">
+                            <input type="text" id="currencyField" value="" />
+                        </td>
+                        <td align="left">
+                            <input type="button" id="currencyButton" value="Convert" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" colspan="2" style="height: 10px;">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="left">
+                            Formatted currency value assigned to html<br />
+                            <span class="currencyLabel"></span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td align="left" valign="top">
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td align="left" colspan="2">
+                            <h3>
+                                Formatting Using blur</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" colspan="2">
+                            <input type="text" id="currencyField1" class='currency' value="" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

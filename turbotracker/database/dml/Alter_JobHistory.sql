@@ -1,0 +1,3 @@
+ALTER TABLE `jobHistory` ADD COLUMN `UserLoginID` INT NULL  AFTER `jobOpenedDate`;
+
+ALTER TABLE `jobHistory` ADD COLUMN `BidDate` DATETIME  DEFAULT NULL;

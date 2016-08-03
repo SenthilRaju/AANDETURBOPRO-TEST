@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OpenJobs" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fb32f6c7-20bb-49a4-9f92-7743ae359dd4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="employeeID" class="java.lang.String"/>
+	<parameter name="rxCustomerId" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT J.EstimatedProfit,
+J.ActualProfitToDate,
+J.Description as Project,
+J.JobNumber,
+J.ContractAmount,
+R.Released,
+R.CommissionSales,
+C.Changes,
+I.Invoiced,
+J.ChangedOn,
+U.FullName AS Salesrep,
+U.Initials AS RepInitials,
+X.Name AS Customer,
+J.coDivisionID as Division,
+D.Description AS DivisionName,
+(select HeaderText from tsUserSetting) as header,
+(select companylogo from tsUserSetting) as logo
+FROM rxMaster AS X
+RIGHT JOIN ((((joMaster AS J
+LEFT JOIN (SELECT joChange.joMasterID, Sum(joChange.ChangeAmount) AS Changes FROM joMaster
+RIGHT JOIN joChange ON joMaster.joMasterID = joChange.joMasterID WHERE (joMaster.JobStatus=3)
+GROUP BY joChange.joMasterID) AS C ON J.joMasterID = C.joMasterID) LEFT JOIN (SELECT joMaster.joMasterID, Sum(Subtotal) AS Invoiced
+FROM joMaster RIGHT JOIN (joReleaseDetail
+RIGHT JOIN cuInvoice ON joReleaseDetail.joReleaseDetailID = cuInvoice.joReleaseDetailID) ON joMaster.joMasterID = joReleaseDetail.joMasterID
+WHERE (joMaster.JobStatus=3) AND (cuInvoice.TransactionStatus>0) GROUP BY joMaster.joMasterID) AS I ON J.joMasterID = I.joMasterID)
+LEFT JOIN (SELECT joRelease.joMasterID, Sum(joRelease.EstimatedBilling) AS Released,
+Sum( (CASE WHEN CommissionReceived=1 THEN joRelease.EstimatedBilling ELSE 0 END) ) As CommissionSales
+FROM joMaster RIGHT JOIN joRelease ON joMaster.joMasterID = joRelease.joMasterID WHERE (joMaster.JobStatus=3)
+GROUP BY joRelease.joMasterID) AS R ON J.joMasterID = R.joMasterID) LEFT JOIN UserLoginClone AS U ON J.cuAssignmentID0 = U.UserLoginID) ON X.rxMasterID = J.rxCustomerID
+LEFT JOIN coDivision
+AS D ON J.coDivisionID = D.coDivisionID WHERE (J.JobStatus=3) AND J.rxCustomerID=$P{rxCustomerId} ORDER BY X.Name, J.JobNumber]]>
+	</queryString>
+	<field name="EstimatedProfit" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ActualProfitToDate" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Project" class="java.lang.String"/>
+	<field name="JobNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ContractAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Released" class="java.math.BigDecimal"/>
+	<field name="CommissionSales" class="java.math.BigDecimal"/>
+	<field name="Changes" class="java.math.BigDecimal"/>
+	<field name="Invoiced" class="java.math.BigDecimal"/>
+	<field name="ChangedOn" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Salesrep" class="java.lang.String"/>
+	<field name="RepInitials" class="java.lang.String"/>
+	<field name="Customer" class="java.lang.String"/>
+	<field name="Division" class="java.lang.Integer"/>
+	<field name="DivisionName" class="java.lang.String"/>
+	<field name="header" class="java.lang.String"/>
+	<field name="logo" class="java.io.InputStream"/>
+	<variable name="Released_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Customer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Released}]]></variableExpression>
+	</variable>
+	<variable name="Changes_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Customer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Changes}]]></variableExpression>
+	</variable>
+	<variable name="ContractAmount_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Customer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ContractAmount}]]></variableExpression>
+	</variable>
+	<variable name="CommissionSales_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Customer" calculation="Sum">
+		<variableExpression><![CDATA[$F{CommissionSales}]]></variableExpression>
+	</variable>
+	<variable name="ActualProfitToDate_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Customer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ActualProfitToDate}]]></variableExpression>
+	</variable>
+	<variable name="EstimatedProfit_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Customer" calculation="Sum">
+		<variableExpression><![CDATA[$F{EstimatedProfit}]]></variableExpression>
+	</variable>
+	<variable name="ActualProfit" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{ActualProfitToDate}]]></variableExpression>
+	</variable>
+	<variable name="Released_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{Released}]]></variableExpression>
+	</variable>
+	<variable name="Changes_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{Changes}]]></variableExpression>
+	</variable>
+	<variable name="ContractAmount_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{ContractAmount}]]></variableExpression>
+	</variable>
+	<variable name="CommissionSales_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{CommissionSales}]]></variableExpression>
+	</variable>
+	<variable name="ActualProfitToDate_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{ActualProfitToDate}]]></variableExpression>
+	</variable>
+	<variable name="EstimatedProfit_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{EstimatedProfit}]]></variableExpression>
+	</variable>
+	<group name="Customer">
+		<groupExpression><![CDATA[$F{Customer}]]></groupExpression>
+		<groupHeader>
+			<band height="18">
+				<textField>
+					<reportElement x="12" y="0" width="258" height="18" uuid="60ed86b1-4c57-4a0c-97fa-2c11602154c0">
+						<printWhenExpression><![CDATA[$F{Customer}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement>
+						<font size="10" isBold="false" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Customer}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="22">
+				<textField pattern="$#,##0.00;$-#,##0.00">
+					<reportElement x="306" y="3" width="62" height="16" uuid="002c22d9-a0f7-4843-b0d4-cf6e49cf5acb">
+						<printWhenExpression><![CDATA[$V{Released_1}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Released_1}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField pattern="$#,##0.00;$-#,##0.00">
+					<reportElement x="374" y="3" width="77" height="16" uuid="7cd56c4f-972c-423a-abf0-b80bf801879a">
+						<printWhenExpression><![CDATA[$V{Changes_1}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Changes_1}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField pattern="$#,##0.00;$-#,##0.00">
+					<reportElement x="451" y="3" width="75" height="16" uuid="3c4749b3-bfa5-4138-8ed2-0306337a276e">
+						<printWhenExpression><![CDATA[$V{ContractAmount_1}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{ContractAmount_1}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField pattern="$#,##0.00;$-#,##0.00">
+					<reportElement x="529" y="3" width="72" height="16" uuid="9b9a4312-fcee-433a-8385-ece5a5db2eea">
+						<printWhenExpression><![CDATA[$V{CommissionSales_1}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{CommissionSales_1}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField pattern="$#,##0.00;$-#,##0.00">
+					<reportElement x="606" y="3" width="68" height="16" uuid="6b8e8d94-1675-4a5a-91ec-ff900beeccd2">
+						<printWhenExpression><![CDATA[$V{ActualProfitToDate_1}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{ActualProfitToDate_1}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField pattern="$#,##0.00;$-#,##0.00">
+					<reportElement x="679" y="3" width="74" height="16" uuid="474de5eb-86ab-4d1d-81cf-31c4af83c179">
+						<printWhenExpression><![CDATA[$V{EstimatedProfit_1}.subtract($V{ActualProfitToDate_1})!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{EstimatedProfit_1}.subtract($V{ActualProfitToDate_1}).setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="309" y="2" width="450" height="1" uuid="6dd82bda-1815-4e20-b6e9-027ff2ac8ea9"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="121" splitType="Stretch">
+			<staticText>
+				<reportElement x="681" y="1" width="51" height="18" uuid="a5005ade-ee77-4635-954b-e3fc521d8223"/>
+				<text><![CDATA[Page no:-]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="762" y="1" width="11" height="18" uuid="2b980ab9-10ca-4f51-b240-9a02511dfb3d"/>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="742" y="1" width="20" height="18" uuid="7aa98aa8-8382-4924-94b0-434124a2df32"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="773" y="1" width="19" height="18" uuid="fb1621a6-dd7c-4dec-8d91-975e4fa99923"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="12" y="0" width="86" height="18" uuid="0b35df3d-7e7e-42ae-9a04-1516c05ba5ef"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<elementGroup>
+				<componentElement>
+					<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="270" y="18" width="250" height="75" uuid="520a7198-d8e6-49e9-8a52-e849e0298b64">
+						<property name="net.sf.jasperreports.export.pdf.tag.tr" value="full"/>
+					</reportElement>
+					<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RealSize" horizontalAlign="Left" verticalAlign="Middle">
+						<hc:htmlContentExpression><![CDATA[(($F{header}.replaceAll("`and`nbsp;", " ")).replaceAll("`", "")).replaceAll("amp;"," ")]]></hc:htmlContentExpression>
+					</hc:html>
+				</componentElement>
+			</elementGroup>
+			<image>
+				<reportElement x="12" y="28" width="145" height="72" uuid="2cf09aec-a44e-4cfc-b709-3273db98a9e1"/>
+				<imageExpression><![CDATA[$F{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="306" y="99" width="179" height="21" uuid="0b1afe35-c4c8-487a-99e6-8fca7230577e"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OPEN JOB REPORTS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="32">
+			<staticText>
+				<reportElement mode="Transparent" x="12" y="0" width="100" height="20" uuid="71b4b715-caba-466b-a45d-5852eaf2e3d2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Project]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="205" y="0" width="65" height="20" uuid="9e811885-6bba-4972-8e13-71fcadba78cc"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Job#]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="311" y="0" width="53" height="31" uuid="29f723a7-5c85-4d4a-90ae-f28b329c4942"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Revised Booking]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="368" y="0" width="77" height="31" uuid="8011ad59-19f0-45e9-9a9b-90eb796936b6"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Released &
+Invoiced]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="452" y="0" width="71" height="31" uuid="e69d9ec6-6345-4a5c-8753-969e1fb51abf"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[UnInvoiced]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="527" y="0" width="73" height="31" uuid="cdb8c214-451b-4847-a17a-9d117ab41728"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Unreleased]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="603" y="0" width="71" height="29" uuid="322eb9f3-e2a2-4795-bb8f-e30f7cde4bcf"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Released
+Profit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="678" y="0" width="71" height="31" uuid="5ab14972-9e4d-42dd-b80d-5a05a80d5ea8"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Remaining Profit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="752" y="0" width="52" height="31" uuid="c99f6d0f-07c5-4817-bb09-dd99dd8540f2"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Last activity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="273" y="0" width="33" height="20" uuid="97d28ab7-fc50-49d2-b026-72545cc1367f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[REP]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19">
+			<textField>
+				<reportElement x="12" y="1" width="179" height="16" uuid="0b50c1bd-19af-4e0c-aa5a-72258db18dc5"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Project}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="190" y="1" width="80" height="16" uuid="fcc1546e-75d7-47ea-a120-9c1c7f31fda7">
+					<printWhenExpression><![CDATA[$F{JobNumber}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{JobNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="273" y="1" width="35" height="16" uuid="2f2fca2f-4490-4805-bc17-0f5c78e27b63">
+					<printWhenExpression><![CDATA[$F{RepInitials}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RepInitials}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00;$-#,##0.00">
+				<reportElement x="310" y="1" width="59" height="16" uuid="2480f473-97c6-4117-8e07-3cb9d702f52d">
+					<printWhenExpression><![CDATA[$F{Released}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Released}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00;$-#,##0.00">
+				<reportElement x="370" y="1" width="77" height="16" uuid="27e03625-b0e3-4dea-b1ec-14d5a8bc4266">
+					<printWhenExpression><![CDATA[$F{Changes}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Changes}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00;$-#,##0.00">
+				<reportElement x="528" y="1" width="73" height="16" uuid="e42a4ffc-bdff-492a-9a34-811e5cbe1fa4">
+					<printWhenExpression><![CDATA[$F{CommissionSales}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CommissionSales}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00;$-#,##0.00">
+				<reportElement x="449" y="1" width="77" height="16" uuid="21ac6bd3-871c-4f53-9f4c-40dbf1f4bb1d">
+					<printWhenExpression><![CDATA[$F{ContractAmount}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ContractAmount}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00;$-#,##0.00">
+				<reportElement x="605" y="1" width="71" height="16" uuid="8641bda3-e954-49a9-a4e7-c7788e6a9042">
+					<printWhenExpression><![CDATA[$F{ActualProfitToDate}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ActualProfitToDate}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00;$-#,##0.00">
+				<reportElement x="679" y="1" width="74" height="16" uuid="8d280f1f-1644-43a0-bc3f-31a9f1c18e3c">
+					<printWhenExpression><![CDATA[$F{EstimatedProfit}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EstimatedProfit}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="753" y="1" width="61" height="16" uuid="6ceee8d9-de15-48e9-8506-1dc3d24ac510"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ChangedOn}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="50">
+			<textField pattern="$#,##0.00;$-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="309" y="7" width="60" height="18" uuid="8f793c95-f474-4621-81bc-b8129e1e3dcc"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Released_2}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="306" y="1" width="450" height="1" uuid="6b497065-1bc2-4514-88fc-4534464a082c"/>
+				<graphicElement>
+					<pen lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<textField pattern="$#,##0.00;$-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="374" y="7" width="75" height="18" uuid="d39197a3-4bcf-4cde-9826-d7b30deb7762"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Changes_2}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00;$-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="451" y="7" width="75" height="18" uuid="6456ab4d-5b29-4520-9d29-49b7a91e0bbd"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ContractAmount_2}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00;$-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="529" y="7" width="72" height="18" uuid="07539df1-e998-4520-9103-66f2d6f75cf9"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{CommissionSales_2}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00;$-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="606" y="6" width="70" height="18" uuid="ff44eb22-31b7-4597-ba12-6f5603be898e"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ActualProfitToDate_2}.setScale( 2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00;$-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="679" y="7" width="74" height="18" uuid="303763ed-db25-4b8b-b1c5-6ef2be74c519"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{EstimatedProfit_2}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="306" y="3" width="450" height="1" uuid="cda6384b-3cee-4603-9713-93ff96cd6fcd"/>
+				<graphicElement>
+					<pen lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="306" y="28" width="450" height="1" uuid="4b97e049-7ea4-4e3f-88c3-2f6956aa04c8"/>
+				<graphicElement>
+					<pen lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="306" y="26" width="450" height="1" uuid="b52c3617-b29e-4d74-981b-364050f0da5a"/>
+				<graphicElement>
+					<pen lineStyle="Double"/>
+				</graphicElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

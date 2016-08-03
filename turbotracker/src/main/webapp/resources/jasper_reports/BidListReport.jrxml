@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BidListReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e76f2ca3-a3dc-4996-8db7-60682c176de1">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="191"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="currentdate&amp;time" class="java.lang.String"/>
+	<parameter name="fromdate" class="java.lang.String"/>
+	<parameter name="todate" class="java.lang.String"/>
+	<parameter name="blDivisionID" class="java.lang.String"/>
+	<parameter name="includeEngineer" class="java.lang.Boolean"/>
+	<parameter name="biddetails" class="java.lang.Boolean"/>
+	<parameter name="newbidListFromDate" class="java.lang.String"/>
+	<parameter name="newbidListToDate" class="java.lang.String"/>
+	<parameter name="subReportPath" class="java.lang.String">
+		<defaultValueExpression><![CDATA["D:\\workspace\\Latest\\turbotracker\\src\\main\\webapp\\resources\\jasper_reports\\BidListReport_subreport.jasper"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="txt_SourceLabel1" class="java.lang.String"/>
+	<parameter name="txt_SourceLabel2" class="java.lang.String"/>
+	<parameter name="txt_PlanSpecLabel1" class="java.lang.String"/>
+	<parameter name="txt_PlanSpecLabel2" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT DATE_FORMAT(BidDate, '%W') AS days, DATE_FORMAT(BidDate, '%M %d %Y') AS Dates, rxm.name,jom.Description,DATE_FORMAT(BidDate, '%h') AS bidtime,
+jom.LocationCity,jom.LocationState,
+IF (Source1 =1,(SELECT ValueString FROM sysVariable WHERE sysVariableID = 2014005037),"") AS source1,
+IF (Source2 =1,(SELECT ValueString FROM sysVariable WHERE sysVariableID = 2014005038),"") AS source2,
+IF (Source3 =1,(SELECT ValueString FROM sysVariable WHERE sysVariableID = 2014005039),"") AS source3,
+IF (Source4 =1,(SELECT ValueString FROM sysVariable WHERE sysVariableID = 2014005040),"") AS source4,
+sourceReport1,otherSource,PlanNumbers,BinNumber,DATE_FORMAT(PlanDate,'%m/%d/%Y') AS PlanDate,jom.coDivisionID,
+jom.JobNumber AS JobNo,(SELECT rx.name FROM rxMaster rx WHERE rxMasterID=jom.rxCategory2 )AS engineer,
+(SELECT FullName FROM tsUserLogin WHERE UserLoginID=jom.cuAssignmentID0)AS SalesRep,PlanNumbers
+FROM joMaster jom
+LEFT JOIN joBidder job ON jom.joMasterID=job.joMasterID
+LEFT JOIN rxMaster rxm ON job.rxMasterID = rxm.rxMasterID
+WHERE DATE(BidDate) >=  $P{newbidListFromDate} AND DATE(BidDate) <= $P{newbidListToDate} AND jom.coDivisionID=$P{blDivisionID} AND jom.JobStatus IN ('0','1') ORDER BY BidDate]]>
+	</queryString>
+	<field name="days" class="java.lang.String"/>
+	<field name="Dates" class="java.lang.String"/>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="bidtime" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="LocationCity" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="LocationState" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="source1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="source2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="source3" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="source4" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sourceReport1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="otherSource" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PlanNumbers" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BinNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PlanDate" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="coDivisionID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="JobNo" class="java.lang.String"/>
+	<field name="engineer" class="java.lang.String"/>
+	<field name="SalesRep" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="JobNogroup">
+		<groupExpression><![CDATA[$F{JobNo}]]></groupExpression>
+		<groupHeader>
+			<band height="69">
+				<textField>
+					<reportElement x="10" y="2" width="545" height="15" uuid="17998039-c5c7-42be-a820-b289840a6c57"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Bid Date: "+$F{days}+" ,"+$F{Dates}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="10" y="19" width="545" height="1" uuid="bfa29b96-a18c-4542-b491-d973340e9586"/>
+				</line>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="10" y="22" width="343" height="15" isPrintWhenDetailOverflows="true" uuid="fad49c25-a211-4c21-9040-96bc8da060ab"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[( (($F{LocationCity}==null||$F{LocationCity}=="") || ($F{LocationState}==null||$F{LocationState}=="") ) ?($F{Description})  : ($F{Description}+" ("+$F{LocationCity}+","+$F{LocationState}+")") )]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="447" y="22" width="108" height="15" uuid="38f6e0fe-51a9-4e06-a6f4-2f7260665889"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Job #"+$F{JobNo}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+					<reportElement isPrintRepeatedValues="false" x="10" y="39" width="167" height="15" isPrintWhenDetailOverflows="true" uuid="3e32b8d0-349e-4d42-8ac5-fa5ac227261c">
+						<printWhenExpression><![CDATA[new Boolean($P{biddetails} || $P{includeEngineer}) && $F{name}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement markup="html"/>
+					<textFieldExpression><![CDATA[($P{biddetails}?("Source: "+( $F{source1}==""||$F{source1}==null ? "" : $F{source1}+"," )+( $F{source2}==""||$F{source2}==null ? "" : $F{source2}+"," )+( $F{source3}==""||$F{source3}==null ? "" : $F{source3}+"," )+( $F{source4}==""||$F{source4}==null ? "" : $F{source4}+"," )+
+( $P{txt_SourceLabel1}==null || $P{txt_SourceLabel1}==""  ? "" :  " <br>"+$P{txt_SourceLabel1}+": "+( $F{sourceReport1}==null ? "" : $F{sourceReport1} ) ) +
+( $P{txt_SourceLabel2}==null || $P{txt_SourceLabel2}==""  ? "" :  " <br>"+$P{txt_SourceLabel2}+": "+( $F{otherSource}==null ? "" : $F{otherSource} ) ) +
+" <br> Plan Date: "+( $F{PlanDate}==null ? "" : $F{PlanDate} )+
+( $P{txt_PlanSpecLabel1}==null || $P{txt_PlanSpecLabel1}==""  ? "" :  " <br>"+$P{txt_PlanSpecLabel1}+": "+( $F{BinNumber}==null ? "" : $F{BinNumber} ) ) +
+( $P{txt_PlanSpecLabel2}==null || $P{txt_PlanSpecLabel2}==""  ? "" :  " <br>"+$P{txt_PlanSpecLabel2}+": "+( $F{PlanNumbers}==null ? "" : $F{PlanNumbers} ) ) ):"")+
+( ($P{includeEngineer} && $P{biddetails})  ? " <br> " : "" )+
+( $P{includeEngineer} ? ("Engineer: "+( $F{engineer}==null ? "" : $F{engineer} )) :"" )]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement isPrintRepeatedValues="false" x="225" y="39" width="100" height="15" uuid="ceab318a-44d1-4a90-9e7e-8ff50a1677a0">
+						<printWhenExpression><![CDATA[$F{name}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{SalesRep}]]></textFieldExpression>
+				</textField>
+				<subreport>
+					<reportElement x="327" y="39" width="228" height="15" uuid="d8575747-54b8-4547-9351-8973356604e9"/>
+					<subreportParameter name="biddetails">
+						<subreportParameterExpression><![CDATA[$P{biddetails}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="blDivisionID">
+						<subreportParameterExpression><![CDATA[$F{coDivisionID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="newbidListToDate">
+						<subreportParameterExpression><![CDATA[$P{newbidListToDate}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="JobNo">
+						<subreportParameterExpression><![CDATA[$F{JobNo}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="newbidListFromDate">
+						<subreportParameterExpression><![CDATA[$P{newbidListFromDate}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{subReportPath}]]></subreportExpression>
+				</subreport>
+				<staticText>
+					<reportElement x="188" y="39" width="35" height="15" uuid="8c6b5cea-0f43-4dba-90d9-bef5e61d38df">
+						<printWhenExpression><![CDATA[$F{name}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[Rep :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="177" y="54" width="46" height="15" uuid="ee6b3242-99aa-4ce6-8f2b-a3c264452c4b">
+						<printWhenExpression><![CDATA[$F{name}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[Bid Time :]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="225" y="54" width="100" height="15" uuid="eb4c76bd-49c2-43dc-9949-53ca3d80e86c">
+						<printWhenExpression><![CDATA[$F{name}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{bidtime}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="59" splitType="Stretch">
+			<staticText>
+				<reportElement x="177" y="23" width="150" height="20" uuid="39080f9c-14c3-466a-939f-6a70063dbad9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[JOB BID DATES]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="25" y="3" width="116" height="20" uuid="39cc8ec3-1afe-4dce-aa1e-4a8ffa8bd2a1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{currentdate&time}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="43" width="196" height="15" uuid="4051cc5a-5142-4d52-8083-8b9979b46518"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Dates "+$P{fromdate}+" thru "+$P{todate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="22" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="516" y="1" width="20" height="20" uuid="8f60be3f-2913-495e-bb3e-1ae9250fcceb"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="315" y="1" width="196" height="20" uuid="b4f87f51-f784-40b7-a629-b054238abf30"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of "]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

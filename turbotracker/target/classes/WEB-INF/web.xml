@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" 
+		version="2.4" 
+		xmlns="http://java.sun.com/xml/ns/j2ee" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+							http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/turbo/*</url-pattern>
+	</servlet-mapping>
+  
+  
+  <servlet>
+    <servlet-name>xafletrt</servlet-name> 
+    <servlet-class>com.acesoft.aceoffix.xafletrt.Server</servlet-class> 
+  </servlet>
+  <servlet-mapping> 
+    <servlet-name>xafletrt</servlet-name> 
+    <url-pattern>/server.ace</url-pattern> 
+  </servlet-mapping> 
+  <servlet-mapping> 
+    <servlet-name>xafletrt</servlet-name> 
+    <url-pattern>/pluginsetup.exe</url-pattern>
+  </servlet-mapping>
+  <mime-mapping>  
+    <extension>mht</extension>  
+    <mime-type>message/rfc822</mime-type>  
+  </mime-mapping>
+	
+	 <filter>
+        <display-name>RewriteFilter</display-name>
+        <filter-name>RewriteFilter</filter-name>
+        <filter-class>com.turborep.turbotracker.RewriteFilter</filter-class>
+    </filter>
+    
+	
+	 
+    <filter-mapping>
+        <filter-name>RewriteFilter</filter-name>
+        <url-pattern>/turbo/*</url-pattern>
+    </filter-mapping>
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<session-config>
+  <session-timeout>120</session-timeout>
+ </session-config>
+	
+</web-app>

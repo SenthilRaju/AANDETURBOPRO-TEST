@@ -1,0 +1,1 @@
+INSERT INTO `tsAccessProcedure` (`AccessProcedureID`, `AccessModuleID`, `ProcedureName`) VALUES (1701000, 17000, 'Ledger');

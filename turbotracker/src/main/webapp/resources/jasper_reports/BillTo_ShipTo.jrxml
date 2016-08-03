@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BatchInvoiceReport" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="35de86c0-16af-44d7-b699-f4837f07be00">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="billtoName" class="java.lang.String"/>
+	<parameter name="billtoAddress1" class="java.lang.String"/>
+	<parameter name="billtoAddress2" class="java.lang.String"/>
+	<parameter name="billtoCity" class="java.lang.String"/>
+	<parameter name="billtoState" class="java.lang.String"/>
+	<parameter name="billtoZip" class="java.lang.String"/>
+	<parameter name="donotMail" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[new Boolean(false)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ship0_warehouseID" class="java.lang.String"/>
+	<parameter name="ship1_customerID" class="java.lang.String"/>
+	<parameter name="ship2_joMasterID" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ship4_otherAddressID" class="java.lang.String"/>
+	<parameter name="ship_to_mode" class="java.lang.String"/>
+	<parameter name="CustomerName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT * FROM (SELECT 0 AS shipmode,prWarehouse.description AS NAME,prWarehouse.Address1 ,prWarehouse.Address2,prWarehouse.City,prWarehouse.State,prWarehouse.Zip,1 AS isShipTo FROM prWarehouse
+WHERE prWarehouse.prWarehouseID =$P{ship0_warehouseID}
+UNION
+SELECT 1 AS shipmode,rxM.name,rxA.address1 AS Address1,rxA.address2 AS Address2,rxA.city AS City,rxA.state AS State,rxA.zip AS Zip,isShipTo
+FROM rxAddress rxA,rxMaster rxM WHERE rxM.rxMasterId =rxA.rxMasterId AND rxA.rxAddressId=$P{ship1_customerID} AND (isShipTo = 1 OR IsDefault=1)
+UNION
+SELECT 2 AS shipmode,CASE WHEN (LocationName IS NOT NULL && LENGTH(TRIM(LocationName))>0) THEN LocationName ELSE $P{CustomerName} END AS NAME,LocationAddress1 AS Address1,LocationAddress2 AS Address2,LocationCity AS City,LocationState AS State,LocationZip AS Zip,1 AS isShipTo FROM
+joMaster jm,rxMaster rm WHERE rm.rxMasterID=jm.rxCustomerID and joMasterID =$P{ship2_joMasterID}
+UNION
+SELECT 3 AS shipmode, NAME,address1 AS Address1,address2 AS Address2,city AS City,state  AS State,zip AS Zip,1 AS isShipTo
+ FROM rxAddress WHERE rxAddressId =$P{ship4_otherAddressID}) shipvia
+ WHERE shipmode=$P{ship_to_mode} ORDER BY isShipTo DESC]]>
+	</queryString>
+	<field name="shipmode" class="java.lang.Long"/>
+	<field name="NAME" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Address1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Address2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="City" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="State" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Zip" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="isShipTo" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="76" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="0" y="2" width="283" height="68" uuid="356560e3-8e70-49ca-b02f-f79e7c50549b"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="286" y="2" width="281" height="68" uuid="8515e16d-5af8-43b1-912b-f8c5d2e88ae5"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="5" width="57" height="20" uuid="b66d6d75-0ecd-4892-b39d-d279be5a32a7"/>
+				<textElement textAlignment="Right">
+					<font size="11" isBold="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[SOLD TO :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="287" y="6" width="54" height="20" uuid="dd1bc62d-4576-4b5b-ac6e-ed5e87777903"/>
+				<textElement textAlignment="Right">
+					<font size="11" isBold="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[SHIP TO :]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="65" y="21" width="215" height="14" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="600d25ae-f831-4a10-a939-71165a538be1">
+					<printWhenExpression><![CDATA[new Boolean(!$P{donotMail})]]></printWhenExpression>
+				</reportElement>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[( $P{billtoAddress1}!=null && !$P{billtoAddress1}.equals("") ? $P{billtoAddress1}+"<br>" : "" )
++( $P{billtoAddress2}!=null && !$P{billtoAddress2}.equals("") ? $P{billtoAddress2}+"<br>" : "" )
++( $P{billtoCity}!=null && !$P{billtoCity}.equals("") ? $P{billtoCity}+", " : "" )
++( $P{billtoState}!=null && !$P{billtoState}.equals("") ? $P{billtoState}+" " : "" )
++( $P{billtoZip}!=null && !$P{billtoZip}.equals("") ? $P{billtoZip} : "" )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="342" y="23" width="225" height="16" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="75075df3-76c8-4120-aa27-c5e4c10a86fd"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[( $F{Address1}!=null && !$F{Address1}.equals("") ? $F{Address1}+"<br>" : "" )
++( $F{Address2}!=null && !$F{Address2}.equals("") ? $F{Address2}+"<br>" : "" )
++( $F{City}!=null && !$F{City}.equals("") ? $F{City}+", " : "" )
++( $F{State}!=null && !$F{State}.equals("") ? $F{State}+" " : "" )
++( $F{Zip}!=null && !$F{Zip}.equals("") ? $F{Zip} : "" )]]></textFieldExpression>
+			</textField>
+			<elementGroup/>
+			<elementGroup/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="11" y="36" width="260" height="35" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="00a465a7-b94d-40c7-8508-f79b6759706c">
+					<printWhenExpression><![CDATA[new Boolean($P{donotMail})]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DO NOT MAIL !"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="5" width="215" height="15" uuid="57e7dd57-6dc3-4758-8c33-dde218c8408d"/>
+				<textFieldExpression><![CDATA[$P{billtoName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="343" y="6" width="224" height="15" uuid="417fb2f8-c2a7-41f6-95fb-c9d8a193ea5c"/>
+				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+</jasperReport>

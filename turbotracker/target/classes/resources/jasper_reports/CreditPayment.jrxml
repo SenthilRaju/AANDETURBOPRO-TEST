@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CreditPayment" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7911f410-c0e1-43a8-811e-6e41507be9a5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT rxMaster.Name, veBill.InvoiceNumber, veBill.PostDate, veBill.DueDate, veBill.BillAmount,
+veBillPay.ApplyingAmount, veBill.BillAmount - veBillPay.ApplyingAmount AS Balance, joMaster.JobNumber
+FROM joMaster RIGHT OUTER JOIN joRelease ON joMaster.joMasterID = joRelease.joMasterID
+RIGHT OUTER JOIN vePO ON joRelease.joReleaseID = vePO.joReleaseID RIGHT OUTER JOIN veBill
+ON vePO.vePOID = veBill.vePOID LEFT OUTER JOIN rxMaster ON veBill.rxMasterID = rxMaster.rxMasterID
+RIGHT OUTER JOIN veBillPay ON veBill.veBillID = veBillPay.veBillID ORDER BY rxMaster.Name, joMaster.JobNumber, veBill.InvoiceNumber]]>
+	</queryString>
+	<field name="Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InvoiceNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PostDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DueDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BillAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ApplyingAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Balance" class="java.math.BigDecimal"/>
+	<field name="JobNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="VendorSubtotal" class="java.lang.String" resetType="Group" resetGroup="VendorGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{ApplyingAmount}]]></variableExpression>
+	</variable>
+	<variable name="ApplyingAmount_1" class="java.math.BigDecimal" resetType="Group" resetGroup="VendorGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{ApplyingAmount}]]></variableExpression>
+	</variable>
+	<variable name="Total" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{ApplyingAmount}]]></variableExpression>
+	</variable>
+	<group name="VendorGroup">
+		<groupExpression><![CDATA[$F{Name}]]></groupExpression>
+		<groupHeader>
+			<band height="50">
+				<textField>
+					<reportElement positionType="Float" x="46" y="0" width="182" height="20" uuid="57a76f30-3cdd-4804-8a46-11029bb4d4c2"/>
+					<textFieldExpression><![CDATA[$F{Name}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="46" height="20" uuid="fd90f4db-a8a9-4a2e-8eca-f9b06c2250bd"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Vendor]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="30" width="78" height="20" uuid="c6469edb-11ee-4e33-bdd6-2ace7059a6d6"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[JobNumber]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="78" y="30" width="100" height="20" uuid="52dac862-7bd8-49f0-8f45-9734edbb65b3"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[InvoiceNumber]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="178" y="30" width="75" height="20" uuid="3c2ec408-0ae7-4cbf-9235-e7805a5f4b2e"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[InvoiceDate]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="253" y="30" width="83" height="20" uuid="9f4d2e4a-7f79-4f2a-a6f6-a740795fe092"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[DueDate]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="336" y="30" width="74" height="20" uuid="d1be9420-3e07-4fc0-81ec-87ac02b08d90"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[BillAmount]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="410" y="30" width="68" height="20" uuid="934116e2-2853-46ff-a9f7-92783a0e7fea"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Paying]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="478" y="30" width="77" height="20" uuid="d25e032a-ffe2-419d-a01d-258af7902b15"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Balance]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="18">
+				<staticText>
+					<reportElement x="336" y="0" width="74" height="15" uuid="98e02021-655f-4df3-90bc-475af545a69f"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[SubTotal]]></text>
+				</staticText>
+				<textField pattern="¤ #,##0.00">
+					<reportElement x="410" y="0" width="68" height="15" uuid="f15921ef-d83c-4b38-b4f8-e53c54eb54a9"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{ApplyingAmount_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="211" y="0" width="136" height="20" uuid="c4ee1e9f-8f1a-4258-bf12-268ad4df11a1"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[APPROVED BILLS]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="0" y="0" width="100" height="20" uuid="ecfbfb34-b07c-4932-a02f-c40d12948849"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="435" y="0" width="80" height="20" uuid="30701486-a82d-4a4b-a763-265b675d0d89"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="0" width="40" height="20" uuid="2e6bed38-4f37-4716-b011-3ab36e9615b8"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="78" height="20" uuid="05209319-fe20-4f3a-817c-d2c5947c3bdc"/>
+				<textFieldExpression><![CDATA[$F{JobNumber}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="78" y="0" width="100" height="20" uuid="01e7f3c0-2675-408c-943a-6050425583ea"/>
+				<textFieldExpression><![CDATA[$F{InvoiceNumber}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="178" y="0" width="75" height="20" uuid="cf49ff21-37a0-4d5c-aa50-36e635a58dcf"/>
+				<textFieldExpression><![CDATA[$F{PostDate}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="253" y="0" width="83" height="20" uuid="0448eec1-39af-430b-ad7e-6170fedda810"/>
+				<textFieldExpression><![CDATA[$F{DueDate}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="336" y="0" width="74" height="20" uuid="e722f21b-ffc5-4a6b-ac92-02ddb59db2c7"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{BillAmount}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="410" y="0" width="68" height="20" uuid="2f577646-064c-4cb0-bf7b-82b9a7926f60"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{ApplyingAmount}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="478" y="0" width="77" height="20" uuid="b199d9ba-ddfa-4e09-b3e1-fdb2d866a1b8"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Balance}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="336" y="0" width="74" height="20" uuid="0d128383-eb7c-4592-9718-40ed86f8a0a6"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="410" y="0" width="68" height="20" uuid="f49aace1-9c36-44be-9ab3-76428c115c0d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{Total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

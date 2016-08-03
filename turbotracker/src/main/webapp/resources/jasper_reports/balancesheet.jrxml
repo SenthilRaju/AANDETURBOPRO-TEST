@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="balancesheet" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7b7317fe-e4e4-4095-8c24-8e6824a62900">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_of" class="java.lang.String"/>
+	<parameter name="accountnochkbx" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[new Boolean(false)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cofiscalperiodID" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT A.*, B.coFiscalPeriodID, B.YearOpening, B.YearDebits, B.YearCredits, B.QuarterOpening,
+ B.QuarterDebits, B.QuarterCredits, B.PeriodOpening, B.PeriodDebits, B.PeriodCredits,(B.YearCredits-B.YearDebits) as subtractamt
+ FROM coAccount AS A LEFT JOIN coBalance AS B ON A.coAccountID = B.coAccountID
+ WHERE (A.IsSubAccount=0) AND (A.Number>=(select coRangeAsset1 from sysAccountLinkage where sysAccountLinkageID=1)) AND (A.Number<=(select coRangeEquity2  from sysAccountLinkage where sysAccountLinkageID=1))
+ AND (B.coFiscalPeriodID = $P{cofiscalperiodID}  OR B.coFiscalPeriodID IS NULL) ORDER BY A.Number]]>
+	</queryString>
+	<field name="coAccountID" class="java.lang.Integer"/>
+	<field name="InActive" class="java.lang.Boolean"/>
+	<field name="Number" class="java.lang.String"/>
+	<field name="Description" class="java.lang.String"/>
+	<field name="BalanceSheetColumn" class="java.lang.Short"/>
+	<field name="IncludeWhenZero" class="java.lang.Boolean"/>
+	<field name="DebitBalance" class="java.lang.Boolean"/>
+	<field name="ContraAccount" class="java.lang.Boolean"/>
+	<field name="LineAboveAmount" class="java.lang.Short"/>
+	<field name="LineBelowAmount" class="java.lang.Short"/>
+	<field name="TotalingLevel" class="java.lang.Short"/>
+	<field name="VerticalSpacing" class="java.lang.Short"/>
+	<field name="HorizontalSpacing" class="java.lang.Short"/>
+	<field name="FontLarge" class="java.lang.Boolean"/>
+	<field name="FontBold" class="java.lang.Boolean"/>
+	<field name="FontItalic" class="java.lang.Boolean"/>
+	<field name="FontUnderline" class="java.lang.Boolean"/>
+	<field name="Tax1099" class="java.lang.Boolean"/>
+	<field name="SubAccount" class="java.lang.String"/>
+	<field name="IsSubAccount" class="java.lang.Boolean"/>
+	<field name="IsMasterAccount" class="java.lang.Boolean"/>
+	<field name="DollarSign" class="java.lang.Boolean"/>
+	<field name="coFiscalPeriodID" class="java.lang.Integer"/>
+	<field name="YearOpening" class="java.math.BigDecimal"/>
+	<field name="YearDebits" class="java.math.BigDecimal"/>
+	<field name="YearCredits" class="java.math.BigDecimal"/>
+	<field name="QuarterOpening" class="java.math.BigDecimal"/>
+	<field name="QuarterDebits" class="java.math.BigDecimal"/>
+	<field name="QuarterCredits" class="java.math.BigDecimal"/>
+	<field name="PeriodOpening" class="java.math.BigDecimal"/>
+	<field name="PeriodDebits" class="java.math.BigDecimal"/>
+	<field name="PeriodCredits" class="java.math.BigDecimal"/>
+	<field name="subtractamt" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="187" y="28" width="193" height="24" uuid="a1f0fb8a-769c-41bf-85ec-4ddb23aca081"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BALANCE SHEET]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="196" y="52" width="100" height="20" uuid="e150472e-a78c-43cc-9c01-d60ef3d1d5aa"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AS OF]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="296" y="52" width="84" height="20" uuid="b99964d1-cd87-4f06-8203-2eeb8784c708"/>
+				<textFieldExpression><![CDATA[$P{as_of}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="94" y="0" width="282" height="20" uuid="5fc1f97d-6c18-44eb-893a-6df8056224c0"/>
+				<textElement markup="html">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Proportional"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{FontLarge}.equals(true) ? "<font size='4'>" : "" )+( $F{FontBold}.equals(true) ? "<b>" : "" )+( $F{FontUnderline}.equals(true) ? "<u>" : "" )+( $F{FontItalic}.equals(true) ? "<i>" : "" )+$F{Description}+( $F{FontItalic}.equals(true) ? "</i>" : "" )+( $F{FontUnderline}.equals(true) ? "</u>" : "" )+( $F{FontBold}.equals(true) ? "</b>" : "" )+( $F{FontLarge}.equals(true) ? "</font>" : "" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="92" height="20" uuid="e2f95ac8-2238-40c9-ba42-7488cfd76411">
+					<printWhenExpression><![CDATA[$P{accountnochkbx}]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Number}]]></textFieldExpression>
+			</textField>
+			<textField pattern=" #,##0.00">
+				<reportElement x="389" y="0" width="153" height="20" uuid="27d69d3a-b786-48cf-9037-468f8ce60811">
+					<printWhenExpression><![CDATA[($F{subtractamt}.compareTo(BigDecimal.ZERO)==0? new Boolean(false) : new Boolean(true) )]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(($F{subtractamt}.compareTo(new BigDecimal(BigDecimal.ZERO)))==1 ? '('+$F{subtractamt}+')' :  $F{subtractamt}.multiply(new BigDecimal("-1")) )]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

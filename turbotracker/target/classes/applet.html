@@ -1,0 +1,24 @@
+<HTML>
+<HEAD>
+
+<TITLE> A Simple Program </TITLE>
+</HEAD>
+<body>
+niaz 1qasd
+<input type="button" value="html" onclick="accessAppletMethod()" />
+<APPLET CODE="TurboApplet.class" archive="turboappleta.jar" WIDTH="350" HEIGHT="250"  id="AppletABC"  >
+</APPLET>
+<script language="Javascript">
+function accessAppletMethod()
+{
+try{
+
+	document.getElementById("AppletABC").invokeURL('http://www.yahoo.com');
+	console.log('http://www.yahoo.com');
+	}catch(e){
+	console.log(e);
+	}
+}
+</script>
+</BODY>
+</HTML>

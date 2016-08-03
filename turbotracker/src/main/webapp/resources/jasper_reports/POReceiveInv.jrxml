@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POReceive" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="916d6bb2-2aeb-4b2f-a5aa-d338cc99eca6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="vePOID" class="java.lang.Integer"/>
+	<parameter name="veReceiveId" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT DISTINCT vrD.vePODetailID, vrD.vePOID, vrD.prMasterID, veD.Description, veD.QuantityOrdered, veD.Taxable, veD.UnitCost, veD.PriceMultiplier,
+veD.posistion, pr.ItemCode, ve.TaxTotal, veD.Note, IFNULL(vrD.QuantityReceived,0) AS QuantityReceived,IFNULL(veD.QuantityOrdered,0)-IFNULL(vrD.QuantityReceived,0) AS backorder,ve.OrderDate,vR.ReceiveDate AS receiveddate,CONCAT(rM.Name,' ',rM.Firstname)AS Vendorname,
+rA.Address1,rA.Address2,rA.City,rA.State,rA.Zip,tsSet.HeaderText,tsSet.companyLogo,ve.PONumber,veD.QuantityBilled
+FROM veReceive vR
+LEFT JOIN veReceiveDetail vrD ON vrD.veReceiveID = vR.veReceiveID
+LEFT JOIN vePO ve ON ve.vePOID = vR.vePOID
+LEFT JOIN vePODetail veD ON vrD.vePODetailID = veD.vePODetailID
+LEFT JOIN prMaster pr ON veD.prMasterID = pr.prMasterID
+LEFT JOIN rxMaster rM ON rM.rxMasterID = ve.rxVendorID
+LEFT JOIN rxAddress rA ON rA.rxAddressID = ve.rxVendorID
+LEFT JOIN tsUserSetting tsSet ON tsSet.CompanyID=1
+WHERE vR.veReceiveID=$P{veReceiveId} AND vR.vePOID=$P{vePOID}
+ORDER BY veD.posistion]]>
+	</queryString>
+	<field name="vePODetailID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vePOID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prMasterID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QuantityOrdered" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Taxable" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="UnitCost" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PriceMultiplier" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="posistion" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ItemCode" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxTotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Note" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QuantityReceived" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="backorder" class="java.math.BigDecimal"/>
+	<field name="OrderDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="receiveddate" class="java.sql.Timestamp"/>
+	<field name="Vendorname" class="java.lang.String"/>
+	<field name="Address1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Address2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="City" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="State" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Zip" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="HeaderText" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="companyLogo" class="java.io.InputStream">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PONumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QuantityBilled" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="UnitCost_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{UnitCost}*$F{QuantityReceived}]]></variableExpression>
+	</variable>
+	<variable name="QuantityBilled_Totat" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[( $F{UnitCost}!=null ? $F{UnitCost} : new BigDecimal(0) ).multiply(( $F{QuantityReceived}!=null ?$F{QuantityReceived} : new BigDecimal(0) )).multiply(( $F{PriceMultiplier}!=null&& $F{PriceMultiplier}.compareTo(BigDecimal.ZERO)? $F{PriceMultiplier} : new BigDecimal(1) )).setScale(2,RoundingMode.CEILING)]]></variableExpression>
+	</variable>
+	<variable name="QuantityBillAmount" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[( $F{UnitCost}!=null ? $F{UnitCost} : new BigDecimal(0) ).multiply(( $F{QuantityOrdered}!=null ?$F{QuantityOrdered} : new BigDecimal(0) )).multiply(( $F{PriceMultiplier}!=null&& $F{PriceMultiplier}.compareTo(BigDecimal.ZERO)? $F{PriceMultiplier} : new BigDecimal(1) )).setScale(2,RoundingMode.CEILING)]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="138" splitType="Stretch">
+			<image>
+				<reportElement x="11" y="0" width="147" height="92" uuid="74f4db56-26db-47c5-be26-6f15902c18a5"/>
+				<imageExpression><![CDATA[$F{companyLogo}]]></imageExpression>
+			</image>
+			<componentElement>
+				<reportElement x="158" y="0" width="299" height="92" uuid="e5c4d41d-a401-4c0a-a972-95b106af31e8"/>
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RetainShape" horizontalAlign="Left" verticalAlign="Middle">
+					<hc:htmlContentExpression><![CDATA[(($F{HeaderText}.replaceAll("`and`nbsp;", " ")).replaceAll("`", "")).replaceAll("amp;"," ")]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
+			<staticText>
+				<reportElement x="271" y="99" width="25" height="20" uuid="045f932e-e38a-455e-9a23-cfb6bcb24f60"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="226" y="119" width="70" height="18" uuid="8d292e18-a5e9-4a1d-81f5-9d44f9b7d84e"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Order Date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="378" y="119" width="90" height="18" uuid="7a2cce0d-6e7c-4387-98fe-a919b4b0dca2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Received Date:]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="301" y="119" width="75" height="18" uuid="b4c5e31e-c22e-4256-9f60-95f01b1d898b"/>
+				<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="301" y="99" width="100" height="20" uuid="d2fae0a4-9a11-4b97-9504-6aec7ed7b804"/>
+				<textFieldExpression><![CDATA[$F{PONumber}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="48" y="100" width="185" height="20" uuid="14d79724-c79c-4d18-bf12-b4de6b3c7f31"/>
+				<textFieldExpression><![CDATA[$F{Vendorname}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="468" y="119" width="78" height="18" uuid="43bcbee9-0c8f-43af-b91e-9c269741c419"/>
+				<textFieldExpression><![CDATA[$F{receiveddate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="100" width="47" height="20" uuid="9c57ac21-7c6b-443e-b40f-967d83e95933"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vendor:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="90" height="18" uuid="3c914014-b891-429e-a8f9-72abbaf61b81"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ITEM CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="92" y="0" width="160" height="18" uuid="934c9583-a5b8-4ed4-8c8b-1cbbf4a64788"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESCRIPTION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="252" y="0" width="70" height="18" uuid="69988e39-cd7d-4701-92b5-cc593ba1980a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ORDER QTY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="323" y="0" width="62" height="18" uuid="3747e26e-2bba-4863-8716-e1acf0757a15"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RCV'D QTY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="463" y="0" width="80" height="18" uuid="4f520ca9-0042-44fb-927c-19372169a01a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[COST]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="387" y="0" width="75" height="18" uuid="a20fe70d-933e-4992-b1c0-8ccde7509307"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BACK ORDER]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="90" height="18" uuid="63bbaf82-0cf4-45b7-b609-8d528def0ba7"/>
+				<textFieldExpression><![CDATA[$F{ItemCode}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="92" y="0" width="160" height="18" uuid="dd9b51dc-6d3f-4fce-83f4-adc5724088a3"/>
+				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0" isBlankWhenNull="true">
+				<reportElement x="259" y="0" width="62" height="18" uuid="83fecf3c-d7b8-46c9-95a4-c25447f81787"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{QuantityOrdered}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0" isBlankWhenNull="true">
+				<reportElement x="323" y="0" width="62" height="18" uuid="cbf55194-0f60-49ee-aae3-763f2a8bab97"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{QuantityReceived}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="462" y="0" width="80" height="18" uuid="be7f7f3f-0294-4151-abed-9a9a3e82294c"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[( $F{UnitCost}!=null ? $F{UnitCost} : new BigDecimal(0) ).multiply(($F{QuantityReceived}!=null ?$F{QuantityReceived} : new BigDecimal(0) )).multiply(( $F{PriceMultiplier}!=null&& $F{PriceMultiplier}.compareTo(BigDecimal.ZERO)? $F{PriceMultiplier} : new BigDecimal(1) )).setScale(2,RoundingMode.CEILING)]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="386" y="0" width="75" height="18" uuid="92af811c-8513-417d-b6e9-6b46708cde4d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{backorder}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="20">
+			<staticText>
+				<reportElement x="384" y="0" width="76" height="20" uuid="860ec864-920a-4bec-bb81-6f0b231acd87"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL COST:]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="462" y="0" width="79" height="20" uuid="2dfc72d4-4477-4250-bf31-988ba8143835"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{QuantityBilled_Totat}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

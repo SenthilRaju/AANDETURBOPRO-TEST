@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="customersettingscsv" language="groovy" pageWidth="1050" pageHeight="595" orientation="Landscape" columnWidth="1010" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b2608217-bc24-4acc-85cf-2ffc373b7a51">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="311"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="tsUserLoginID" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT CONCAT(rxContact.FirstName,' ',rxContact.LastName) AS contactName,rxContact.DirectLine,rxContact.EMail,rxContact.Cell,rxContact.JobPosition,rxContact.Title,rxMaster.rxMasterID,rxMaster.name,rxMaster.phone1,rxAddress.city,rxAddress.state,rxAddress.Address1 FROM rxMaster LEFT JOIN rxAddress ON (rxMaster.rxMasterID = rxAddress.rxMasterID AND rxAddress.IsDefault=1) JOIN cuMaster ON cuMaster.cuMasterID = rxMaster.rxMasterID LEFT JOIN  rxContact ON rxContact.rxMasterID = rxMaster.rxMasterID WHERE rxMaster.isCustomer = 1 AND rxMaster.name IS NOT NULL AND rxMaster.name <> '(missing)' AND rxMaster.name <> '' AND (cuMaster.cuAssignmentID0 = $P{tsUserLoginID} OR cuMaster.cuAssignmentID1 = $P{tsUserLoginID} OR cuMaster.cuAssignmentID2 = $P{tsUserLoginID} OR cuMaster.cuAssignmentID3 = $P{tsUserLoginID} OR cuMaster.cuAssignmentID4 = $P{tsUserLoginID}  ) ORDER BY rxMaster.Name ASC]]>
+	</queryString>
+	<field name="rxMasterID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="phone1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="city" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="state" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Address1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="contactName" class="java.lang.String"/>
+	<field name="JobPosition" class="java.lang.String"/>
+	<field name="Title" class="java.lang.String"/>
+	<field name="EMail" class="java.lang.String"/>
+	<field name="Cell" class="java.lang.String"/>
+	<field name="DirectLine" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="139" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="279" y="0" width="276" height="54" uuid="80cfb7a7-1d35-41d8-86fb-92ae5cd4d9c5"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="279" y="18" width="276" height="23" uuid="a90bb257-2479-470e-acc2-b6b4d47f95ad"/>
+				<textElement textAlignment="Center">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Customer Contacts]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="38" y="114" width="105" height="25" uuid="cd8e081c-5e61-43d5-9062-a5af0b040b24"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="143" y="114" width="105" height="25" uuid="cab2cc5b-456b-40ea-bf7e-df3688a56984"/>
+				<text><![CDATA[Address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="247" y="114" width="65" height="25" uuid="a898da74-0496-4189-836c-c7b70802f348"/>
+				<text><![CDATA[City]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="312" y="114" width="65" height="25" uuid="78851503-a638-4653-abd9-5b6989566136"/>
+				<text><![CDATA[State]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="377" y="114" width="86" height="25" uuid="34e46283-dffb-486d-b852-207ccfd0d162"/>
+				<text><![CDATA[Phone]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="463" y="114" width="92" height="25" uuid="57393dd2-ac7f-4782-912f-43b49265733b"/>
+				<text><![CDATA[Contact]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="555" y="114" width="97" height="25" uuid="49b7b1bb-4dd1-48ad-bc29-46a8df4143e7"/>
+				<text><![CDATA[Role]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="652" y="114" width="83" height="25" uuid="d54e0167-1b7c-4664-9276-3f7f2fc5ead8"/>
+				<text><![CDATA[DirectLine]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="735" y="114" width="92" height="25" uuid="2fd0e984-751a-4937-be59-40359c3c167a"/>
+				<text><![CDATA[Cell]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="827" y="114" width="169" height="25" uuid="15106d03-0b79-4898-82e4-afa81c00c79e"/>
+				<text><![CDATA[Email]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="1" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="40" height="20" uuid="caa73643-00e2-4c5b-960f-76ecc49d8082"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="40" y="0" width="103" height="20" uuid="fa0043bc-257f-4900-aaab-6913ba4cc599"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="143" y="1" width="105" height="20" uuid="8871b878-0e0d-4494-acad-23602d248c9e"/>
+				<textFieldExpression><![CDATA[$F{Address1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="248" y="1" width="64" height="20" uuid="37f46598-5a96-426b-839e-9a41bd367c69"/>
+				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="312" y="1" width="65" height="20" uuid="28f6ef06-3850-4bd5-a341-9f2bc26c1e55"/>
+				<textFieldExpression><![CDATA[$F{state}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="377" y="1" width="86" height="20" uuid="24cf9ec0-e303-4936-8b7b-bddee776a180"/>
+				<textFieldExpression><![CDATA[$F{phone1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="463" y="1" width="92" height="20" uuid="24152eb4-8cc3-4fe7-989c-49283ec69b68"/>
+				<textFieldExpression><![CDATA[$F{contactName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="555" y="1" width="97" height="20" uuid="d82bc6e6-f560-4a6f-bb19-e49c7ef19382"/>
+				<textFieldExpression><![CDATA[$F{JobPosition}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="652" y="1" width="83" height="20" uuid="74a8ea48-4c08-4556-b750-eebc660688c9"/>
+				<textFieldExpression><![CDATA[$F{DirectLine}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="735" y="1" width="92" height="20" uuid="4217a004-2133-4227-8dd4-74797d669d79"/>
+				<textFieldExpression><![CDATA[$F{Cell}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="827" y="1" width="169" height="20" uuid="fc2583d9-79cb-4c8b-a5f4-530afb8c3d5a"/>
+				<textFieldExpression><![CDATA[$F{EMail}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

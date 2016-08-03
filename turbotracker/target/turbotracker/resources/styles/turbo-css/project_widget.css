@@ -1,0 +1,14 @@
+.color-blue {background:#54A4DE;}
+/* Columns section */
+.widget { width: 1130px; }
+#columns .column { width: 1145px;}
+#header #menu{ margin:0 auto; padding-top:1px; }
+#columns #column1 .widget { margin: 20px 5px 0 0px; border-radius: 8px 8px 8px 8px;}
+#columns #columnLast .widget { margin: 20px 15px 0 5px; }
+.widget_options_label {}
+/* Columns section */
+#columns .column {float: left;width: 1145px;/* Min-height: */min-height: 400px;	height: auto !important;height: 400px;}
+#mainMenuProjectsPage {text-decoration:none;color:#FFFFFF; background-color: #003961;}
+#mainMenuProjectsPage a{background:url('./../../../resources/styles/turbo-css/images/turbo_app_projects_hover_icon.png') no-repeat 0px 4px;color:#FFF}
+.ProjectWidgetHeader{background: -moz-linear-gradient(-90deg, #54A4DE, #A9DDF1); background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#54A4DE), to(#A9DDF1));}
+.ProjectWidgetFooter{background: -moz-linear-gradient(-90deg, #A9DDF1, #54A4DE); background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#A9DDF1), to(#54A4DE));}

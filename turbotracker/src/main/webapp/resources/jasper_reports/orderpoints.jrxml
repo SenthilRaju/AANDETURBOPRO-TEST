@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="orderpoints" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c43401c2-33cd-4128-a832-5740c252c19d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="179"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT P.prMasterID, P.ItemCode, P.Description,P.BoxQty,W.InventoryOnHand,W.InventoryAllocated, W.InventoryOnHand-W.InventoryAllocated AS Available,W.InventoryOnOrder, O.InventoryOrderPoint, (O.InventoryOrderPoint+O.InventoryOrderQuantity) AS suggestedOrder,0 AS YTDSales, rx.Name AS vName,prw.SearchName,P.rxMasterIDPrimaryVendor AS vendorid  FROM (prMaster AS P LEFT JOIN (SELECT * FROM prWarehouseInventory WHERE prWarehouseID = 1)  AS W ON P.prMasterID = W.prMasterID)  LEFT JOIN (SELECT * FROM prOrderPoint WHERE prWarehouseID = 1)  AS O  ON P.prMasterID = O.prMasterID LEFT JOIN rxMaster rx ON rx.rxMasterID = P.rxMasterIDPrimaryVendor LEFT JOIN prDepartment c ON P.prDepartmentID = c.prDepartmentID   LEFT JOIN prCategory d ON P.prCategoryID=d.prCategoryID LEFT JOIN `prWarehouse` prw ON prw.prWarehouseID=1]]>
+	</queryString>
+	<field name="prMasterID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ItemCode" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BoxQty" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InventoryOnHand" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InventoryAllocated" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Available" class="java.math.BigDecimal"/>
+	<field name="InventoryOnOrder" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InventoryOrderPoint" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="suggestedOrder" class="java.math.BigDecimal"/>
+	<field name="YTDSales" class="java.lang.Long"/>
+	<field name="vName" class="java.lang.String"/>
+	<field name="SearchName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vendorid" class="java.lang.Integer"/>
+	<variable name="PROJECTED_INVENTORY" class="java.math.BigDecimal" resetType="None">
+		<variableExpression><![CDATA[( $F{InventoryOnOrder}==null ? new BigDecimal(0) : $F{InventoryOnOrder} ).add($V{INVENTORY_AVAILABLE}==null ? new BigDecimal(0) :$V{INVENTORY_AVAILABLE})]]></variableExpression>
+	</variable>
+	<variable name="INVENTORY_AVAILABLE" class="java.math.BigDecimal" resetType="None">
+		<variableExpression><![CDATA[( $F{InventoryOnHand}==null ? BigDecimal.ZERO : $F{InventoryOnHand} ).subtract(( $F{InventoryOnHand}==null ? BigDecimal.ZERO : $F{InventoryAllocated} ))]]></variableExpression>
+	</variable>
+	<variable name="SUGGESTED_ORDER" class="java.math.BigDecimal" resetType="None">
+		<variableExpression><![CDATA[($F{InventoryOrderPoint}==null? new BigDecimal(0) : $F{InventoryOrderPoint} ).subtract($V{PROJECTED_INVENTORY})]]></variableExpression>
+	</variable>
+	<group name="vendorGroup">
+		<groupExpression><![CDATA[$F{vendorid}]]></groupExpression>
+		<groupHeader>
+			<band height="22" splitType="Stretch">
+				<staticText>
+					<reportElement x="0" y="0" width="73" height="20" uuid="b6ee6560-6bd0-426b-929c-c2568805ea49"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Vendor Name:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="73" y="0" width="729" height="20" isPrintWhenDetailOverflows="true" uuid="be1b77c0-6920-468e-b612-12db967e08da"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{vName}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="2" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="386" y="0" width="150" height="14" uuid="5c97e1c2-5ea2-4ddf-8ca9-30addf54ecc3"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUGGESTED REORDER]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="7" y="1" width="100" height="20" uuid="3b978df4-753b-4cfd-882b-f403aee72feb"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="675" y="0" width="80" height="20" uuid="b0e44a95-3fd8-4701-a2ca-a9e71ebf6ff2"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="755" y="1" width="40" height="20" uuid="caa4869f-3fd0-4bff-b9cb-af8e7cdd37db"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="386" y="14" width="68" height="18" uuid="e042a110-cbd9-42e9-9688-eadb762864fe"/>
+				<text><![CDATA[WareHouse :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="456" y="12" width="80" height="20" uuid="f186c482-e7c7-4595-814d-f2cb1a976b10"/>
+				<textFieldExpression><![CDATA[$F{SearchName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="67" height="20" isPrintWhenDetailOverflows="true" uuid="7a61894c-5449-442e-8497-98580808f1d8"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ProdCode]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="68" y="0" width="188" height="20" isPrintWhenDetailOverflows="true" uuid="036059b6-6d43-43c3-9652-795aa5496fbb"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="257" y="0" width="54" height="20" isPrintWhenDetailOverflows="true" uuid="a4200661-50b6-4b47-8779-456ad2571e05"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BoxQty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="312" y="0" width="55" height="20" isPrintWhenDetailOverflows="true" uuid="162c5e27-e474-4bcd-86cf-93cf6f8ea528"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OnHand]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="432" y="0" width="68" height="20" isPrintWhenDetailOverflows="true" uuid="06b81731-8fa4-45fe-9e72-57fcbae20baa"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Available]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="501" y="0" width="51" height="20" isPrintWhenDetailOverflows="true" uuid="54b09bab-50bc-4a5e-b479-737c0054bc8b"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OnOrder]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="744" y="0" width="58" height="30" isPrintWhenDetailOverflows="true" uuid="28661389-06d5-4c13-8483-9d899ec6c609"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[YTD
+Sales]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="554" y="0" width="74" height="30" isPrintWhenDetailOverflows="true" uuid="715cadf2-213a-45c4-8bd0-eba325873525"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Projected Inventory]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="627" y="0" width="51" height="30" isPrintWhenDetailOverflows="true" uuid="7f668f64-eabf-4e86-9215-0bb35964bf09"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Order
+Point]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="368" y="0" width="63" height="20" isPrintWhenDetailOverflows="true" uuid="3d5fb513-183b-4313-b149-607a541f5b5c"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Allocated]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="679" y="0" width="63" height="30" isPrintWhenDetailOverflows="true" uuid="b344bbd1-1ef7-42f0-ae38-db4434c42423"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[suggested
+Order]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<elementGroup/>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="67" height="18" isPrintWhenDetailOverflows="true" uuid="923ff4f1-bcff-4713-84f9-0ecfdd5577fa"/>
+				<textFieldExpression><![CDATA[$F{ItemCode}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="68" y="2" width="188" height="18" isPrintWhenDetailOverflows="true" uuid="e3d34020-aec4-42a6-a164-86253e78b256"/>
+				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="257" y="2" width="54" height="18" isPrintWhenDetailOverflows="true" uuid="f23699e1-51c0-42e8-9e54-4bc6bb2eceed"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{BoxQty}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="312" y="2" width="55" height="18" isPrintWhenDetailOverflows="true" uuid="8660d5fd-693d-4023-994b-33f8a4ec7284"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{InventoryOnHand}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="368" y="2" width="63" height="18" isPrintWhenDetailOverflows="true" uuid="7f2a3990-69ff-4be6-b5a9-7863a0375d2a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{InventoryAllocated}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="501" y="2" width="51" height="18" isPrintWhenDetailOverflows="true" uuid="71208a64-b7c7-4268-8d0c-c5e0e38e733d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{InventoryOnOrder}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="744" y="2" width="58" height="18" isPrintWhenDetailOverflows="true" uuid="5642de5e-8ed4-4acb-a2e5-7fb3d5b04476"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{YTDSales}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="628" y="2" width="51" height="18" isPrintWhenDetailOverflows="true" uuid="dc35230c-5e81-4b4e-a116-885b98fbf325"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{InventoryOrderPoint}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="553" y="2" width="73" height="18" uuid="9994876d-e351-4cd5-9c33-1ed31631d215"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PROJECTED_INVENTORY}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="680" y="0" width="62" height="20" uuid="ca19b880-22fa-4e83-b7db-4c2aebf0f1f5"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{SUGGESTED_ORDER}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="434" y="2" width="64" height="18" isPrintWhenDetailOverflows="true" uuid="5a023b5f-d015-4342-89d9-6cf75bda762d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{INVENTORY_AVAILABLE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

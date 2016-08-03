@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InventoryReport" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="af18a75f-5538-48ee-a1ac-810915099eeb">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="prMasterId" class="java.lang.Integer"/>
+	<parameter name="prWarehouseInventoryID" class="java.lang.Integer"/>
+	<parameter name="logo" class="java.awt.Image"/>
+	<parameter name="HeaderImage" class="java.io.InputStream"/>
+	<parameter name="HeaderText" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT prMaster.prMasterID,prMaster.ItemCode,prMaster.Description,prMaster.AverageCost,(prMaster.InventoryOnHand-prMaster.InventoryAllocated)AS InventoryAvailable,
+prd.Description AS department,
+prc.Description AS category,
+prw.SearchName AS warehouse,
+prMaster.InventoryOnHand,prMaster.InventoryAllocated,prMaster.InventoryOnOrder,prMaster.Submitted
+ FROM prMaster LEFT JOIN prWarehouseInventory ON prMaster.prMasterID = prWarehouseInventory.prMasterID
+ LEFT JOIN prDepartment prd ON prd.prDepartmentID = prMaster.prDepartmentID
+ LEFT JOIN prCategory prc ON prc.prCategoryID = prMaster.prCategoryID
+ LEFT JOIN prWarehouse prw ON prWarehouseInventory.prWarehouseID=prw.prWarehouseID
+ WHERE prMaster.prMasterID=$P{prMasterId}
+ AND prWarehouseInventory.prWarehouseInventoryID=$P{prWarehouseInventoryID};]]>
+	</queryString>
+	<field name="prMasterID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ItemCode" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AverageCost" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InventoryAvailable" class="java.math.BigDecimal"/>
+	<field name="department" class="java.lang.String"/>
+	<field name="category" class="java.lang.String"/>
+	<field name="warehouse" class="java.lang.String"/>
+	<field name="InventoryOnHand" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InventoryAllocated" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InventoryOnOrder" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Submitted" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="ytd" class="java.lang.Integer">
+		<variableExpression><![CDATA[0.00]]></variableExpression>
+	</variable>
+	<variable name="whseCost" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[00]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="341" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="38" y="135" width="527" height="60" uuid="f55e0a37-80e4-424d-8e0f-873d19d0babd"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="38" y="211" width="527" height="68" uuid="21c15c7e-810d-43b7-af6f-745ad315e259"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="44" y="139" width="96" height="16" uuid="d2f60892-a4bf-4a34-866a-9b8bbb5ef987"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[CODE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="43" y="157" width="96" height="16" uuid="606f16b4-5707-46ed-8060-915df44db17d"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[DESCRIPTION:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="44" y="175" width="95" height="16" uuid="b84ab1ea-c4b0-4686-b78f-5c7d94145448"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[DEPARTMENT:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="324" y="139" width="81" height="16" uuid="2161902c-9762-40d5-bc61-8fb4fe38dc25"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[WAREHOUSE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="324" y="177" width="81" height="16" uuid="3b1e851a-2f74-4da0-bc7c-d8b0a8bdef42"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[CATEGORY:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="218" width="84" height="14" uuid="5983c994-1c20-4be9-b1d3-b3b2e95c2d75"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ON HAND:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="143" y="139" width="158" height="16" isRemoveLineWhenBlank="true" uuid="b1ba17fc-5901-4cd3-93fd-67e2697a0e55"/>
+				<textFieldExpression><![CDATA[$F{ItemCode}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="143" y="158" width="403" height="16" isRemoveLineWhenBlank="true" uuid="d5c946a6-9a47-40c8-9f7f-f670b49b0587"/>
+				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="134" y="250" width="158" height="17" isRemoveLineWhenBlank="true" uuid="ee27329f-ef22-4e99-b8ae-0ac88869093b"/>
+				<textFieldExpression><![CDATA[$F{InventoryAvailable}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="143" y="177" width="158" height="16" isRemoveLineWhenBlank="true" uuid="995a2d5b-a80a-4b0e-9312-a557d6a8ce23"/>
+				<textFieldExpression><![CDATA[$F{department}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="408" y="139" width="138" height="16" isRemoveLineWhenBlank="true" uuid="584e5aea-bdd3-422d-abbb-87922f212569"/>
+				<textFieldExpression><![CDATA[$F{warehouse}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="134" y="232" width="158" height="21" isRemoveLineWhenBlank="true" uuid="a558c61c-d8e5-4f62-b492-cb35ff9af51b"/>
+				<textFieldExpression><![CDATA[$F{InventoryAllocated}]]></textFieldExpression>
+			</textField>
+			<elementGroup/>
+			<componentElement>
+				<reportElement x="187" y="23" width="226" height="83" uuid="41a5f3ad-61ac-42b7-86da-f5246b0934ee"/>
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RetainShape" horizontalAlign="Left" verticalAlign="Middle">
+					<hc:htmlContentExpression><![CDATA[(($P{HeaderText}.replaceAll("`and`nbsp;", " ")).replaceAll("`", "")).replaceAll("amp;"," ")]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
+			<elementGroup/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="134" y="218" width="158" height="14" uuid="df6a65c0-03f1-4fa5-a58b-04384c677858"/>
+				<textFieldExpression><![CDATA[$F{InventoryOnHand}]]></textFieldExpression>
+			</textField>
+			<image onErrorType="Blank">
+				<reportElement positionType="Float" x="76" y="40" width="111" height="66" uuid="a3d35480-73ab-4d6a-9b82-c16628c898ea"/>
+				<imageExpression><![CDATA[$P{HeaderImage}]]></imageExpression>
+			</image>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="408" y="177" width="138" height="15" uuid="3b05c911-95a1-42ff-8dc1-493670b45d3f"/>
+				<textFieldExpression><![CDATA[$F{category}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="45" y="234" width="84" height="14" uuid="6fb4e9a5-4513-4792-ab32-9c490227fa79"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ALLOCATED]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="249" width="84" height="14" uuid="7058ccb9-32a4-488b-b00d-ca4bab6e6e88"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[AVAILABLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="320" y="220" width="84" height="14" uuid="23598a2a-caf9-4c22-a685-1767fc0a6555"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ON ORDER:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="407" y="219" width="139" height="14" uuid="e320d8b3-12ee-418a-b1d2-22df4fdb7790"/>
+				<textFieldExpression><![CDATA[$F{InventoryOnOrder}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="319" y="237" width="84" height="14" uuid="6eea4605-9053-4881-9d78-05da3e1da53b"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[SUBMITTED:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="319" y="254" width="84" height="14" uuid="692e1286-9b6a-40dd-a6f3-a840bab74696"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[YTD SOLD:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="406" y="237" width="140" height="14" uuid="c6775415-1dda-4452-8c23-1d1f89c4d0b5"/>
+				<textFieldExpression><![CDATA[$F{Submitted}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="406" y="253" width="140" height="14" uuid="0435e185-b493-4e44-9f5c-cc64c9897c7e"/>
+				<textFieldExpression><![CDATA[$V{ytd}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="10">
+				<reportElement x="37" y="291" width="527" height="34" uuid="4151204a-24d1-4ca0-a0a6-65613b553778"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="45" y="298" width="84" height="14" uuid="772dfc0f-e60b-46bc-8072-dc1e801a2975"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[AVG COST: ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="135" y="299" width="157" height="14" uuid="15633d07-8743-4dc2-ae06-7ebf745b1919"/>
+				<textFieldExpression><![CDATA[$F{AverageCost}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="319" y="299" width="84" height="14" uuid="f6b76fde-a324-4b63-9f96-ef9114a47410"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[WHSE COST:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="408" y="299" width="138" height="14" uuid="b88dfeb9-44d1-47c4-a001-96bb9c0dea70"/>
+				<textFieldExpression><![CDATA[$V{whseCost}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="27" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch"/>
+	</detail>
+	<pageFooter>
+		<band height="95">
+			<textField>
+				<reportElement x="490" y="80" width="82" height="15" uuid="5c969baa-d61c-4d12-9708-884bc572e4cc"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

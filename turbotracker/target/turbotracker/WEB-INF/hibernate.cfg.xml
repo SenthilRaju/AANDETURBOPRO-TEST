@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+		
+<hibernate-configuration>
+  <session-factory>
+  	<!-- We're using MySQL database so the dialect needs to MySQL as well-->
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+    <!-- Enable this to see the SQL statements in the logs-->
+    <property name="show_sql">false</property>
+    <!-- This will drop our existing database and re-create a new one.
+    		Existing data will be deleted! -->
+    <property name="hibernate.bytecode.provider">cglib</property>
+    <!-- <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property> -->
+    
+    <property name="hibernate.cache.use_second_level_cache">true</property>
+	<property name="hibernate.cache.use_query_cache">true</property>
+	<property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</property>
+  </session-factory>
+</hibernate-configuration>

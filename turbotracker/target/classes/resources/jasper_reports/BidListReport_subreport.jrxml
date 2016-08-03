@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BidListReport_subreport" language="groovy" pageWidth="252" pageHeight="802" columnWidth="252" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="67ed3dc4-a1be-4701-b196-6f99b0363652">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="newbidListToDate" class="java.lang.String"/>
+	<parameter name="newbidListFromDate" class="java.lang.String"/>
+	<parameter name="biddetails" class="java.lang.Boolean"/>
+	<parameter name="blDivisionID" class="java.lang.String"/>
+	<parameter name="JobNo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT DATE_FORMAT(BidDate, '%W') AS days, DATE_FORMAT(BidDate, '%M %d %Y') AS Dates, rxm.name,jom.Description,
+jom.LocationCity,jom.LocationState,
+IF (Source1 =1,(SELECT ValueString FROM sysVariable WHERE sysVariableID = 2014005037),"") AS source1,
+IF (Source2 =1,(SELECT ValueString FROM sysVariable WHERE sysVariableID = 2014005038),"") AS source2,
+IF (Source3 =1,(SELECT ValueString FROM sysVariable WHERE sysVariableID = 2014005039),"") AS source3,
+IF (Source4 =1,(SELECT ValueString FROM sysVariable WHERE sysVariableID = 2014005040),"") AS source4,
+sourceReport1,otherSource,PlanNumbers,BinNumber,DATE_FORMAT(PlanDate,'%m/%d/%Y') AS PlanDate,
+jom.JobNumber AS JobNo,(SELECT rx.name FROM rxMaster rx WHERE rxMasterID=jom.rxCategory2 )AS engineer,
+(SELECT FullName FROM tsUserLogin WHERE UserLoginID=jom.cuAssignmentID0)AS SalesRep,PlanNumbers
+FROM joBidder job
+LEFT JOIN joMaster jom ON job.joMasterID = jom.joMasterID AND jom.coDivisionID=$P{blDivisionID} AND jom.JobStatus IN ('0','1')
+LEFT JOIN rxMaster rxm ON job.rxMasterID = rxm.rxMasterID
+WHERE DATE(BidDate) >=  $P{newbidListFromDate} AND DATE(BidDate) <= $P{newbidListToDate} AND jom.JobNumber=$P{JobNo}]]>
+	</queryString>
+	<field name="days" class="java.lang.String"/>
+	<field name="Dates" class="java.lang.String"/>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="LocationCity" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="LocationState" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="source1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="source2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="source3" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="source4" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sourceReport1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="otherSource" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PlanNumbers" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BinNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PlanDate" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="JobNo" class="java.lang.String"/>
+	<field name="engineer" class="java.lang.String"/>
+	<field name="SalesRep" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="7" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="200" height="7" isPrintInFirstWholeBand="true" uuid="6c9dc552-4c78-487f-a44a-bd70ae679114"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

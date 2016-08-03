@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CommissionSheet" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="96631e92-118a-47c4-8ac3-65e47a997d37">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="tillDate" class="java.lang.String"/>
+	<parameter name="ecPeriod" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT em.UserLoginID, CONCAT(rx.FirstName,' ',rx.Name) AS empName,  IFNULL(es.JobCommissions,0.0000) AS JobCommissions, IFNULL(es.OtherCommissions,0.0000) AS OtherCommissions, IFNULL(es.Adjustments,0.0000) AS Adjustments,
+IFNULL(es.Payment,0.0000) AS Payment, es.ecStatementID,SUM(IFNULL(esis.Profit,0.0000)) as gross FROM emMaster em
+JOIN ecStatement es ON em.UserLoginID = es.RepLoginID
+LEFT JOIN ecInvoiceRepSplit esis ON esis.ecStatementID = es.ecStatementID
+JOIN rxMaster rx ON rx.rxMasterID = em.emMasterID
+JOIN tsUserLogin tsu ON tsu.UserLoginID = em.UserLoginID WHERE rx.InActive = 0
+AND GetsCommission = 1 AND tsu.Inactive = 0
+AND es.ecPeriodID = $P{ecPeriod} GROUP BY esis.ecStatementID ,empName ORDER BY empName ASC]]>
+	</queryString>
+	<field name="UserLoginID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="empName" class="java.lang.String"/>
+	<field name="JobCommissions" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="OtherCommissions" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Adjustments" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Payment" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ecStatementID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="gross" class="java.math.BigDecimal"/>
+	<variable name="JobCommissions_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{JobCommissions}]]></variableExpression>
+	</variable>
+	<variable name="Adjustments_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{Adjustments}]]></variableExpression>
+	</variable>
+	<variable name="Payment_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{Payment}]]></variableExpression>
+	</variable>
+	<variable name="gross_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{gross}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="51" splitType="Stretch">
+			<textField>
+				<reportElement x="435" y="0" width="80" height="15" uuid="e1003605-c700-4983-a461-1b2514583e4e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="0" width="40" height="15" uuid="bf2231d9-e34a-47b8-8695-00cf3a31a340"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/YYY h.mm a">
+				<reportElement x="0" y="0" width="100" height="15" uuid="a1d7f10c-6e08-4c1b-a0b3-7e738a3edf9b"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="218" y="32" width="35" height="17" uuid="fa3d12a2-9c17-4c49-8b7b-b434265e439d"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[As Of]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="183" y="15" width="200" height="17" uuid="f34105da-4de8-40ac-b7f3-2b238ca33507"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMMISSION COVER SHEET]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="253" y="33" width="100" height="15" uuid="b16960b5-d545-476e-8483-dddffe5a7f56"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{tillDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="17" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="15" uuid="595ce79b-ae2d-4d09-bd52-d00fa6eea084"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Employee Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="1" width="100" height="15" uuid="079653ea-9e61-414d-909a-9d512f6beae5"/>
+				<textElement textAlignment="Right">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Commissions]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="348" y="0" width="100" height="15" uuid="e92bee1c-90a7-4f35-8017-03d001e08337"/>
+				<textElement textAlignment="Right">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Adjustments]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="1" width="100" height="15" uuid="1d409d23-7e8f-48a2-9abe-9961a3545574"/>
+				<textElement textAlignment="Right">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Payment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="137" y="1" width="100" height="15" uuid="995bd3ff-b0d7-44ec-a9cb-7d7ffa267755"/>
+				<textElement textAlignment="Right">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gross Profits]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="137" height="15" uuid="7a28fa08-feaa-4a56-affa-a7b53bc1622d"/>
+				<textFieldExpression><![CDATA[$F{empName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="240" y="0" width="100" height="15" uuid="c6a0907c-695d-48c5-939f-9cedd5687d7e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{JobCommissions}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="348" y="2" width="100" height="15" uuid="070261d4-d2fe-4534-8d0b-32549a32bd6d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Adjustments}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="455" y="2" width="100" height="15" uuid="4c51b94d-0126-4d3f-a183-7200bb99f3f5"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Payment}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="137" y="0" width="100" height="15" uuid="f807cdff-ef0b-4b86-9078-9148f38efb19"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{gross}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20" splitType="Stretch">
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="240" y="0" width="100" height="20" uuid="1b8bee6b-fbad-4c21-8439-9504cc08ad68"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{JobCommissions_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="348" y="0" width="100" height="20" uuid="8ddf6f22-7fa6-404a-8385-bde40c1c778b"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Adjustments_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="455" y="0" width="100" height="20" uuid="f4957116-4098-4347-aed5-a67abccb7d67"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Payment_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="137" y="0" width="100" height="20" uuid="7d099699-1367-46ce-b033-59b0a7cc165e"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{gross_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="26" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

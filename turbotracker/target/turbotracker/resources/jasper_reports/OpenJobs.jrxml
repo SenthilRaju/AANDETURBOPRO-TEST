@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OpenJobs" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" >
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT J.EstimatedProfit,
+J.ActualProfitToDate,
+J.Description as Project,
+J.JobNumber,
+J.ContractAmount,
+R.Released,
+R.CommissionSales,
+C.Changes,
+I.Invoiced,
+J.ChangedOn,
+U.FullName AS Salesrep,
+U.Initials AS RepInitials,
+X.Name AS Customer,
+J.coDivisionID as Division,
+D.Description AS DivisionName,
+(select HeaderText from tsUserSetting) as header,
+(select companylogo from tsUserSetting) as logo
+FROM rxMaster AS X
+RIGHT JOIN ((((joMaster AS J
+LEFT JOIN (SELECT joChange.joMasterID, Sum(joChange.ChangeAmount) AS Changes FROM joMaster
+RIGHT JOIN joChange ON joMaster.joMasterID = joChange.joMasterID WHERE (joMaster.JobStatus=3)
+GROUP BY joChange.joMasterID) AS C ON J.joMasterID = C.joMasterID) LEFT JOIN (SELECT joMaster.joMasterID, Sum(Subtotal) AS Invoiced
+FROM joMaster RIGHT JOIN (joReleaseDetail
+RIGHT JOIN cuInvoice ON joReleaseDetail.joReleaseDetailID = cuInvoice.joReleaseDetailID) ON joMaster.joMasterID = joReleaseDetail.joMasterID
+WHERE (joMaster.JobStatus=3) AND (cuInvoice.TransactionStatus>0) GROUP BY joMaster.joMasterID) AS I ON J.joMasterID = I.joMasterID)
+LEFT JOIN (SELECT joRelease.joMasterID, Sum(joRelease.EstimatedBilling) AS Released,
+Sum( (CASE WHEN CommissionReceived=1 THEN joRelease.EstimatedBilling ELSE 0 END) ) As CommissionSales
+FROM joMaster RIGHT JOIN joRelease ON joMaster.joMasterID = joRelease.joMasterID WHERE (joMaster.JobStatus=3)
+GROUP BY joRelease.joMasterID) AS R ON J.joMasterID = R.joMasterID) LEFT JOIN UserLoginClone AS U ON J.cuAssignmentID0 = U.UserLoginID) ON X.rxMasterID = J.rxCustomerID
+LEFT JOIN coDivision
+AS D ON J.coDivisionID = D.coDivisionID WHERE (J.JobStatus=3)  ORDER BY X.Name, J.JobNumber]]>
+	</queryString>
+	<field name="EstimatedProfit" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ActualProfitToDate" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Project" class="java.lang.String"/>
+	<field name="JobNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ContractAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Released" class="java.math.BigDecimal"/>
+	<field name="CommissionSales" class="java.math.BigDecimal"/>
+	<field name="Changes" class="java.math.BigDecimal"/>
+	<field name="Invoiced" class="java.math.BigDecimal"/>
+	<field name="ChangedOn" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Salesrep" class="java.lang.String"/>
+	<field name="RepInitials" class="java.lang.String"/>
+	<field name="Customer" class="java.lang.String"/>
+	<field name="Division" class="java.lang.Integer"/>
+	<field name="DivisionName" class="java.lang.String"/>
+	<field name="header" class="java.lang.String"/>
+	<field name="logo" class="java.io.InputStream"/>
+	<variable name="Released_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Customer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Released}]]></variableExpression>
+	</variable>
+	<variable name="Changes_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Customer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Changes}]]></variableExpression>
+	</variable>
+	<variable name="ContractAmount_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Customer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ContractAmount}]]></variableExpression>
+	</variable>
+	<variable name="CommissionSales_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Customer" calculation="Sum">
+		<variableExpression><![CDATA[$F{CommissionSales}]]></variableExpression>
+	</variable>
+	<variable name="ActualProfitToDate_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Customer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ActualProfitToDate}]]></variableExpression>
+	</variable>
+	<variable name="EstimatedProfit_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Customer" calculation="Sum">
+		<variableExpression><![CDATA[$F{EstimatedProfit}]]></variableExpression>
+	</variable>
+	<variable name="ActualProfit" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{ActualProfitToDate}]]></variableExpression>
+	</variable>
+	<group name="Customer">
+		<groupExpression><![CDATA[$F{Customer}]]></groupExpression>
+		<groupHeader>
+			<band height="29">
+				<textField>
+					<reportElement x="16" y="9" width="129" height="20" >
+						<printWhenExpression><![CDATA[$F{Customer}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement>
+						<font size="13" isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Customer}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50">
+				<textField>
+					<reportElement x="306" y="14" width="62" height="17" >
+						<printWhenExpression><![CDATA[$V{Released_1}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["$"+$V{Released_1}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="374" y="13" width="77" height="20" >
+						<printWhenExpression><![CDATA[$V{Changes_1}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["$"+$V{Changes_1}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="451" y="13" width="75" height="20" >
+						<printWhenExpression><![CDATA[$V{ContractAmount_1}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["$"+$V{ContractAmount_1}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="529" y="13" width="72" height="20" >
+						<printWhenExpression><![CDATA[$V{CommissionSales_1}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["$"+$V{CommissionSales_1}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="606" y="13" width="68" height="20" >
+						<printWhenExpression><![CDATA[$V{ActualProfitToDate_1}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["$"+$V{ActualProfitToDate_1}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="674" y="13" width="74" height="20" >
+						<printWhenExpression><![CDATA[$V{EstimatedProfit_1}.subtract($V{ActualProfitToDate_1})!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["$"+$V{EstimatedProfit_1}.subtract($V{ActualProfitToDate_1}).setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="308" y="5" width="437" height="1" />
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="184" splitType="Stretch">
+			<staticText>
+				<reportElement x="681" y="10" width="51" height="20" />
+				<text><![CDATA[Page no:-]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="762" y="10" width="11" height="20" />
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="742" y="10" width="20" height="20" />
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="773" y="10" width="19" height="20" />
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="327" y="30" width="164" height="20" />
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[OpenJobs Report]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="30" y="9" width="86" height="20" />
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<elementGroup>
+				<componentElement>
+					<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="278" y="91" width="250" height="75" >
+						<property name="net.sf.jasperreports.export.pdf.tag.tr" value="full"/>
+					</reportElement>
+					<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RealSize" horizontalAlign="Left" verticalAlign="Middle">
+						<hc:htmlContentExpression><![CDATA[(($F{header}.replaceAll("`and`nbsp;", " ")).replaceAll("`", "")).replaceAll("amp;"," ")]]></hc:htmlContentExpression>
+					</hc:html>
+				</componentElement>
+			</elementGroup>
+			<image>
+				<reportElement x="60" y="94" width="145" height="72" />
+				<imageExpression><![CDATA[$F{logo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="50">
+			<staticText>
+				<reportElement mode="Transparent" x="16" y="19" width="100" height="31" />
+				<textElement>
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Project]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="205" y="19" width="65" height="31" />
+				<textElement>
+					<font fontName="SansSerif" isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Job#]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="315" y="19" width="53" height="31" />
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Revised Booking]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="374" y="19" width="77" height="31" />
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Released &
+Invoiced]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="455" y="19" width="71" height="31" />
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Invoiced]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="529" y="19" width="73" height="31" />
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Unreleased]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="603" y="19" width="71" height="29" />
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Released
+Profit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="676" y="19" width="71" height="31" />
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Remaining Profit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="751" y="19" width="52" height="31" />
+				<textElement>
+					<font fontName="SansSerif" isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Last activity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="273" y="19" width="33" height="31" />
+				<textElement>
+					<font fontName="SansSerif" isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[REP]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21">
+			<textField>
+				<reportElement x="12" y="1" width="179" height="20" />
+				<textFieldExpression><![CDATA[$F{Project}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="191" y="2" width="80" height="19" >
+					<printWhenExpression><![CDATA[$F{JobNumber}!=null]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{JobNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="1" width="35" height="20" >
+					<printWhenExpression><![CDATA[$F{RepInitials}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{RepInitials}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="309" y="1" width="59" height="20" >
+					<printWhenExpression><![CDATA[$F{Released}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["$"+$F{Released}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="374" y="0" width="77" height="19" >
+					<printWhenExpression><![CDATA[$F{Changes}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["$"+$F{Changes}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="528" y="1" width="73" height="20" >
+					<printWhenExpression><![CDATA[$F{CommissionSales}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["$"+$F{CommissionSales}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="451" y="2" width="77" height="19" >
+					<printWhenExpression><![CDATA[$F{ContractAmount}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["$"+$F{ContractAmount}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="603" y="1" width="71" height="20" >
+					<printWhenExpression><![CDATA[$F{ActualProfitToDate}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["$"+$F{ActualProfitToDate}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="675" y="1" width="74" height="19" >
+					<printWhenExpression><![CDATA[$F{EstimatedProfit}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["$"+$F{EstimatedProfit}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yy">
+				<reportElement x="751" y="2" width="52" height="19" />
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ChangedOn}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

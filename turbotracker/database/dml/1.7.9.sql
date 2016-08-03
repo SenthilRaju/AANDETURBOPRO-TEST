@@ -1,0 +1,2 @@
+ALTER TABLE `joQuoteDetail` 
+CHANGE COLUMN `Paragraph` `Paragraph` VARCHAR(50) CHARACTER SET 'utf8' NULL DEFAULT NULL;

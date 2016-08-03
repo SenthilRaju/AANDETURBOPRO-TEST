@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EmployeeCommission_UserBased" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="ebddbaa1-2eca-4680-bd6e-31c7463045de">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="ecStatementID" class="java.lang.Integer"/>
+	<parameter name="EmployeeName" class="java.lang.String"/>
+	<parameter name="As_Of" class="java.lang.String"/>
+	<parameter name="Commission1" class="java.lang.String"/>
+	<parameter name="Commission2" class="java.lang.String"/>
+	<parameter name="Commission3" class="java.lang.String"/>
+	<parameter name="Commission4" class="java.lang.String"/>
+	<parameter name="Adjustment1" class="java.lang.String"/>
+	<parameter name="Adjustment2" class="java.lang.String"/>
+	<parameter name="Adjustment3" class="java.lang.String"/>
+	<parameter name="Adjustment4" class="java.lang.String"/>
+	<parameter name="Commission1_Value" class="java.lang.String"/>
+	<parameter name="Commission2_Value" class="java.lang.String"/>
+	<parameter name="Commission3_Value" class="java.lang.String"/>
+	<parameter name="Commission4_Value" class="java.lang.String"/>
+	<parameter name="Adjustment1_Value" class="java.lang.String"/>
+	<parameter name="Adjustment2_Value" class="java.lang.String"/>
+	<parameter name="Adjustment3_Value" class="java.lang.String"/>
+	<parameter name="Adjustment4_Value" class="java.lang.String"/>
+	<parameter name="Commission_Sum" class="java.lang.String"/>
+	<parameter name="Adjustment_Sum" class="java.lang.String"/>
+	<parameter name="openingBalance" class="java.lang.String"/>
+	<parameter name="netChange" class="java.lang.String"/>
+	<parameter name="payment" class="java.lang.String"/>
+	<parameter name="closingBal" class="java.lang.String"/>
+	<parameter name="comments" class="java.lang.String"/>
+	<parameter name="netChngOpenBal" class="java.lang.String"/>
+	<parameter name="Total_Gross" class="java.lang.String"/>
+	<parameter name="Total_Paid" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 0 AS ExpjoMasterID, 0 AS ExprxMasterID, 0 AS joReleaseID2,
+0 AS joReleaseID, 0 AS rxMasterID, 'emptyrow' AS NAME, 'emptyrow' AS FirstName, 'emptyrow' AS JobNumber,
+'emptyrow' AS JobName, 'emptyrow' AS QuickJobName, 'emptyrow' AS releaseType,
+0.00 AS Sales,0.00 AS TotalSales, 0.00 AS TotalProfit, 'emptyrow' AS Reference, now() AS DatePaid,
+0.00 AS Profit, 0.00 AS CommissionRate, 0.00 AS AmountDue,0.00 AS Gross,
+(SELECT headertext FROM tsUserSetting) AS header, (SELECT companylogo FROM tsUserSetting) AS logo FROM DUAL]]>
+	</queryString>
+	<field name="ExpjoMasterID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ExprxMasterID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joReleaseID2" class="java.lang.Long"/>
+	<field name="joReleaseID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxMasterID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NAME" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="FirstName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="JobNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="JobName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QuickJobName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="releaseType" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Sales" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TotalSales" class="java.math.BigDecimal"/>
+	<field name="TotalProfit" class="java.math.BigDecimal"/>
+	<field name="Reference" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DatePaid" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Profit" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CommissionRate" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AmountDue" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Gross" class="java.math.BigDecimal"/>
+	<field name="header" class="java.lang.String"/>
+	<field name="logo" class="java.io.InputStream"/>
+	<variable name="TotalProfit_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[new BigDecimal($F{TotalProfit}).setScale(2,BigDecimal.ROUND_FLOOR)]]></variableExpression>
+	</variable>
+	<variable name="AmountDue_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{AmountDue}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="248" splitType="Stretch">
+			<componentElement>
+				<reportElement x="7" y="0" width="257" height="77" uuid="779cfef4-2a24-4565-8346-c7142737ff1a"/>
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RetainShape" horizontalAlign="Left" verticalAlign="Middle">
+					<hc:htmlContentExpression><![CDATA[(($F{header}.replaceAll("`and`nbsp;", " ")).replaceAll("`", "")).replaceAll("amp;"," ")]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
+			<textField>
+				<reportElement x="7" y="114" width="257" height="20" uuid="2db0f9fe-99c0-4493-9fe6-eacfa85a681f"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{EmployeeName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="408" y="3" width="80" height="20" uuid="8744f46c-29d3-4a14-87bc-8a2991ded125"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="490" y="3" width="65" height="20" uuid="12f9cb8b-19e6-42f5-baf7-e119b78b757d"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="355" y="47" width="100" height="20" uuid="9c7b7641-e417-4829-89c6-45c7216cd795"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[As Of ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="459" y="46" width="100" height="20" uuid="0bc642b3-308e-485f-b469-e93071b13598"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{As_Of}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="10">
+				<reportElement x="3" y="140" width="190" height="96" uuid="2d2dd882-c284-414f-9b62-46f897b0a253"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="200" y="140" width="192" height="96" uuid="5fba3aa6-8b46-4b9b-8d60-ace42744dbed"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="399" y="140" width="153" height="96" uuid="8e6d582b-dcb2-419f-9638-557657fbdba5"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="6" y="147" width="164" height="15" isPrintWhenDetailOverflows="true" uuid="c28fdfa0-9a6e-42e8-ba33-0035923a22e0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Commission1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="6" y="161" width="164" height="15" isPrintWhenDetailOverflows="true" uuid="c9ad5834-76b7-4d4d-9cbf-b2c77e1387cf"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Commission2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="6" y="176" width="164" height="15" isPrintWhenDetailOverflows="true" uuid="0f425710-327c-4c86-b8c0-4670fa953b98"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Commission3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="7" y="191" width="163" height="15" isPrintWhenDetailOverflows="true" uuid="4ce116e0-f683-4f78-b4aa-bd38a6c89d6a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Commission4}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="142" y="209" width="44" height="1" uuid="0666e437-73db-40b9-8c53-04d1b8e58259"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="204" y="146" width="146" height="15" isPrintWhenDetailOverflows="true" uuid="667a3ba2-a04d-4157-ae8f-ac5c9575d620"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Adjustment1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="204" y="161" width="146" height="15" isPrintWhenDetailOverflows="true" uuid="98c9e278-1bd0-4bc5-a584-273c425743e5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Adjustment2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="204" y="176" width="146" height="15" isPrintWhenDetailOverflows="true" uuid="41b4b1b0-62ad-43ae-b8b7-a793bdf49b72"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Adjustment3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="204" y="191" width="146" height="15" isPrintWhenDetailOverflows="true" uuid="77486ec8-bbdb-4df0-a6b9-13870284148d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Adjustment4}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="325" y="209" width="61" height="1" uuid="6afdf47f-ea6a-4526-bd9d-49c7ea1a0374"/>
+			</line>
+			<staticText>
+				<reportElement x="404" y="146" width="92" height="15" uuid="1fce8764-2110-46de-9311-ae66b7f0c7d9"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Opening Balance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="404" y="161" width="92" height="15" uuid="65125908-231a-4509-93a7-fd8be7ab5e86"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Net Change]]></text>
+			</staticText>
+			<line>
+				<reportElement x="492" y="179" width="54" height="1" uuid="97fb90a1-c87d-4692-87a1-81997479cd01"/>
+			</line>
+			<staticText>
+				<reportElement x="404" y="201" width="79" height="15" uuid="d7ad4c9c-73a5-4b07-a44a-9d65983669a5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Payment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="404" y="218" width="79" height="15" uuid="3e210631-259e-427a-ae4e-f56a7af18cbf"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Closing Balance]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="128" y="146" width="61" height="15" isPrintWhenDetailOverflows="true" uuid="f590ec50-cf2a-4285-9144-cc40c7d155e9"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{Commission1_Value}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="128" y="161" width="61" height="16" isPrintWhenDetailOverflows="true" uuid="1cda8e5c-4e5c-47e1-b6bc-2a8421e3996c"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{Commission2_Value}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="128" y="176" width="61" height="16" isPrintWhenDetailOverflows="true" uuid="7adecd14-68f0-4672-b130-39fcf76cc571"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{Commission3_Value}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="127" y="190" width="62" height="15" isPrintWhenDetailOverflows="true" uuid="cbb43e8d-6db9-42f1-8d5b-54b87f5fb8ed"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{Commission4_Value}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="318" y="146" width="70" height="15" isPrintWhenDetailOverflows="true" uuid="9acadb3d-21d1-4f45-8cca-42ad74386091"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{Adjustment1_Value}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="318" y="161" width="70" height="15" isPrintWhenDetailOverflows="true" uuid="5572141e-403c-45ad-a951-9bb4162d11ba"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{Adjustment2_Value}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="318" y="176" width="70" height="15" isPrintWhenDetailOverflows="true" uuid="75b3c0f8-66cc-47f9-85d9-016501e6f267"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{Adjustment3_Value}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="318" y="191" width="70" height="15" isPrintWhenDetailOverflows="true" uuid="7ae999a1-f223-4f71-8ab8-4b0880f7832a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{Adjustment4_Value}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="128" y="215" width="60" height="15" isPrintWhenDetailOverflows="true" uuid="914936f6-1832-4007-a3da-d2c5cefbc511"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{Commission_Sum}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="288" y="215" width="100" height="15" isPrintWhenDetailOverflows="true" uuid="80f243c0-bd76-4bbe-8ee4-e9dec1b421b5"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{Adjustment_Sum}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="447" y="146" width="100" height="15" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="c7ca4dde-bf64-41e7-809b-cd3ae0a29fd9"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{openingBalance}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="447" y="161" width="100" height="15" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="a06e5f34-fa69-4bbf-97c3-88ab54531101"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{netChange}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="485" y="201" width="62" height="15" isPrintWhenDetailOverflows="true" uuid="c670a2ed-a184-4beb-8517-288a3d22c3c6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{payment}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="449" y="217" width="98" height="15" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="1910e79c-34c7-429f-98b2-a35d44bade87"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{closingBal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="83" width="372" height="27" uuid="e4290653-25b0-4c56-9194-6cad13bdbc28"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sales Commission Statement]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="485" y="186" width="61" height="15" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="bb1cf28f-94e0-4776-8955-5e29bf5d14f8"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{netChngOpenBal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="404" y="186" width="79" height="15" uuid="331eaa45-15d6-4bea-8ce9-afb516db7d40"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="51" height="34" uuid="9c1f04a8-3801-4611-a476-76ec1f65bb9b"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Job#]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="0" width="196" height="34" uuid="ae65111f-5786-4ae3-9bf8-72eb0130aa38"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Job Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="303" y="0" width="65" height="34" uuid="59008700-27f9-488b-9138-0eeae7619dc9"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Customer Invoice #]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="367" y="0" width="53" height="34" uuid="e6426be5-e512-46ab-b70d-ca5562bbfddf"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date Paid]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="419" y="0" width="50" height="34" uuid="e0cfc9f0-97da-41a4-81b0-bcd32b3e715c"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gross Profit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="468" y="0" width="88" height="16" uuid="9f986ffb-4759-45b7-9158-8f7d694fa4fa"/>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[--COMMISSION--]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="472" y="16" width="28" height="18" uuid="2e2b36eb-32c7-492d-b2c7-9612296716cf"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Split]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="503" y="16" width="52" height="18" uuid="90e8cfe4-03fc-471c-923a-5c09de64830d"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Paid]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="0" width="50" height="34" uuid="30b6777d-37a0-455b-b9fc-a0745f28ba5e"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Release Type]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<printWhenExpression><![CDATA[( $F{JobNumber}.equals("emptyrow") ? new Boolean(false) : new Boolean(true) )]]></printWhenExpression>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="2" y="2" width="53" height="13" uuid="73e738a1-273a-40ed-b583-8667f87bc0aa"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{JobNumber}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="56" y="2" width="190" height="13" uuid="9927df3c-9929-47f3-88bf-f26158d0d2a7"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{JobName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="243" y="2" width="57" height="13" isPrintInFirstWholeBand="true" uuid="6b03cb7e-49cb-460f-8cfb-54d9c0661b95"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{releaseType}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="298" y="2" width="68" height="13" uuid="22093411-3f6b-4ef5-91fc-387c7f04016e"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Reference}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="362" y="2" width="58" height="13" uuid="ee1c32d3-98b6-4989-9c20-cf7aecc51503"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DatePaid}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0 &apos;%&apos;" isBlankWhenNull="true">
+				<reportElement x="472" y="2" width="32" height="13" uuid="efc57c09-19e2-4951-88c6-a3fe93307ba6"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CommissionRate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="503" y="2" width="52" height="13" uuid="3f37f8d1-f978-4ce9-a243-e965c5200c82"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AmountDue}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="420" y="2" width="52" height="13" uuid="9824116f-150d-4ccd-86e2-0076582a6bc7"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TotalProfit}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="41">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="77" y="22" width="470" height="17" uuid="709687cc-d100-4051-a829-835148962ea4"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{comments}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="14" y="7" width="80" height="15" uuid="f4fd0b91-01c0-4ad2-b112-78fd07b56dbb"/>
+				<textElement>
+					<font size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Comments: ]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="27" splitType="Stretch">
+			<line>
+				<reportElement x="408" y="7" width="145" height="1" uuid="43571cd4-27ed-46e6-9cbb-c66327d33059"/>
+			</line>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="399" y="11" width="71" height="15" isPrintWhenDetailOverflows="true" uuid="08ea246a-c278-4e60-81fc-24ef4e403ab4"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{Total_Gross}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="485" y="11" width="69" height="15" isPrintWhenDetailOverflows="true" uuid="2f049964-9a6b-42b8-afd6-e6c91df3ea01"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{Total_Paid}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

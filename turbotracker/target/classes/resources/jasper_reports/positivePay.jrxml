@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="positivePay" language="groovy" pageWidth="730" pageHeight="802" columnWidth="730" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b393479b-b606-40cf-b287-f94d0da97cac">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="76"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="CheckDate" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[CALL `sp_positivePay`($P{CheckDate});]]>
+	</queryString>
+	<field name="ReportType" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AccountNo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CheckNo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CheckAmt" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="IssueDateBlank" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CheckDate" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AddInfo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="29">
+			<staticText>
+				<reportElement x="0" y="0" width="121" height="29" uuid="beb2b49d-e235-48cc-8fbd-b0c119fb1cc6"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Account #]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="121" y="0" width="106" height="29" uuid="64cb5a9f-8201-4d3d-b0c9-8f8ec98fced1"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Check #]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="227" y="0" width="111" height="29" uuid="15549bbd-e85f-41be-8be1-5aaebc7c5c34"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Check $]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="338" y="0" width="61" height="29" uuid="667331ef-8a74-4c2b-bf8f-ad8b6ba8afd2"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Issue Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="399" y="0" width="68" height="29" uuid="c5773743-ae6b-4304-b31c-4eceef85ecbb"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Check Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="467" y="0" width="216" height="29" uuid="7f221717-5bfa-49ab-85d9-3c3fca6f268b"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Payee]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="683" y="0" width="46" height="29" uuid="f80e9fa6-78c2-4d14-90c7-41c5c99ece73"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Report Type]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="683" y="0" width="46" height="20" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="df3ee6f5-d458-40cc-a8d3-20597055f654"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{ReportType}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="121" height="20" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="b57d08b6-2d7d-404b-a91f-4d936bd65163"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{AccountNo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="121" y="0" width="106" height="20" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="4f12bdb0-4a54-4cee-8cdd-ef9505ec58ac"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{CheckNo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="227" y="0" width="111" height="20" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="15e5186a-7007-406a-803b-c3fec62c0522"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{CheckAmt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="338" y="0" width="61" height="20" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="fa16e000-1a60-4ff2-82c9-718935153215"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{IssueDateBlank}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="399" y="0" width="68" height="20" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="d877c9a1-2ef8-4510-b797-2800a64e2ccf"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{CheckDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="467" y="0" width="216" height="20" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="64169475-d492-4b3d-bc1d-fb118564782d"/>
+				<textFieldExpression><![CDATA[$F{AddInfo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

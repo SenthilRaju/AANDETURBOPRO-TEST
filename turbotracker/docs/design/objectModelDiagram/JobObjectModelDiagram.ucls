@@ -1,0 +1,240 @@
+<class-diagram version="1.0.6" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Jomaster" project="TurboPro" 
+    file="/TurboPro/src/com/turborep/turbopro/job/dao/Jomaster.java" binary="false">    
+    <position height="5042" width="291" x="-2455" y="-4038"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="2" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Jochange" project="TurboPro" 
+    file="/TurboPro/src/com/turborep/turbopro/job/dao/Jochange.java" binary="false">    
+    <position height="-1" width="-1" x="-1972" y="-3801"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="3" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Jobchanges" project="TurboPro" 
+    file="/TurboPro/src/com/turborep/turbopro/job/dao/Jobchanges.java" binary="false">    
+    <position height="4322" width="287" x="-1748" y="-4030"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="4" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Jobidder" project="TurboPro" 
+    file="/TurboPro/src/com/turborep/turbopro/job/dao/Jobidder.java" binary="false">    
+    <position height="578" width="368" x="-2863" y="-4021"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="5" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Jobidstatus" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Jobidstatus.java" binary="false">    
+    <position height="-1" width="-1" x="-1946" y="-2398"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="6" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Jocustpo" project="TurboPro" 
+    file="/TurboPro/src/com/turborep/turbopro/job/dao/Jocustpo.java" binary="false">    
+    <position height="994" width="293" x="-2101" y="-3552"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="7" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Jocustpoworkfile" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Jocustpoworkfile.java" binary="false">    
+    <position height="-1" width="-1" x="-2685" y="-3348"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="8" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.JocustpoworkfileId" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/JocustpoworkfileId.java" binary="false">    
+    <position height="-1" width="-1" x="-2683" y="-3091"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="9" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Jododgeexcludetype" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Jododgeexcludetype.java" binary="false">    
+    <position height="-1" width="-1" x="-1965" y="-2138"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="10" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Jododgework" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Jododgework.java" binary="false">    
+    <position height="802" width="243" x="-2795" y="-2936"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="11" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Jojournal" project="TurboPro" 
+    file="/TurboPro/src/com/turborep/turbopro/job/dao/Jojournal.java" binary="false">    
+    <position height="-1" width="-1" x="-2665" y="-1908"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="12" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Joquotedetail" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Joquotedetail.java" binary="false">    
+    <position height="562" width="336" x="-1094" y="-4033"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="13" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Joquotedetailworkfile" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Joquotedetailworkfile.java" binary="false">    
+    <position height="514" width="322" x="-1067" y="-2915"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="14" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Joquoteheader" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Joquoteheader.java" binary="false">    
+    <position height="1250" width="266" x="-1400" y="-4037"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="15" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Joquotehistory" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Joquotehistory.java" binary="false">    
+    <position height="-1" width="-1" x="-917" y="-3203"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="16" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Joquotetemplatedetail" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Joquotetemplatedetail.java" binary="false">    
+    <position height="562" width="291" x="-1077" y="-2365"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="17" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Joquotetemplateheader" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Joquotetemplateheader.java" binary="false">    
+    <position height="1106" width="303" x="-1067" y="-1786"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="18" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Jorelease" project="TurboPro" 
+    file="/TurboPro/src/com/turborep/turbopro/job/dao/Jorelease.java" binary="false">    
+    <position height="658" width="292" x="-2126" y="-2017"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="19" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Joreleasedetail" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Joreleasedetail.java" binary="false">    
+    <position height="610" width="314" x="-2125" y="-1317"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="20" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Joschedaccessory" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Joschedaccessory.java" binary="false">    
+    <position height="-1" width="-1" x="-1245" y="-924"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="21" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Joschedtempcolumn" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Joschedtempcolumn.java" binary="false">    
+    <position height="-1" width="-1" x="-818" y="-361"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="22" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Joschedtempcolumntype" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Joschedtempcolumntype.java" binary="false">    
+    <position height="-1" width="-1" x="-1256" y="-651"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="23" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Joschedtempheader" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Joschedtempheader.java" binary="false">    
+    <position height="-1" width="-1" x="-1262" y="-357"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="24" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Joscheduledetail" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Joscheduledetail.java" binary="false">    
+    <position height="1666" width="300" x="-1398" y="-2771"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="25" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Joschedulemodel" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Joschedulemodel.java" binary="false">    
+    <position height="1378" width="243" x="-2079" y="-683"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="26" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Jostatus" project="TurboPro" 
+    file="/TurboPro/src/com/turborep/turbopro/job/dao/Jostatus.java" binary="false">    
+    <position height="-1" width="-1" x="-2687" y="-1591"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="27" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Josubmittal" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Josubmittal.java" binary="false">    
+    <position height="578" width="389" x="-2865" y="-1461"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="28" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Josubmittaldetail" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Josubmittaldetail.java" binary="false">    
+    <position height="706" width="343" x="-2843" y="-847"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="29" corner="BOTTOM_RIGHT" language="java" name="com.turborep.turbopro.job.dao.Josubmittalheader" 
+    project="TurboPro" file="/TurboPro/src/com/turborep/turbopro/job/dao/Josubmittalheader.java" binary="false">    
+    <position height="866" width="277" x="-2824" y="-110"/>    
+    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true"/>    
+    <operations public="true" package="true" protected="true" private="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

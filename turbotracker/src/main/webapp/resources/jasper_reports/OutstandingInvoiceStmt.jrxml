@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OutstandingInvoiceStmt" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e6649fc3-9cf3-465f-92d9-80dc396bfeb4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="jobnumber" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT generalcontractor,CustomerPONumber,invoiceNumber, invoiceDate, paymentDate, invoiceAmount ,donotmail,taxtotal,taxrate,taxAmount,subTotal,appliedAmount,freight,Days,
+ (CASE WHEN Days<=30 THEN Balance ELSE NULL END) AS AmtCur , (CASE WHEN Days>30 AND Days<=60 THEN Balance ELSE NULL END) AS Amt30 ,
+(CASE WHEN Days>60 AND Days<=90 THEN Balance ELSE NULL END) AS Amt60 , (CASE WHEN Days>90 THEN Balance ELSE NULL END) AS Amt90,HeaderText,companyLogo,JobNumber,Description,custName
+ FROM
+( SELECT gc.Name AS generalcontractor,cuSO.CustomerPONumber,cuInvoice.invoicenumber AS  invoiceNumber,cuInvoice.invoicedate AS invoiceDate, joReleaseDetail.paymentdate AS paymentDate,
+cuInvoice.InvoiceAmount AS invoiceAmount, cuInvoice.donotmail AS donotmail , cuInvoice.surtaxtotal AS taxtotal , cuInvoice.surtaxrate AS taxrate,
+cuInvoice.surtaxamount AS taxAmount,  cuInvoice.Subtotal AS subTotal,
+cuInvoice.AppliedAmount AS appliedAmount,  cuInvoice.Freight AS freight,TRUNCATE(IFNULL(cuInvoice.InvoiceAmount,0)-(IFNULL(cuInvoice.AppliedAmount,0)+IFNULL(cuInvoice.DiscountAmt,0)),2)  AS Balance,
+ABS(DATEDIFF(cuInvoice.invoicedate,NOW())) AS Days,tsSet.HeaderText,tsSet.companyLogo,joMaster.JobNumber,joMaster.Description,rx.Name AS custName
+ FROM tsUserSetting tsSet,rxMaster rx,joMaster JOIN joReleaseDetail ON joMaster.joMasterid=joReleaseDetail.joMasterid
+JOIN cuInvoice ON joReleaseDetail.joReleaseDetailid=cuInvoice.joReleaseDetailid LEFT JOIN cuSO ON(cuSO.joReleaseID=joReleaseDetail.joReleaseID) LEFT JOIN rxMaster gc ON(joMaster.rxCategory3=gc.rxMasterID)
+WHERE joMaster.rxCustomerID=rx.rxMAsterID AND jobnumber = $P{jobnumber}) AS SubQuery  WHERE Balance<>0 AND invoiceAmount<>0]]>
+	</queryString>
+	<field name="generalcontractor" class="java.lang.String"/>
+	<field name="CustomerPONumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="invoiceNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="invoiceDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="paymentDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="invoiceAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="donotmail" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="taxtotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="taxrate" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="taxAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="subTotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="appliedAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="freight" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Days" class="java.lang.Integer"/>
+	<field name="AmtCur" class="java.math.BigDecimal"/>
+	<field name="Amt30" class="java.math.BigDecimal"/>
+	<field name="Amt60" class="java.math.BigDecimal"/>
+	<field name="Amt90" class="java.math.BigDecimal"/>
+	<field name="HeaderText" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="companyLogo" class="java.io.InputStream">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="JobNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="custName" class="java.lang.String"/>
+	<variable name="AmtCur_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{AmtCur}]]></variableExpression>
+	</variable>
+	<variable name="Amt30_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{Amt30}]]></variableExpression>
+	</variable>
+	<variable name="Amt60_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{Amt60}]]></variableExpression>
+	</variable>
+	<variable name="Amt90_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{Amt90}]]></variableExpression>
+	</variable>
+	<variable name="grandTotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[( ($F{AmtCur} !=null && !$F{AmtCur}.equals("")) ? $F{AmtCur} : new BigDecimal(0))
+.add((( $F{Amt30} !=null && !$F{Amt30}.equals("")) ? $F{Amt30} : new BigDecimal(0)))
+.add((( $F{Amt60} !=null && !$F{Amt60}.equals("")) ? $F{Amt60} : new BigDecimal(0)))
+.add((( $F{Amt90} !=null && !$F{Amt90}.equals("")) ? $F{Amt90} : new BigDecimal(0)))]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="143" splitType="Stretch">
+			<componentElement>
+				<reportElement x="125" y="0" width="299" height="92" uuid="d767587d-ff20-45d7-b717-0164b480bf46"/>
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RetainShape" horizontalAlign="Left" verticalAlign="Middle">
+					<hc:htmlContentExpression><![CDATA[(($F{HeaderText}.replaceAll("`and`nbsp;", " ")).replaceAll("`", "")).replaceAll("amp;"," ")]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
+			<textField>
+				<reportElement x="438" y="53" width="80" height="20" uuid="f65deeda-fe1e-4bfb-9582-b66d96cbdaab"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="424" y="0" width="131" height="26" uuid="e577523e-b475-4bb1-a3c0-6d96d47271c2"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STATEMENT]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="518" y="53" width="26" height="20" uuid="8ba1babc-ed90-45a5-9632-d3348f38f2ca"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="125" height="92" uuid="9fb461dc-3e2e-4008-9265-ff40f15e6eab"/>
+				<imageExpression><![CDATA[$F{companyLogo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="111" y="92" width="56" height="16" uuid="c25913bb-2880-422b-8227-81098bbafe48"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Project  :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="108" width="121" height="16" uuid="35f76741-d9bb-4f2c-9732-2472f9928fcd"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[General Contractor  :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="124" width="96" height="16" uuid="8d856887-4922-47cc-90ae-b163ae08938c"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sub Contractor :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="447" y="92" width="37" height="16" uuid="3d73707b-5e57-4962-b4b6-239abff21d4c"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date :]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="480" y="92" width="66" height="16" uuid="6a89055b-a3a8-4ae6-b8c3-1a90b8c2d16e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="506" y="108" width="40" height="16" uuid="1032839a-9a97-48a3-bc04-a3bd8b2f34f7"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[JOB]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="444" y="125" width="100" height="15" uuid="079cabeb-f784-4e69-92c3-905119d49526"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{JobNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="167" y="92" width="223" height="16" uuid="3d394d4c-4c8c-463a-9fa7-ce82c95a29a6"/>
+				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="167" y="124" width="257" height="15" uuid="270de744-bfe3-42fd-bd81-352774dfcb7e"/>
+				<textFieldExpression><![CDATA[$F{custName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="168" y="108" width="256" height="16" uuid="7922e411-ddeb-49c2-8f05-acb3aad3c842"/>
+				<textFieldExpression><![CDATA[$F{generalcontractor}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="430" y="26" width="120" height="14" uuid="5050b7b0-1fc8-4065-a6ed-ec4eea0cef93"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[OUTSTANDING INVOICES]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="1" width="80" height="20" uuid="d0761520-03d4-4882-868b-bf987a57e5b8"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Invoice #]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="129" y="1" width="45" height="20" uuid="48470ece-d1c7-463e-9183-236fd298cc68"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="175" y="1" width="65" height="20" uuid="c0d2d8e4-5c18-4253-a27d-4bfe392f6205"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="273" y="1" width="60" height="20" uuid="59cd8141-f42d-43d1-bd93-dcdc9744e97f"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Current]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="334" y="1" width="56" height="20" uuid="55de787e-1fa8-4341-b2ac-59f4ff59c97e"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[30]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="391" y="1" width="56" height="20" uuid="a42a749d-02ae-406b-b901-42734a58429e"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[60]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="448" y="1" width="56" height="20" uuid="67857a89-745d-4616-b94a-34bf1830cad7"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[90]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="505" y="1" width="56" height="20" uuid="f26594c4-fee1-4433-8fda-8c4afb118e29"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="1" width="48" height="20" uuid="67dbc7eb-4e39-43c3-bba3-3c87fe202d24"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PO # ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="241" y="1" width="32" height="20" uuid="d4499631-3b9d-4bde-af2e-01675ac4b04f"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Age	]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="80" height="20" isPrintWhenDetailOverflows="true" uuid="a67906d4-f2d8-4e9d-a55d-5a469ea20843"/>
+				<textFieldExpression><![CDATA[$F{invoiceNumber}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="MM/dd" isBlankWhenNull="true">
+				<reportElement x="129" y="0" width="45" height="20" isPrintWhenDetailOverflows="true" uuid="8b20c470-6a2c-40be-af8c-9b909d8f39fe"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{invoiceDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="175" y="0" width="65" height="20" isPrintWhenDetailOverflows="true" uuid="51ba52d6-cccd-4151-9694-b3741972dd1d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{invoiceAmount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="273" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="6e8674f1-f97b-4aa9-9d1c-01ccb2d68bbb"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[($F{AmtCur}.compareTo(new BigDecimal(0))==0?null:$F{AmtCur})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="334" y="0" width="56" height="20" isPrintWhenDetailOverflows="true" uuid="b51d242c-5e5d-4783-b0cc-bfd660808979"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[($F{Amt30}.compareTo(new BigDecimal(0))==0?null:$F{Amt30})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="391" y="0" width="56" height="20" isPrintWhenDetailOverflows="true" uuid="7dab5b0c-7074-421f-9790-a4a022fa2ab0"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[($F{Amt60}.compareTo(new BigDecimal(0))==0?null:$F{Amt60})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="448" y="0" width="56" height="20" isPrintWhenDetailOverflows="true" uuid="25f2c96a-dea2-43a3-bf1f-0f5f9f10c583"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[($F{Amt90}.compareTo(new BigDecimal(0))==0?null:$F{Amt90})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="505" y="0" width="56" height="20" isPrintWhenDetailOverflows="true" uuid="8b11aaa8-a735-4215-b724-deb628bc83d3"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[((
+( ($F{AmtCur} !=null && !$F{AmtCur}.equals("")) ? $F{AmtCur} : new BigDecimal(0))
+.add((( $F{Amt30} !=null && !$F{Amt30}.equals("")) ? $F{Amt30} : new BigDecimal(0)))
+.add((( $F{Amt60} !=null && !$F{Amt60}.equals("")) ? $F{Amt60} : new BigDecimal(0)))
+.add((( $F{Amt90} !=null && !$F{Amt90}.equals("")) ? $F{Amt90} : new BigDecimal(0)))
+).compareTo(new BigDecimal(0))==0?null:
+(
+( ($F{AmtCur} !=null && !$F{AmtCur}.equals("")) ? $F{AmtCur} : new BigDecimal(0))
+.add((( $F{Amt30} !=null && !$F{Amt30}.equals("")) ? $F{Amt30} : new BigDecimal(0)))
+.add((( $F{Amt60} !=null && !$F{Amt60}.equals("")) ? $F{Amt60} : new BigDecimal(0)))
+.add((( $F{Amt90} !=null && !$F{Amt90}.equals("")) ? $F{Amt90} : new BigDecimal(0)))
+)
+)]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="80" y="1" width="48" height="19" isPrintWhenDetailOverflows="true" uuid="696cca9f-aa78-4cd9-8426-a2896812023d"/>
+				<textFieldExpression><![CDATA[$F{CustomerPONumber}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="2" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="25" splitType="Stretch">
+			<line>
+				<reportElement x="263" y="21" width="295" height="1" uuid="32678766-3a75-41a2-9e70-e8a310deb963"/>
+				<graphicElement>
+					<pen lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="263" y="0" width="295" height="1" uuid="5f5987b1-18de-42aa-9178-6e5737df6342"/>
+				<graphicElement>
+					<pen lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="335" y="3" width="58" height="16" uuid="70a84cda-2207-4ecb-9c9d-141923353793"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{Amt30_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="274" y="3" width="58" height="16" uuid="a0f3d403-9a16-471f-8e7c-3cddcbde663a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{AmtCur_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="390" y="3" width="58" height="16" uuid="220a06dc-5e27-4269-bc17-b2aae14e80c8"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{Amt60_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="448" y="3" width="58" height="16" uuid="14c5f167-3930-4c82-8b8e-7dd28ebddb67"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{Amt90_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="506" y="5" width="55" height="14" uuid="7f0377f2-2e7a-43a3-8d85-a22ba597c6dc"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{grandTotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InventoryCount" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="20" bottomMargin="20" uuid="636a4a6d-84ab-4c17-88b8-7f88ce5d7efa">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="warehouseId" class="java.lang.Integer"/>
+	<parameter name="warehouseName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT InActive,IsInventory, prMaster.prMasterID,prMaster.ItemCode,prMaster.Description,prMaster.prDepartmentID,prMaster.prCategoryID,
+(SELECT NAME FROM rxMaster WHERE rxMaster.rxMasterID=prMaster.rxMasterIDPrimaryVendor) AS PrimaryVendor,
+ (SELECT prDepartment.Description FROM prDepartment WHERE prDepartment.prDepartmentID=prMaster.prDepartmentID) AS Department,
+ (SELECT Description FROM prCategory WHERE prCategory.prCategoryID=prMaster.prCategoryID)AS Category,prWarehouseInventory.InventoryOnHand,
+ prInventoryCount.CountedOnHand,prWarehouseInventory.prWarehouseInventoryID,tsSet.HeaderText,tsSet.companyLogo
+  FROM prMaster
+ LEFT JOIN prWarehouseInventory ON prWarehouseInventory.prMasterID = prMaster.prMasterID
+ LEFT JOIN prInventoryCount ON prInventoryCount.prMasterID = prWarehouseInventory.prMasterID
+ LEFT JOIN tsUserSetting tsSet ON tsSet.CompanyID=1
+WHERE prMaster.InActive=0 AND prMaster.IsInventory =1 AND prWarehouseInventory.prWarehouseID=$P{warehouseId} ORDER BY prMaster.ItemCode]]>
+	</queryString>
+	<field name="InActive" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="IsInventory" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prMasterID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ItemCode" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prDepartmentID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prCategoryID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PrimaryVendor" class="java.lang.String"/>
+	<field name="Department" class="java.lang.String"/>
+	<field name="Category" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InventoryOnHand" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CountedOnHand" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prWarehouseInventoryID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="HeaderText" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="companyLogo" class="java.io.InputStream">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="19">
+			<staticText>
+				<reportElement x="0" y="0" width="111" height="18" backcolor="#FFFF33" uuid="74b0801d-46f8-4cc2-8203-e1646f235c27"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Product Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="0" width="244" height="18" backcolor="#FFFF33" uuid="d6d5c6de-c05f-461f-b876-16a7625aac64"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Product Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="0" width="110" height="18" backcolor="#FFFF33" uuid="241feb66-d902-4bca-a738-712d812aaae5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Computer Count]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="465" y="0" width="90" height="18" backcolor="#FFFF33" uuid="4f5d6b14-067a-4cb4-a240-00ce8b205db9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Physical Count]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="111" height="18" uuid="2e30ceca-3c5b-4dee-a1f9-0d162a60046b"/>
+				<textFieldExpression><![CDATA[$F{ItemCode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="0" width="244" height="18" uuid="bf1563b0-a98f-4c56-997e-ff74f99e18d5"/>
+				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0" isBlankWhenNull="true">
+				<reportElement x="355" y="0" width="110" height="18" uuid="4b11ad0a-5c56-4fdf-8439-2b5214e11d4a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{InventoryOnHand}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="465" y="0" width="90" height="18" uuid="e3066206-d5c0-4f3d-84c6-d536babe9e89"/>
+			</rectangle>
+			<line>
+				<reportElement x="3" y="20" width="550" height="1" uuid="93a11656-3ded-4563-a90b-688619f4275c"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

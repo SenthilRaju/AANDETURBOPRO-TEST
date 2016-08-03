@@ -1,0 +1,1 @@
+ALTER TABLE `vePO` ADD COLUMN `wantedOnOrBefore` INT NULL  AFTER `emailTimeStamp` ;

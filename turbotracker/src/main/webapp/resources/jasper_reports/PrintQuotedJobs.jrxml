@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OpenJobs" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="97b459ea-3fc4-4800-93d8-e16164fbabb5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="empName" class="java.lang.String"/>
+	<parameter name="empID" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT DISTINCT DATE_FORMAT(jM.biddate,'%m/%d/%Y') AS BidDate, jM.jobnumber, jM.description, rxMaster.name,
+CONCAT(rxContact.FirstName,' ',rxContact.LastName) AS contact, SUM(joQuoteHeader.quoteamount) as amount,
+(select HeaderText from tsUserSetting) as header,
+(select companylogo from tsUserSetting) as logo
+FROM joMaster jM JOIN joQuoteHeader ON jM.joMasterId=joQuoteHeader.joMasterId
+LEFT JOIN joBidder ON joBidder.joMasterID=jM.joMasterID
+LEFT JOIN rxMaster ON rxMaster.rxMasterID=joBidder.rxMasterID
+LEFT JOIN rxContact ON rxContact.rxContactID=joBidder.rxContactID
+WHERE jM.jobStatus = 1 AND  joBidder.QuoteDate =
+(SELECT MAX(job.QuoteDate) FROM joBidder job WHERE job.joMasterID=jM.joMasterID) AND
+(CASE WHEN $P{empID} ='-1'
+THEN TRUE
+ELSE (jM.cuAssignmentID0 = $P{empID} OR jM.cuAssignmentID1 = $P{empID} OR
+jM.cuAssignmentID2 = $P{empID} OR jM.cuAssignmentID3 = $P{empID} OR jM.cuAssignmentID4 = $P{empID} OR
+ jM.cuAssignmentID5 = $P{empID} OR jM.cuAssignmentID6 = $P{empID})
+END)
+GROUP BY jM.biddate ORDER BY jM.biddate DESC]]>
+	</queryString>
+	<field name="BidDate" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="jobnumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="contact" class="java.lang.String"/>
+	<field name="amount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="header" class="java.lang.String"/>
+	<field name="logo" class="java.io.InputStream"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="152" splitType="Stretch">
+			<staticText>
+				<reportElement x="681" y="10" width="51" height="20" uuid="612b703b-9819-4ae3-8f9b-c7a782267b5c"/>
+				<text><![CDATA[Page no:-]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="762" y="10" width="11" height="20" uuid="a613e1fe-33bc-4464-bd83-3926dfd09f37"/>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="742" y="10" width="20" height="20" uuid="f30bb00e-7768-4995-bf9b-c79a568eb9fd"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="773" y="10" width="19" height="20" uuid="069c6562-5633-4e2b-b620-584aa88e17cb"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="327" y="30" width="164" height="20" uuid="911e6d82-2177-476d-95aa-f0c576ebec39"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[OpenJobs Report]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="30" y="9" width="86" height="20" uuid="cc90241b-da5f-4676-bd30-d3d8ed798884"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<elementGroup>
+				<componentElement>
+					<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="323" y="16" width="250" height="75" uuid="3ee87a01-6304-4ea9-a4dd-d1bba466c3da">
+						<property name="net.sf.jasperreports.export.pdf.tag.tr" value="full"/>
+					</reportElement>
+					<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RealSize" horizontalAlign="Left" verticalAlign="Middle">
+						<hc:htmlContentExpression><![CDATA[(($F{header}.replaceAll("`and`nbsp;", " ")).replaceAll("`", "")).replaceAll("amp;"," ")]]></hc:htmlContentExpression>
+					</hc:html>
+				</componentElement>
+			</elementGroup>
+			<image>
+				<reportElement x="188" y="19" width="145" height="72" uuid="452dba3f-e873-4877-83f8-9cab667d6588"/>
+				<imageExpression><![CDATA[$F{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="353" y="103" width="139" height="29" uuid="9502a241-4874-4aec-aa63-acaad0977854"/>
+				<textElement textAlignment="Center">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[QUOTED JOBS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="127" width="66" height="20" uuid="ea4ef5fe-b552-4348-ae99-fa4933f29f20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Employee: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="436" y="128" width="100" height="20" uuid="458e09c3-bc45-47d3-8548-3b41a06d4980"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="28">
+			<staticText>
+				<reportElement mode="Transparent" x="127" y="1" width="179" height="16" uuid="4087c8fe-22b5-4a51-813d-36f7173b7ea8"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Job Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="668" y="1" width="65" height="16" uuid="8a96e204-16f9-415e-8704-6310b21b74e7"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Job #]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="52" y="1" width="75" height="16" uuid="ad824815-95db-4dc9-9df1-40814bbadc9d"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Bid Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="319" y="1" width="100" height="16" uuid="830ace01-eab0-4b18-9802-3117b89fe991"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Customer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="542" y="1" width="100" height="16" uuid="e52ad129-dfb8-4763-bb61-32f9b8c54c0e"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="428" y="1" width="100" height="16" uuid="ddb77fcd-59b3-455c-96b8-a01b48835a75"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Contact]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21">
+			<textField>
+				<reportElement x="52" y="1" width="75" height="20" uuid="f22d34da-8608-4f72-b13d-856e6f00c6c1"/>
+				<textFieldExpression><![CDATA[$F{BidDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="127" y="3" width="179" height="18" uuid="036caa5d-b4f0-49f2-8c82-0f1564caef20"/>
+				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="319" y="1" width="100" height="20" uuid="0f8617bc-c682-4747-99c3-cfa129955093"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="428" y="3" width="100" height="18" uuid="46c4f0a3-5834-4374-b5ea-c976daf95c77"/>
+				<textFieldExpression><![CDATA[$F{contact}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="542" y="1" width="100" height="20" uuid="d5dfd89d-c175-420d-98d8-c3d0dbe9e321"/>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="668" y="3" width="100" height="18" uuid="709b7412-5a1d-4941-9b0b-d53e1febe4ce"/>
+				<textFieldExpression><![CDATA[$F{jobnumber}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

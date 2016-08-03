@@ -1,0 +1,25 @@
+/* Over writing the Colors */
+.color-yellow {background:#F6E896;}
+.color-green  {background:#8dc100;}
+.color-yellow h3,
+.color-green h3	{color:#000;}
+/* End Colors */
+/* Columns section */
+.widget { width: 472px; }
+.widgetView { width: 202px; }
+#columns .column { width: 472px;}
+#header #menu{ margin:0 auto; padding-top:1px; }
+#columns #column1 .widget .widgetView { margin: 1px 5px 0 0px; border-radius: 8px 8px 8px 8px;}
+#columns #columnLast .widget .widgetView { margin: 1px 15px 0 5px; }
+/* Columns section */
+#columns .column {float:none;width:1140px;/* Min-height: */min-height: 450px;height: auto !important;height: 450px;}
+#moreupcoming ,#morepending,#moreawarded {display:none;background:#ccc;width:1140px;height:30px;padding:20px;}
+#salesmore {font-weight:normal;	font-family:sans-serif;}
+#mainMenuSalesPage {text-decoration:none;color:#FFFFFF; background-color: #003961;}
+#mainMenuSalesPage a{background:url('./../../../resources/styles/turbo-css/images/turbo_app_sales_hover_icon.png') no-repeat 0px 4px;color:#FFF}
+/*#gbox_UpcomingBidsGrid {border-width: 0px;}
+#gbox_PendingQuotesGrid2 {border-width: 0px;}
+#gbox_AwardedContractors {border-width: 0px;}*/
+.bubbletip{width: 859px;}
+.SalesWidgetFooter{background: -moz-linear-gradient(-90deg, #F8F8AB, #CDBF55); background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F8F8AB), to(#CDBF55));}
+.SalesWidgetheader{background: -moz-linear-gradient(-90deg, #CDBF55, #F8F8AB);background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#CDBF55), to(#F8F8AB));}

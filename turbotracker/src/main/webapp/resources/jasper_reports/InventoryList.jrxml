@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="customersettingscsv" language="groovy" pageWidth="900" pageHeight="595" orientation="Landscape" columnWidth="860" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b2608217-bc24-4acc-85cf-2ffc373b7a51">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="143"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="warehouseName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT pr.prMasterID,pr.ItemCode,pr.Description,pw.InventoryOnHand,pw.InventoryAllocated,pw.InventoryOnOrder,pr.Submitted,(pw.InventoryOnHand-pw.InventoryAllocated) AS Available,pd.Description as Department,pc.Description as Category,rx.Name ,COALESCE(pr.AverageCost*pw.InventoryOnHand,"0") AS TotalCost,pr.AverageCost,pwn.SearchName   FROM prMaster pr LEFT JOIN prWarehouseInventory pw ON pr.prMasterID = pw.prMasterID LEFT JOIN prDepartment pd ON pd.prDepartmentID=pr.prDepartmentID LEFT JOIN prCategory pc ON pc.prCategoryID = pr.prCategoryID LEFT JOIN rxMaster rx ON rx.rxMasterID = pr.rxMasterIDPrimaryVendor LEFT JOIN prWarehouse pwn ON pw.prWarehouseID=pwn.prWarehouseID;]]>
+	</queryString>
+	<field name="prMasterID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ItemCode" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InventoryOnHand" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InventoryAllocated" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InventoryOnOrder" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Submitted" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Available" class="java.math.BigDecimal"/>
+	<field name="Department" class="java.lang.String"/>
+	<field name="Category" class="java.lang.String"/>
+	<field name="Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TotalCost" class="java.math.BigDecimal"/>
+	<field name="AverageCost" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SearchName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="139" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="314" y="20" width="276" height="54" uuid="80cfb7a7-1d35-41d8-86fb-92ae5cd4d9c5"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="40" y="114" width="115" height="25" uuid="cd8e081c-5e61-43d5-9062-a5af0b040b24"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ItemCode]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="155" y="114" width="170" height="25" uuid="e1e99476-0bbe-4be8-aa0e-8f3ff8414297"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="325" y="114" width="100" height="25" uuid="5a8b7f4b-72fe-48ec-8d83-4cf2a8389a33"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Department]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="425" y="114" width="100" height="25" uuid="73494665-4ab3-4baa-80c1-9b9f7f02dce1"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Category]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="525" y="114" width="100" height="25" uuid="ecab005b-0b98-48b3-bdd6-edd5ef15a488"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PrimaryVendor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="625" y="114" width="80" height="25" uuid="3e2c2d71-b1f6-4fcc-9a72-bbac1ac8de61"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[On Hand]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="705" y="114" width="84" height="25" uuid="44aa52ad-ae55-4cb0-8ea9-f62b48bc8dda"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[AverageCost]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="789" y="114" width="71" height="25" uuid="128cd57e-b7fa-40b1-b201-1f7f1a9a02e3"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Cost]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="345" y="34" width="205" height="20" uuid="b10f07ae-f844-4be1-844a-7a030002e4c8"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Inventory - "+$P{warehouseName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="40" height="20" uuid="caa73643-00e2-4c5b-960f-76ecc49d8082"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="40" y="0" width="115" height="20" uuid="fa0043bc-257f-4900-aaab-6913ba4cc599"/>
+				<textFieldExpression><![CDATA[$F{ItemCode}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="155" y="0" width="170" height="20" uuid="c44065de-c4c0-4412-be47-1e10a796c061"/>
+				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="425" y="0" width="100" height="20" uuid="ed543dd4-56c1-4134-be26-c421447d1193"/>
+				<textFieldExpression><![CDATA[$F{Category}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="325" y="0" width="100" height="20" uuid="619e8300-23c6-4346-bb8e-75466586582c"/>
+				<textFieldExpression><![CDATA[$F{Department}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="525" y="0" width="100" height="20" uuid="f095a41b-e240-4747-a358-65ab5a9d4593"/>
+				<textFieldExpression><![CDATA[$F{Name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="625" y="0" width="80" height="20" uuid="cf91ca37-3a2f-4e8d-8d08-8948b169d5df"/>
+				<textFieldExpression><![CDATA[$F{InventoryOnHand}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="705" y="0" width="84" height="20" uuid="55fc586d-2f63-43f9-84ff-d323c48a66e0"/>
+				<textFieldExpression><![CDATA[$F{AverageCost}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="789" y="0" width="71" height="20" uuid="3ae8a6bf-958d-41c8-8c9f-16246f6cdfef"/>
+				<textFieldExpression><![CDATA[$F{TotalCost}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

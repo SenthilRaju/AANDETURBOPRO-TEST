@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="quotePdf" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d752bcc0-8103-472a-9832-45ee651a0212">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<style name="table" fill="Solid" scaleImage="FillFrame" hAlign="Center" markup="none" isStrikeThrough="false"/>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF"/>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF"/>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF"/>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="project" class="java.lang.String"/>
+	<parameter name="location" class="java.lang.String"/>
+	<parameter name="quoteto" class="java.lang.String"/>
+	<parameter name="attention" class="java.lang.String"/>
+	<parameter name="quote" class="java.lang.String"/>
+	<parameter name="biddate" class="java.lang.String"/>
+	<parameter name="architect" class="java.lang.String"/>
+	<parameter name="Engineer" class="java.lang.String"/>
+	<parameter name="plandate" class="java.lang.String"/>
+	<parameter name="revision" class="java.lang.String"/>
+	<parameter name="submittedby" class="java.lang.String"/>
+	<parameter name="dated" class="java.lang.String"/>
+	<parameter name="thruaddendum" class="java.lang.String"/>
+	<parameter name="joQuoteTemplateHeaderID" class="java.lang.String"/>
+	<parameter name="total_show" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[new Boolean(true)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Dir" class="java.lang.String">
+		<defaultValueExpression><![CDATA["D:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\turbotracker\\resources\\jasper_reports\\QuoteLineItemTemplatePdfsubreport.jasper"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="inlinenoteshow" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[new Boolean(false)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="remarks" class="java.lang.String"/>
+	<parameter name="footernotes_show" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[new Boolean(true)]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT *,IF (ROUND(Price,2)=0.00,"",CONCAT(FORMAT(@n := @n + 1 ,0),".")) AS rownum,IF(ISNULL (alphacheckfoot),0,(@q := @q + 1)+96) AS footerrownum FROM
+(SELECT (SELECT headertext FROM tsUserSetting) AS header,
+(SELECT companylogo FROM tsUserSetting) AS logo,
+(SELECT Terms FROM tsUserSetting)AS terms,jqd.joQuoteTemplateDetailID, jqd.joQuoteTemplateHeaderID, IF(ISNULL (jqd.Product),"",jqd.Product) AS Product,
+IF(ISNULL (jqd.ProductNote),"",jqd.ProductNote) AS ProductNote,jqd.ProductNote as alphacheckfoot, jqd.ItemQuantity,
+IF(ISNULL (jqd.Paragraph),"",jqd.Paragraph) AS Paragraph, IF (FORMAT(jqd.Price,2)=0.00,"",FORMAT(jqd.Price,2)) AS Price,
+ROUND(jqd.Price,2) AS Pricefortotal, ROUND(jqd.Cost,2) AS Cost,jqd.InlineNote AS InlineNote,
+ IF(ISNULL (rxm.Name ),"",rxm.Name)AS Manufacturer, jqd.rxManufacturerID,
+ jqd.veFactoryID, jqd.position, IF(ISNULL (jqd.Spec),"",jqd.Spec) AS Spec,IF(ISNULL (jqd.Mult),"",IF(ROUND(jqd.Mult,2)=0.00,"",ROUND(jqd.Mult,2))) AS Mult,
+ IF(ISNULL (jqprop.italicItem),"0",jqprop.italicItem) AS italicItem,IF(ISNULL (jqprop.underlineItem),"0",jqprop.underlineItem) AS underlineItem,
+ IF(ISNULL (jqprop.boldItem),"0",jqprop.boldItem) AS boldItem,IF(ISNULL (jqprop.italicQuantity),"0",jqprop.italicQuantity) AS italicQuantity,
+ IF(ISNULL (jqprop.underlineQuantity),"0",jqprop.underlineQuantity) AS underlineQuantity,IF(ISNULL (jqprop.boldQuantity),"0",jqprop.boldQuantity) AS boldQuantity,
+ IF(ISNULL (jqprop.italicParagraph),"0",jqprop.italicParagraph) AS italicParagraph,IF(ISNULL (jqprop.underlineParagraph),"0",jqprop.underlineParagraph) AS underlineParagraph,
+ IF(ISNULL (jqprop.boldParagraph),"0",jqprop.boldParagraph) AS boldParagraph,IF(ISNULL (jqprop.italicManufacturer),"0",jqprop.italicManufacturer) AS italicManufacturer,
+ IF(ISNULL (jqprop.underlineManufacturer),"0",jqprop.underlineManufacturer) AS underlineManufacturer,IF(ISNULL (jqprop.boldManufacturer),"0",jqprop.boldManufacturer) AS boldManufacturer,
+ IF(ISNULL (jqprop.italicSpec),"0",jqprop.italicSpec) AS italicSpec,IF(ISNULL (jqprop.underlineSpec),"0",jqprop.underlineSpec) AS underlineSpec,
+ IF(ISNULL (jqprop.boldSpec),"0",jqprop.boldSpec) AS boldSpec,IF(ISNULL (jqprop.italicMult),"0",jqprop.italicMult) AS italicMult,
+ IF(ISNULL (jqprop.underlineMult),"0",jqprop.underlineMult) AS underlineMult,IF(ISNULL (jqprop.boldMult),"0",jqprop.boldMult) AS boldMult,
+ IF(ISNULL (jqprop.italicPrice),"0",jqprop.italicPrice) AS italicPrice,IF(ISNULL (jqprop.underlinePrice),"0",jqprop.underlinePrice) AS underlinePrice,
+ IF(ISNULL (jqprop.boldPrice),"0",jqprop.boldPrice) AS boldPrice
+  FROM joQuoteTemplateDetail jqd
+  LEFT JOIN joQLineItemsTempProp jqprop ON jqd.joQuoteTemplateDetailID=jqprop.joQuoteTemplateDetailID
+  LEFT JOIN rxMaster rxm ON(jqd.rxManufacturerID=rxm.rxMasterID) WHERE jqd.joQuoteTemplateHeaderID =  $P{joQuoteTemplateHeaderID}
+  ORDER BY jqd.position) dummy , (SELECT @n := 0) m,(SELECT @q := 0) r]]>
+	</queryString>
+	<field name="header" class="java.lang.String"/>
+	<field name="logo" class="java.io.InputStream"/>
+	<field name="terms" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joQuoteTemplateDetailID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joQuoteTemplateHeaderID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Product" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ProductNote" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="alphacheckfoot" class="java.lang.String"/>
+	<field name="ItemQuantity" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Paragraph" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Price" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Pricefortotal" class="java.math.BigDecimal"/>
+	<field name="Cost" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InlineNote" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Manufacturer" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxManufacturerID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="veFactoryID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="position" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Spec" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Mult" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="italicItem" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="underlineItem" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="boldItem" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="italicQuantity" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="underlineQuantity" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="boldQuantity" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="italicParagraph" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="underlineParagraph" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="boldParagraph" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="italicManufacturer" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="underlineManufacturer" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="boldManufacturer" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="italicSpec" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="underlineSpec" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="boldSpec" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="italicMult" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="underlineMult" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="boldMult" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="italicPrice" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="underlinePrice" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="boldPrice" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="@n := 0" class="java.lang.Integer"/>
+	<field name="@q := 0" class="java.lang.Integer"/>
+	<field name="rownum" class="java.lang.String"/>
+	<field name="footerrownum" class="java.lang.Long"/>
+	<variable name="Price_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{Pricefortotal}]]></variableExpression>
+	</variable>
+	<variable name="Pricefortotal_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{Pricefortotal}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="253" splitType="Stretch">
+			<image>
+				<reportElement positionType="Float" x="0" y="34" width="202" height="114" uuid="299d7a9c-c008-4fd6-9bec-11399a843abc"/>
+				<imageExpression><![CDATA[$F{logo}]]></imageExpression>
+			</image>
+			<componentElement>
+				<reportElement x="297" y="54" width="257" height="94" isPrintWhenDetailOverflows="true" uuid="ffe65582-b732-4547-b08d-a06ebdef3a8d"/>
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RetainShape" horizontalAlign="Left" verticalAlign="Middle">
+					<hc:htmlContentExpression><![CDATA[(($F{header}.replaceAll("`and`nbsp;", " ")).replaceAll("`", "")).replaceAll("amp;"," ")]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
+			<staticText>
+				<reportElement x="298" y="22" width="257" height="33" uuid="498b0bd6-cba0-41b3-a5d4-6dd26fce94c2"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[QUOTES]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="152" width="555" height="76" uuid="b7f67139-86a8-47d7-83f3-3e1b0dc8a760"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="152" width="71" height="15" uuid="41993939-7f72-47fe-a69a-ba4514e6af87"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROJECT:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="166" width="71" height="15" uuid="e50aee77-9502-4215-a3a6-e7eef7466199"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LOCATION:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="181" width="71" height="15" uuid="69d75b99-796f-434c-b41c-5c73f3020c95"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[QUOTE TO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-12" y="196" width="82" height="15" uuid="a23ac53b-3ad7-4cd4-9da1-69eb5fe72d19"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ATTENTION:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="211" width="71" height="15" uuid="2e9a3745-2a5e-4ca3-9cb8-8d18b6863072"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[QUOTE #:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="278" y="152" width="1" height="76" uuid="48315ea8-8cca-4808-b5d8-3565a248498d"/>
+			</line>
+			<staticText>
+				<reportElement x="278" y="152" width="71" height="15" uuid="0ea865d7-7f18-493b-b62c-11b0ec961b75"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BID DATE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="279" y="181" width="71" height="15" uuid="9fa6103b-1005-4d59-b70d-9f6f0f41abe4"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ENGINEER:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="279" y="196" width="71" height="15" uuid="478437eb-ceaa-4836-8306-9b5d615c3e11"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PLAN DATE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="271" y="211" width="78" height="15" uuid="b2ac15c3-1ef8-46ee-a58f-7545f32d2f8f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REVISION #:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="77" y="153" width="200" height="15" isPrintWhenDetailOverflows="true" uuid="37bbf89f-6e58-4286-a75a-93e6a3dd1706"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{project}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="77" y="167" width="201" height="15" isPrintWhenDetailOverflows="true" uuid="fd833056-ff92-4cde-bc56-b11e2370567c"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{location}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="77" y="182" width="201" height="15" isPrintWhenDetailOverflows="true" uuid="848fe612-9318-4590-87e2-73aceed3670b"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{quoteto}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="77" y="197" width="201" height="15" isPrintWhenDetailOverflows="true" uuid="8df30c2c-452a-4cf6-8138-abdb4d522f54"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{attention}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="77" y="212" width="201" height="15" isPrintWhenDetailOverflows="true" uuid="7d264a94-2e1f-480a-b0ee-4bd4a02abc01"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{quote}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="357" y="152" width="197" height="15" isPrintWhenDetailOverflows="true" uuid="710727ac-9499-4516-8e7c-24fe26d48e0f"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{biddate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="357" y="166" width="198" height="15" isPrintWhenDetailOverflows="true" uuid="a3827723-ef04-4c5c-82d6-96a3c45a725d"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{architect}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="357" y="181" width="198" height="15" isPrintWhenDetailOverflows="true" uuid="d15a6e88-77bf-47ba-9c85-49a5bc0ca109"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Engineer}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="357" y="197" width="196" height="15" isPrintWhenDetailOverflows="true" uuid="6a40a5e8-b230-452a-b3d8-eebbbae21641"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{plandate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="357" y="213" width="198" height="15" isPrintWhenDetailOverflows="true" uuid="be541817-5a0f-47c1-9235-c76c96df99dd"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{revision}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="434" y="0" width="100" height="20" uuid="02f188ae-143c-4813-a09a-3ca306690d6e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Page:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="534" y="0" width="21" height="20" uuid="71089748-de02-4b2d-baa7-fde7adf8864e"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="271" y="166" width="79" height="15" uuid="ecdba8b1-7d20-4d26-b0a7-0db3d0cf9f27"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ARCHITECT:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="2" y="232" width="551" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="88b8d7e0-d61c-4e1a-a0c9-9a7d7612be3a"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[(($F{terms}.replaceAll("`and`nbsp;", " ")).replaceAll("`", "")).replaceAll("amp;"," ").replaceAll("Helvetica","SansSerif").replaceAll("Arial","SansSerif").replaceAll("Courier New","SansSerif").replaceAll("Times New Roman","SansSerif")]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnFooter>
+		<band height="20">
+			<staticText>
+				<reportElement mode="Transparent" x="378" y="0" width="49" height="20" uuid="1d6ce8a6-ec25-4ee0-9be7-8b045e9a1e6d">
+					<printWhenExpression><![CDATA[new Boolean($P{total_show})]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="427" y="0" width="124" height="20" uuid="4db3f834-5173-4ed4-bfcf-03d641446b75">
+					<printWhenExpression><![CDATA[new Boolean($P{total_show})]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{Pricefortotal_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="38">
+			<rectangle>
+				<reportElement x="2" y="6" width="551" height="29" uuid="2c792fb3-644f-495d-8f16-8459b74cd53d"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="346" y="12" width="100" height="20" uuid="b5d498d3-d49d-4a0b-a4b3-37431e313588"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[THRU ADDENDUM: ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="448" y="12" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="39047e64-9bc3-461c-b7d3-c52bca46ca87"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{thruaddendum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="11" width="63" height="20" uuid="01368971-968b-4091-935e-5429cc11f9af"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Submitted By : ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="73" y="11" width="120" height="20" isPrintWhenDetailOverflows="true" uuid="b54bd61c-d52a-4e0f-ab88-d5898f1d8da6"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{submittedby}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="201" y="11" width="47" height="20" uuid="1a4b6680-298f-4204-b53e-e00a509e6d85"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Dated :  ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="248" y="11" width="89" height="20" isPrintWhenDetailOverflows="true" uuid="882998b6-7ff6-42e3-93e9-7fb1bb736a48"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dated}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="196" y="7" width="1" height="29" uuid="4eda7a3e-2cc5-4812-a224-68f4ee8679cb"/>
+			</line>
+			<line>
+				<reportElement x="342" y="6" width="1" height="29" uuid="7c5bf04e-be62-4596-b0d1-d54c8e600f7f"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="87">
+			<subreport>
+				<reportElement x="2" y="41" width="551" height="45" uuid="15a6b1cf-e756-4c22-9912-7fb1624a694e"/>
+				<subreportParameter name="joQuoteTemplateHeaderID">
+					<subreportParameterExpression><![CDATA[$P{joQuoteTemplateHeaderID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="inlinenoteshow">
+					<subreportParameterExpression><![CDATA[$P{inlinenoteshow}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="submittedby">
+					<subreportParameterExpression><![CDATA[$P{submittedby}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="dated">
+					<subreportParameterExpression><![CDATA[$P{dated}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="footernotes_show">
+					<subreportParameterExpression><![CDATA[$P{footernotes_show}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="thruaddendum">
+					<subreportParameterExpression><![CDATA[$P{thruaddendum}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{Dir}]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="0" y="6" width="100" height="15" isRemoveLineWhenBlank="true" uuid="ebc208b2-dd90-436a-a2bc-66de2610152e">
+					<printWhenExpression><![CDATA[( $P{remarks}.equals( null ) ||$P{remarks}.equals("") ||$P{remarks}.length()==0  ? new Boolean(false) : new Boolean(true) )]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Serif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Remarks:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="21" width="531" height="15" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="0c6566b0-e465-4712-b08a-025583a907cc">
+					<printWhenExpression><![CDATA[( $P{remarks}.equals( null ) ||$P{remarks}.equals("") ||$P{remarks}.length()==0  ? new Boolean(false) : new Boolean(true) )]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{remarks}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,28 @@
+
+p{font-family:times new roman,serif;font-size:10.0pt;
+margin:0 !important;
+line-height: 1.0;
+}
+ol,ul
+{
+	font-family:times new roman,serif;font-size:10.0pt;
+	/* IE7: reset rtl list margin. (#7334) */
+	*margin-top: 0px;
+	line-height: 1.0 !important;
+	padding-top:10px;
+	padding-bottom:0px;
+	/* preserved spaces for list items with text direction other than the list. (#6249,#8049)*/
+	
+}
+li
+{
+	font-family:times new roman,serif;font-size:10.0pt;
+	/* IE7: reset rtl list margin. (#7334) */
+	*margin-top: 0px;
+	line-height: 1.0 !important;
+	/* preserved spaces for list items with text direction other than the list. (#6249,#8049)*/
+}
+.testterm > p {
+   margin: 10px !important;
+     line-height:1.0 !important;
+}

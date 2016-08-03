@@ -1,0 +1,5 @@
+ALTER TABLE `BacheCompany`.`joQuoteProperties` 
+ADD COLUMN `NotesFullWidth` TINYINT(4) NOT NULL DEFAULT 0 AFTER `UserLoginID`,
+ADD COLUMN `LineNumbers` TINYINT(4) NOT NULL DEFAULT 0 AFTER `NotesFullWidth`,
+ADD COLUMN `PrintTotal` TINYINT(4) NOT NULL DEFAULT 0 AFTER `LineNumbers`,
+ADD COLUMN `HidePrice` TINYINT(4) NOT NULL DEFAULT 0 AFTER `PrintTotal`;

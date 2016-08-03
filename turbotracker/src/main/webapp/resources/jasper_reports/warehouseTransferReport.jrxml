@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CuInvoiceReport" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6aed2f05-f8c9-46d8-8bec-5d8ef976ac47">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="120"/>
+	<parameter name="prTransferID" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT CASE WHEN detail.Description IS NULL THEN '' ELSE detail.Description END AS Description
+,CASE WHEN detail.QuantityTransfered IS NULL THEN '' ELSE detail.QuantityTransfered END AS QuantityTransfered
+,CASE WHEN detail.QuantityAvailable IS NULL THEN '' ELSE detail.QuantityAvailable END AS QuantityAvailable
+,TransferDate,TransNumber,pr.Description,ReceivedDate
+,(SELECT warehoue.city FROM prWarehouse warehoue WHERE pr.prFromWarehouseID = warehoue.prWarehouseID) AS fromCity
+,(SELECT warehoue.city FROM prWarehouse warehoue WHERE pr.prToWarehouseID = warehoue.prWarehouseID) AS toCity
+,(SELECT headertext FROM tsUserSetting) AS header
+,(SELECT companylogo FROM tsUserSetting) AS logo
+,prm.ItemCode AS ItemCode
+FROM prWHtransfer pr LEFT JOIN prWHtransferDetail detail ON pr.prTransferID = detail.prTransferID LEFT JOIN prMaster prm ON detail.prMasterID=prm.prMasterID WHERE pr.prTransferID = $P{prTransferID}]]>
+	</queryString>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QuantityTransfered" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QuantityAvailable" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TransferDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TransNumber" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ReceivedDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fromCity" class="java.lang.String"/>
+	<field name="toCity" class="java.lang.String"/>
+	<field name="header" class="java.lang.String"/>
+	<field name="logo" class="java.io.InputStream"/>
+	<field name="ItemCode" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="Number" class="java.lang.String">
+		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="245" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="62" y="11" width="416" height="45" uuid="8e98059d-968c-4356-a91a-850515bea21a"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="184" y="25" width="183" height="20" uuid="b2e69f1c-07a0-46d4-bf6a-6cac62a6098f"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Warehouse Transfer]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement x="11" y="141" width="268" height="91" uuid="94e03b5d-9211-46b4-bc63-7f57b6bc1f6a"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="304" y="141" width="229" height="91" uuid="83c8f0f6-668f-4d14-8a6d-7cfe4810eff5"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="24" y="151" width="75" height="20" uuid="25d7c0c9-f50f-4f57-acc1-b2c02a77602b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Transfer Date : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="171" width="101" height="20" uuid="dcf66ae8-5571-4808-80bc-840ac8b63578"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Transaction Number :]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="144" y="171" width="79" height="20" isPrintWhenDetailOverflows="true" uuid="40a680ee-b033-433a-9015-95f2cc5137db"/>
+				<textFieldExpression><![CDATA[$F{TransNumber}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="25" y="191" width="100" height="20" uuid="82e2936c-3cd5-4728-8007-f943ff5d5cf3"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Received Date : ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="144" y="191" width="79" height="20" isPrintWhenDetailOverflows="true" uuid="45263adc-2b34-4e21-97ff-b8c8c6e9f19d"/>
+				<textFieldExpression><![CDATA[$F{ReceivedDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="317" y="151" width="62" height="20" uuid="a7777ad8-a798-4b33-a86f-c9f113182bf9"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[From City :]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="421" y="151" width="84" height="20" isPrintWhenDetailOverflows="true" uuid="507cc5aa-83fc-442f-a214-3112d0d82217"/>
+				<textFieldExpression><![CDATA[$F{fromCity}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="317" y="181" width="62" height="20" uuid="cce62454-abec-493c-a2c7-35fe1a00da47"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[To City : ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="421" y="181" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="b1ece5ae-1690-4b8b-849e-18fb61442a05"/>
+				<textFieldExpression><![CDATA[$F{toCity}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="179" y="69" width="200" height="52" uuid="be07a969-203c-4b4a-946e-1e13236e7a8c"/>
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RetainShape" horizontalAlign="Left" verticalAlign="Middle">
+					<hc:htmlContentExpression><![CDATA[(($F{header}.replaceAll("`and`nbsp;", " ")).replaceAll("`", "")).replaceAll("amp;"," ")]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
+			<image>
+				<reportElement x="76" y="69" width="100" height="50" uuid="a5d96e94-55bd-4f7f-ad79-ae9847470ab7"/>
+				<imageExpression><![CDATA[$F{logo}]]></imageExpression>
+			</image>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="144" y="151" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="06ea4727-fe71-4b47-aa4a-2adbb5e5352d"/>
+				<textFieldExpression><![CDATA[$F{TransferDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="24" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="125" y="1" width="68" height="21" uuid="2d0cf656-8fe4-4c93-83c7-fc405881ac86"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Description ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="317" y="1" width="100" height="21" uuid="2c23992f-a79d-4807-971c-a7f0b6c31769"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Transfer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="433" y="1" width="100" height="21" uuid="57bf04d7-f8b5-41fe-b09a-349878c61a6c"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[On Hand]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="1" width="68" height="21" uuid="0b5983fd-510b-43f5-b874-884d8a547580"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Item Code ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="93" y="1" width="211" height="18" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="243e0707-1a59-4cd4-b656-9e0a0f53af0e"/>
+				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="317" y="1" width="100" height="18" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="33ecfb1e-293c-4ca6-b3cf-dcc9c7555b20"/>
+				<textFieldExpression><![CDATA[$F{QuantityTransfered}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="433" y="1" width="100" height="18" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="24656c38-9c3a-4305-b559-fae2d783f116"/>
+				<textElement textAlignment="Left" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{QuantityAvailable}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="8" y="1" width="68" height="18" isPrintWhenDetailOverflows="true" uuid="3c5095f2-f349-4fc0-a1f2-8375472661ab"/>
+				<textFieldExpression><![CDATA[$F{ItemCode}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="44" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

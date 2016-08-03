@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Banking Filter" language="groovy" pageWidth="650" pageHeight="842" columnWidth="610" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ee1c03d3-4fc0-49fd-8965-f4c2565e9c3c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="delete" class="java.lang.String"/>
+	<parameter name="wright" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT *,CASE WHEN moTransaction.rxMasterID IS NULL THEN description ELSE (SELECT NAME FROM rxMaster WHERE  rxMasterID=moTransaction.rxMasterID) END 'namedescription' FROM moTransaction WHERE moAccountID =1 AND IF(amount < 0, amount*-1, amount)  =100 ORDER BY
+transactionDate ASC;]]>
+	</queryString>
+	<field name="moTransactionID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxMasterID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxAddressID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="coAccountID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="moAccountID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TransactionDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="moTransactionTypeID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CheckType" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Reference" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Void" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Reconciled" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TempRec" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Printed" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Amount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DirectDeposit" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="balance" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="status" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="memo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="namedescription" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="98" y="0" width="512" height="20" uuid="14aae7d2-f207-4187-a952-d2a9308fd3bc"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Banking Transactions]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+			<staticText>
+				<reportElement x="16" y="1" width="82" height="20" uuid="0cafef99-d0df-4893-9164-4e7de76b38d4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="98" y="1" width="190" height="20" uuid="2f839d3b-cbbe-4fc1-9d05-faa7183894c7"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="288" y="0" width="74" height="20" uuid="194a350a-d0ac-42f2-8138-e4c75f954d98"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reference]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="0" width="65" height="20" uuid="c9e21d93-1c54-4673-a5be-3a41196b0d67"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Deposit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="429" y="0" width="80" height="20" uuid="f168eced-3217-4831-9502-ea05662b98ca"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Withdrawal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="510" y="1" width="100" height="20" uuid="694e6bc0-6324-4931-a2a9-a66b950e3d3d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Balance]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="98" y="0" width="190" height="24" uuid="d56501f5-a622-4c99-85dd-6ece919344ae"/>
+				<textFieldExpression><![CDATA[$F{namedescription}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="288" y="1" width="72" height="24" isPrintWhenDetailOverflows="true" uuid="fa64f412-09cb-47bc-92b1-3fba05646eba"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{Reference}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="360" y="1" width="70" height="24" uuid="0de5bf61-3afc-4d7c-96b5-8aeb5b3eab31"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Amount}.compareTo(BigDecimal.ZERO)>0?$F{Amount}:BigDecimal.ZERO]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="430" y="1" width="80" height="24" uuid="4b3fbd61-9fcb-4d9d-9f5e-817ffc31a65b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Amount}.compareTo(BigDecimal.ZERO )<0?$F{Amount}.abs():BigDecimal.ZERO]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="6" y="4" width="10" height="10" uuid="b0d9df66-dbca-4635-bf01-463e61cc8f1c">
+					<printWhenExpression><![CDATA[($F{status}==false&&$F{Reconciled}==0)?(new Boolean(false)):
+new Boolean(true)]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[($F{Reconciled}==1)?$P{wright}:
+   ( ($F{Reconciled}==1 &&$F{status}==true)?$P{wright}:$P{delete})]]></imageExpression>
+			</image>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="16" y="0" width="82" height="24" uuid="4a9e3f94-5039-4fab-90cd-58b909f5aae6"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{TransactionDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="510" y="1" width="100" height="24" uuid="47f3bfdc-4ff6-462f-8003-5a2d8b1b9493"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{balance}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

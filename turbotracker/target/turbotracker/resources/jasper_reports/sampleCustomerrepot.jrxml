@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sampleCustomerrepot" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" >
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="rxCustomerID" class="java.lang.String"/>
+	<parameter name="statementDate" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT
+(select HeaderText from  tsUserSetting as headerAddress), rm.`Name`,
+     ra.`address1`,
+     ra.`address2`,
+     ra.`city`,
+     ra.`state`,
+     (SELECT Description from cuTerms where cuTermsID = I.cuTermsID limit 1) as termsDescription,
+     I.*,(CASE WHEN J.Description IS NULL THEN I.InvoiceNumber ELSE J.JobNumber END)  AS JobNumber
+     , J.joMasterID, (CASE WHEN J.Description IS NULL THEN
+I.QuickJobName ELSE J.Description END)  AS JobName
+FROM joReleaseDetail AS R
+LEFT JOIN cuInvoice AS I ON R.joReleaseDetailID = I.joReleaseDetailID
+LEFT JOIN joMaster AS J ON R.joMasterID = J.joMasterID
+join rxMaster as rm on rm.rxMasterID = I.rxCustomerID
+join rxAddress as ra on ra.rxMasterID = I.rxCustomerID
+WHERE I.rxCustomerID =($P{rxCustomerID}) ORDER BY I.InvoiceDate ;]]>
+	</queryString>
+	<field name="(select HeaderText from  tsUserSetting as headerAddress)" class="java.lang.String"/>
+	<field name="Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="address1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="address2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="city" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="state" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="termsDescription" class="java.lang.String"/>
+	<field name="cuInvoiceID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CreatedByID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CreatedOn" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ChangedByID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ChangedOn" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TransactionStatus" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Applied" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joReleaseDetailID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuSOID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxCustomerID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxBillToID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxBillToAddressID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxShipToID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxShipToAddressID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="veShipViaID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prFromWarehouseID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prToWarehouseID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuTermsID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ShipToMode" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="coTaxTerritoryID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InvoiceNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CustomerPONumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QuickJobName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InvoiceDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ShipDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DueDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PrintDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InvoiceAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AppliedAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Freight" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CostTotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Subtotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxTotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxRate" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuAssignmentID0" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuAssignmentID1" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuAssignmentID2" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuAssignmentID3" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuAssignmentID4" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TrackingNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SurtaxOverrideCap" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SurtaxTotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SurtaxRate" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SurtaxAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SingleItemTaxAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="coDivisionID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="FreightCost" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DoNotMail" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt1" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt2" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt3" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt4" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt5" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt6" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt7" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt8" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt0" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CreditMemo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="IsCredit" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Note" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="HasGrandfatherRate" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QuickEntry" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MethodSent" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="JobNumber" class="java.lang.String"/>
+	<field name="joMasterID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="JobName" class="java.lang.String"/>
+	<variable name="appliedAmount" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{AppliedAmount}]]></variableExpression>
+	</variable>
+	<variable name="InvoiceAmount_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Customer" calculation="Sum">
+		<variableExpression><![CDATA[$F{InvoiceAmount}]]></variableExpression>
+	</variable>
+	<variable name="TotalAmount" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{InvoiceAmount}.subtract($F{AppliedAmount}).setScale(2, RoundingMode.CEILING)]]></variableExpression>
+	</variable>
+	<group name="Customer" isStartNewColumn="true" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{rxCustomerID}]]></groupExpression>
+		<groupHeader>
+			<band height="145">
+				<rectangle radius="10">
+					<reportElement x="488" y="83" width="84" height="25" />
+				</rectangle>
+				<rectangle radius="10">
+					<reportElement x="0" y="83" width="223" height="61" />
+				</rectangle>
+				<staticText>
+					<reportElement x="395" y="29" width="178" height="20" />
+					<textElement>
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[OUTSTANDING INVOICES]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="406" y="0" width="166" height="29" />
+					<textElement>
+						<font size="24" isBold="true"/>
+					</textElement>
+					<text><![CDATA[STATEMENT]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement x="0" y="0" width="254" height="75" />
+					<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RetainShape" horizontalAlign="Left" verticalAlign="Middle">
+						<hc:htmlContentExpression><![CDATA[$F{(select HeaderText from  tsUserSetting as headerAddress)}.replaceAll("`and`amp;", "&")]]></hc:htmlContentExpression>
+					</hc:html>
+				</componentElement>
+				<textField>
+					<reportElement x="107" y="100" width="100" height="14" />
+					<textFieldExpression><![CDATA[$F{address1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="107" y="86" width="100" height="14" />
+					<textFieldExpression><![CDATA[$F{Name}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="107" y="114" width="100" height="14" >
+						<printWhenExpression><![CDATA[$F{address2}!=null]]></printWhenExpression>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{address2}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="167" y="128" width="40" height="16" />
+					<textFieldExpression><![CDATA[$F{state}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="107" y="128" width="60" height="16" />
+					<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="13" y="89" width="62" height="20" />
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SOLD TO:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="401" y="87" width="90" height="20" />
+					<textElement>
+						<font size="12" isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Dated On : ]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="500" y="86" width="66" height="20" />
+					<textFieldExpression><![CDATA[$P{statementDate}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="50">
+				<rectangle>
+					<reportElement x="0" y="28" width="109" height="20" backcolor="#F7F6CA" />
+				</rectangle>
+				<rectangle>
+					<reportElement mode="Opaque" x="109" y="28" width="78" height="20" backcolor="#F7F6CA" />
+				</rectangle>
+				<rectangle>
+					<reportElement x="187" y="28" width="156" height="20" backcolor="#F7F6CA" />
+				</rectangle>
+				<rectangle>
+					<reportElement x="343" y="28" width="76" height="20" backcolor="#F7F6CA" />
+				</rectangle>
+				<rectangle>
+					<reportElement x="493" y="28" width="71" height="20" backcolor="#F7F6CA" />
+				</rectangle>
+				<staticText>
+					<reportElement mode="Transparent" x="500" y="30" width="69" height="20" backcolor="#F7F6CA" />
+					<textElement>
+						<font isBold="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[BALANCE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="350" y="29" width="107" height="18" />
+					<textElement>
+						<font isBold="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[YOUR PO#]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="199" y="30" width="144" height="20" backcolor="#F7F6CA" />
+					<textElement textAlignment="Center">
+						<font isBold="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[JOB NAME]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="24" y="32" width="85" height="17" backcolor="#F7F6CA" />
+					<textElement>
+						<font isBold="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[INVOICE#]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="127" y="31" width="60" height="17" backcolor="#F7F6CA" />
+					<textElement>
+						<font isBold="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[DATE]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement x="419" y="28" width="73" height="20" backcolor="#F7F6CA" />
+				</rectangle>
+				<staticText>
+					<reportElement mode="Transparent" x="425" y="30" width="69" height="20" backcolor="#F7F6CA" />
+					<textElement textAlignment="Justified">
+						<font isBold="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[AMOUNT]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="37">
+				<rectangle radius="10">
+					<reportElement x="0" y="2" width="223" height="31" />
+				</rectangle>
+				<textField>
+					<reportElement x="12" y="9" width="199" height="23" >
+						<printWhenExpression><![CDATA[$F{termsDescription}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{termsDescription}]]></textFieldExpression>
+				</textField>
+				<rectangle radius="10">
+					<reportElement x="374" y="3" width="199" height="31" />
+				</rectangle>
+				<staticText>
+					<reportElement x="421" y="12" width="66" height="20" />
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Amount :]]></text>
+				</staticText>
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement x="483" y="11" width="81" height="20" />
+					<textElement textAlignment="Right">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["$"+($V{TotalAmount})]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="36">
+			<textField evaluationTime="Report">
+				<reportElement x="541" y="2" width="25" height="20" isPrintWhenDetailOverflows="true" printWhenGroupChanges="Customer" />
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="501" y="2" width="25" height="20" isPrintWhenDetailOverflows="true" printWhenGroupChanges="Customer" />
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="437" y="4" width="56" height="16" isPrintWhenDetailOverflows="true" printWhenGroupChanges="Customer" />
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Page no:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="526" y="2" width="10" height="20" isPrintWhenDetailOverflows="true" printWhenGroupChanges="Customer" />
+				<text><![CDATA[/]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="109" y="1" width="78" height="20" />
+				<textFieldExpression><![CDATA[$F{InvoiceDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="7" y="1" width="100" height="20" />
+				<textFieldExpression><![CDATA[$F{InvoiceNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="343" y="0" width="76" height="21" >
+					<printWhenExpression><![CDATA[!$F{CustomerPONumber}.equalsIgnoreCase("null")]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{CustomerPONumber}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="419" y="1" width="73" height="20" />
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["$"+($F{InvoiceAmount}.setScale(2, RoundingMode.CEILING))]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="491" y="1" width="75" height="20" />
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["$"+(($F{InvoiceAmount}.subtract($F{AppliedAmount})).setScale(2, RoundingMode.CEILING))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="188" y="1" width="155" height="20" />
+				<textFieldExpression><![CDATA[$F{JobName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

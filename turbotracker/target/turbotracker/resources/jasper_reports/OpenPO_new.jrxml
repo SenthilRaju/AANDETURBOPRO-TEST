@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2"  pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" >
+	<property name="ireport.zoom" value="1.0245201830476058"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select PONumber,VF.Description as Factory,RM.Name as Vendor,RD.Name as Customer,JM.Description ,VP.Subtotal as Amount
+,OrderDate,VP.EstimatedShipDate as EstimatedDate,
+(select HeaderText from tsUserSetting) as header,
+(select companylogo from tsUserSetting) as logo
+from vePO VP left join
+rxMaster RM on RM.rxMasterID = VP.rxVendorID join rxMaster RD on RD.rxMasterID= VP.rxShipToAddressID
+left join veFactory VF on VF.veFactoryID= VP.veFactoryID
+left join joRelease JR on JR.joReleaseID = VP.joReleaseID
+left join joMaster JM on JM.joMasterID = JR.joMasterID where JM.JobStatus=3;]]>
+	</queryString>
+	<field name="PONumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Factory" class="java.lang.String"/>
+	<field name="Vendor" class="java.lang.String"/>
+	<field name="Customer" class="java.lang.String"/>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Amount" class="java.math.BigDecimal"/>
+	<field name="OrderDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="EstimatedDate" class="java.sql.Timestamp"/>
+	<field name="header" class="java.lang.String"/>
+	<field name="logo" class="java.io.InputStream"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="151" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="15" y="10" width="100" height="20" />
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="730" y="10" width="26" height="20" />
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="769" y="10" width="18" height="20" />
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="756" y="10" width="13" height="20" />
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="668" y="10" width="51" height="20" />
+				<text><![CDATA[Page no:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="254" y="46" width="275" height="84" />
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RetainShape" horizontalAlign="Left" verticalAlign="Middle">
+					<hc:htmlContentExpression><![CDATA[(($F{header}.replaceAll("`and`nbsp;", " ")).replaceAll("`", "")).replaceAll("amp;"," ")]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
+			<staticText>
+				<reportElement x="254" y="15" width="275" height="20" />
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" isUnderline="true" isStrikeThrough="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Open Purchase Orders]]></text>
+			</staticText>
+			<image>
+				<reportElement x="57" y="61" width="117" height="69" />
+				<imageExpression><![CDATA[$F{logo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="9" y="1" width="71" height="20" />
+				<textElement>
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[PO Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="86" y="1" width="121" height="20" />
+				<textElement>
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Factory Order]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="207" y="1" width="125" height="20" />
+				<textElement>
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Vendor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="457" y="1" width="131" height="20" />
+				<textElement>
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Customer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="332" y="0" width="125" height="20" />
+				<textElement>
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Job Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="599" y="1" width="100" height="20" />
+				<textElement textAlignment="Right">
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[OrderDate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="702" y="1" width="100" height="20" />
+				<textElement textAlignment="Right">
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Order Amount]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement x="13" y="3" width="66" height="20" />
+				<textFieldExpression><![CDATA[$F{PONumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="86" y="3" width="121" height="20" />
+				<textFieldExpression><![CDATA[$F{Factory}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="207" y="2" width="125" height="20" />
+				<textFieldExpression><![CDATA[$F{Vendor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="457" y="3" width="131" height="20" />
+				<textFieldExpression><![CDATA[$F{Customer}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="332" y="3" width="125" height="20" />
+				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yy">
+				<reportElement x="599" y="3" width="100" height="20" />
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="702" y="3" width="100" height="20" />
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["$"+$F{Amount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

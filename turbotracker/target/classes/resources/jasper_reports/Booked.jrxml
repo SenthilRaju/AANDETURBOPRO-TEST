@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Booked" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e5c157c0-1805-4c26-bcbe-de8988f3b4bf">
+	<property name="ireport.zoom" value="1.3310000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select concat(ts.FullName, ts.Initials), sum(jm.ContractAmount) as sumamount, sum(jm.EstimatedProfit)as sumprofit,((sum(jm.EstimatedProfit) *100)/sum(jm.ContractAmount)) as sumprofitPercentage, ts.UserLoginID, (select HeaderText from tsUserSetting) as header,(select companyLogo from tsUserSetting) as logo from
+joMaster as jm
+left join tsUserLogin as ts on ts.UserLoginID = jm.cuAssignmentID0 where jm.JobStatus= 3 group by cuAssignmentID0 ;]]>
+	</queryString>
+	<field name="concat(ts.FullName, ts.Initials)" class="java.lang.String"/>
+	<field name="sumamount" class="java.math.BigDecimal"/>
+	<field name="sumprofit" class="java.math.BigDecimal"/>
+	<field name="sumprofitPercentage" class="java.math.BigDecimal"/>
+	<field name="UserLoginID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="header" class="java.lang.String"/>
+	<field name="logo" class="java.io.InputStream"/>
+	<variable name="no." class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="105" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="20" y="0" width="86" height="20" uuid="b5950a1c-2457-4692-bb6b-1f7ec5cc9327"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="437" y="1" width="51" height="20" uuid="0850cca0-9a04-47c7-979d-d4e078238077"/>
+				<text><![CDATA[Page no:-]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="498" y="1" width="20" height="20" uuid="eb648ef8-7c5a-457e-98c1-5ba2aa366b70"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="518" y="1" width="11" height="20" uuid="20f89535-f8a6-409a-abea-f1af0fea36dd"/>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="529" y="1" width="19" height="20" uuid="f16d5d44-654d-4cf1-89ee-2e4c71ded478"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="177" y="40" width="215" height="62" uuid="64656604-7a79-4766-9682-fc541d39d497"/>
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RetainShape" horizontalAlign="Left" verticalAlign="Middle">
+					<hc:htmlContentExpression><![CDATA[(($F{header}.replaceAll("`and`nbsp;", " ")).replaceAll("`", "")).replaceAll("amp;"," ")]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
+			<image>
+				<reportElement x="32" y="54" width="113" height="49" uuid="c2a774b5-b6c4-4de4-aa37-d778d313dc2b"/>
+				<imageExpression><![CDATA[$F{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="210" y="10" width="164" height="20" uuid="49615b5a-3e4e-4645-a307-025e8b0fa437"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Booking Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement x="67" y="16" width="152" height="20" uuid="106c2c37-f45c-48f7-8474-f84473d1e494"/>
+				<textElement>
+					<font size="12" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Sales Representative]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="16" width="124" height="20" uuid="4d893605-0b4b-4491-bd0e-7a48e1e3fb3a"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Contract Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="366" y="16" width="90" height="20" uuid="10af8d9c-f681-4610-9802-90447098fec1"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Total Profit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="463" y="16" width="90" height="20" uuid="2347933f-47cd-4361-b351-034328c2f122"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Profit %]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="16" width="33" height="20" uuid="2b118652-083e-4689-8bbd-0f061b7b9551"/>
+				<textElement>
+					<font size="12" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<textField>
+				<reportElement x="20" y="1" width="33" height="18" uuid="b46dccb2-abe8-40ad-a865-90df2feb49ec"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{no.}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="69" y="1" width="150" height="18" uuid="ad1e42f9-d78e-40d6-ae97-3ae7cb552713"/>
+				<textFieldExpression><![CDATA[$F{concat(ts.FullName, ts.Initials)}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="230" y="1" width="124" height="18" uuid="f0b38e2b-e1c7-4e4a-b040-4161220901b6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["$"+$F{sumamount}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="366" y="1" width="90" height="18" uuid="9ee99e33-72f6-4715-9fd1-cb508f77a2a2"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["$"+$F{sumprofit}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="463" y="1" width="90" height="18" uuid="69ff6e35-cc5a-4420-888c-53e24b1582c2"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{sumprofitPercentage}.setScale(2, java.math.RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

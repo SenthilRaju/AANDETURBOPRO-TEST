@@ -1,0 +1,41 @@
+.color-blue {background:#54A4DE;}
+/* Columns section */
+.widget { width: 1130px; }
+#columns .column { width: 1145px;}
+#header #menu{ margin:0 auto; padding-top:1px; }
+#columns #column1 .widget { margin: 20px 5px 0 0px; border-radius: 8px 8px 8px 8px;}
+#columns #columnLast .widget { margin: 20px 15px 0 5px; }
+.widget_options_label {}
+/* Columns section */
+#columns .column {float: left;width: 1145px;/* Min-height: */min-height: 400px;	height: auto !important;height: 400px;}
+#mainMenuProjectsPage {text-decoration:none;color:#FFFFFF; background-color: #003961;}
+#mainMenuProjectsPage a{background:url('./../../../resources/styles/turbo-css/images/turbo_app_projects_hover_icon.png') no-repeat 0px 4px;color:#FFF}
+.ProjectWidgetHeader{background: -moz-linear-gradient(-90deg, #54A4DE, #A9DDF1); background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#54A4DE), to(#A9DDF1));}
+.ProjectWidgetFooter{background: -moz-linear-gradient(-90deg, #A9DDF1, #54A4DE); background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#A9DDF1), to(#54A4DE));}
+
+.ui-jqgrid .ui-jqgrid-titlebar{
+background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(56, 206, 252, 1)), color-stop(48%,rgba(108, 212, 245, 1)), color-stop(100%,rgba(137, 204, 226, 1))) !important;
+}
+
+.buttonscss{
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(56, 206, 252, 1)), color-stop(48%,rgba(108, 212, 245, 1)), color-stop(100%,rgba(137, 204, 226, 1))) !important;
+}
+#openJobsGridPager{
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(56, 206, 252, 1)), color-stop(48%,rgba(108, 212, 245, 1)), color-stop(100%,rgba(137, 204, 226, 1))) !important;
+}
+#SalesPurchaseOrdersGridPager{
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(56, 206, 252, 1)), color-stop(48%,rgba(108, 212, 245, 1)), color-stop(100%,rgba(137, 204, 226, 1))) !important;
+}
+#CustomerMarginGirdPager{
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(56, 206, 252, 1)), color-stop(48%,rgba(108, 212, 245, 1)), color-stop(100%,rgba(137, 204, 226, 1))) !important;
+}
+#viewsGridPager{
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(56, 206, 252, 1)), color-stop(48%,rgba(108, 212, 245, 1)), color-stop(100%,rgba(137, 204, 226, 1))) !important;
+}
+#CreditHoldGridPager{
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(56, 206, 252, 1)), color-stop(48%,rgba(108, 212, 245, 1)), color-stop(100%,rgba(137, 204, 226, 1))) !important;
+}
+.ui-draggable .ui-dialog-titlebar{
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(56, 206, 252, 1)), color-stop(48%,rgba(108, 212, 245, 1)), color-stop(100%,rgba(137, 204, 226, 1))) !important;
+	
+}

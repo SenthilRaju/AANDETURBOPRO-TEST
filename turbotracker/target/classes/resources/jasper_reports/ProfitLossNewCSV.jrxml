@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Profit &amp; Loss Statement Report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="559" leftMargin="18" rightMargin="18" topMargin="20" bottomMargin="20" uuid="76d9585c-0d30-4839-abf0-35d79ee341f2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="HeaderText" class="java.lang.String"/>
+	<parameter name="StartDate" class="java.lang.String"/>
+	<parameter name="EndDate" class="java.lang.String"/>
+	<parameter name="AccountStatus" class="java.lang.Boolean"/>
+	<queryString>
+		<![CDATA[SELECT coAccountID,Number,Description,accountType,FinancialStatus,((pdebits+pcredits)*100)/5581.25 AS PeriodRatio,(pdebits+pcredits) AS PeriodAmount,((ydebits+ycredits)*100)/6410.85 AS YearRatio,(ydebits+ycredits) AS YearAmount FROM ( SELECT  cA.coAccountID,cA.Number,cA.Description,cA.accountType,cA.FinancialStatus, IF(pdebits-pcredits>0,pdebits-pcredits,0) AS pdebits,IF(pcredits-pdebits>0,pcredits-pdebits,0) AS pcredits, IF(ydebits-ycredits>0,ydebits-ycredits,0) AS ydebits, IF(ycredits-ydebits>0,ycredits-ydebits,0) AS ycredits FROM coAccount cA LEFT JOIN  (SELECT  gt.coAccountID, TRUNCATE(SUM(TRUNCATE(gt.debit,4)),2) pdebits,TRUNCATE(SUM(TRUNCATE(gt.credit,4)),2)pcredits FROM glTransaction gt  WHERE gt.coFiscalPeriodId = 159 AND  gt.coFiscalYearId = 12 GROUP BY gt.coAccountID) gl ON cA.coAccountID = gl.coAccountID AND cA.accountType IN ('Income','Expense')  LEFT JOIN (SELECT  gtt.coAccountID, TRUNCATE(SUM(TRUNCATE(gtt.debit,4)),2) ydebits, TRUNCATE(SUM(TRUNCATE(gtt.credit,4)),2) ycredits FROM glTransaction gtt WHERE gtt.coFiscalYearId = 12 GROUP BY gtt.coAccountID)  gll ON cA.coAccountID = gll.coAccountID AND cA.accountType IN ('Income','Expense') WHERE cA.InActive <> 1 AND pdebits IS NOT NULL OR pcredits IS NOT NULL OR ydebits IS NOT NULL OR ycredits IS NOT NULL  HAVING ycredits>0 OR ydebits>0 ORDER BY cA.Number) subquery  ORDER BY FinancialStatus]]>
+	</queryString>
+	<field name="coAccountID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="accountType" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="FinancialStatus" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PeriodRatio" class="java.math.BigDecimal"/>
+	<field name="PeriodAmount" class="java.math.BigDecimal"/>
+	<field name="YearRatio" class="java.math.BigDecimal"/>
+	<field name="YearAmount" class="java.math.BigDecimal"/>
+	<variable name="PeriodAmount_1" class="java.math.BigDecimal" resetType="Group" resetGroup="AccountType" calculation="Sum">
+		<variableExpression><![CDATA[$F{PeriodAmount}]]></variableExpression>
+	</variable>
+	<variable name="YearAmount_1" class="java.math.BigDecimal" resetType="Group" resetGroup="AccountType" calculation="Sum">
+		<variableExpression><![CDATA[$F{YearAmount}]]></variableExpression>
+	</variable>
+	<variable name="PeriodAmount_1_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[ (($F{FinancialStatus}==1||($F{FinancialStatus}==2)) ?
+$F{PeriodAmount}:new BigDecimal(0) )]]></variableExpression>
+	</variable>
+	<variable name="YearAmount_1_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[(($F{FinancialStatus}==1||($F{FinancialStatus}==2)) ?
+$F{YearAmount}:new BigDecimal(0) )]]></variableExpression>
+	</variable>
+	<variable name="PeriodRatio_1" class="java.math.BigDecimal" resetType="Group" resetGroup="AccountType" calculation="Sum">
+		<variableExpression><![CDATA[$F{PeriodRatio}]]></variableExpression>
+	</variable>
+	<variable name="YearRatio_1" class="java.math.BigDecimal" resetType="Group" resetGroup="AccountType" calculation="Sum">
+		<variableExpression><![CDATA[$F{YearRatio}]]></variableExpression>
+	</variable>
+	<variable name="PeriodRatio_2" class="java.math.BigDecimal" resetType="Group" resetGroup="AccountType" calculation="Sum">
+		<variableExpression><![CDATA[$F{PeriodRatio}]]></variableExpression>
+	</variable>
+	<variable name="YearRatio_2" class="java.math.BigDecimal" resetType="Group" resetGroup="AccountType" calculation="Sum">
+		<variableExpression><![CDATA[$F{YearRatio}]]></variableExpression>
+	</variable>
+	<variable name="PeriodRatio_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[(($F{FinancialStatus}==1 || $F{FinancialStatus}==2) ? $F{PeriodRatio} : new BigDecimal("0") )]]></variableExpression>
+	</variable>
+	<variable name="YearRatio_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[(($F{FinancialStatus}==1 || $F{FinancialStatus}==2) ? $F{YearRatio} : new BigDecimal("0") )]]></variableExpression>
+	</variable>
+	<variable name="Exp_CurrRatio" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[(($F{FinancialStatus}==3) ? $F{PeriodRatio} : new BigDecimal("0") )]]></variableExpression>
+	</variable>
+	<variable name="Exp_CurrAMT" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[(($F{FinancialStatus}==3) ? $F{PeriodAmount} : new BigDecimal("0") )]]></variableExpression>
+	</variable>
+	<variable name="Exp_YrRatio" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[(($F{FinancialStatus}==3) ? $F{YearRatio} : new BigDecimal("0") )]]></variableExpression>
+	</variable>
+	<variable name="Exp_YrAMT" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[(($F{FinancialStatus}==3) ? $F{YearAmount} : new BigDecimal("0") )]]></variableExpression>
+	</variable>
+	<group name="AccountType">
+		<groupExpression><![CDATA[$F{FinancialStatus}]]></groupExpression>
+		<groupHeader>
+			<band height="16">
+				<textField>
+					<reportElement x="78" y="0" width="268" height="16" uuid="a34ecb7c-b3f1-4fd2-b5b4-5b56e7ff731e"/>
+					<textElement>
+						<font fontName="Serif" size="11" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{FinancialStatus}==1  ? "INCOME" :
+($F{FinancialStatus}==2  ? "COST OF GOODS SOLD" : "EXPENSES"
+)
+)]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="78" height="16" uuid="90bfbe1d-445e-44d0-80be-0dc431c67b71"/>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="346" y="0" width="212" height="16" uuid="34f667aa-5dac-4880-b327-cbd241d8f0f8"/>
+					<text><![CDATA[]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="18">
+				<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
+					<reportElement x="346" y="2" width="107" height="16" isPrintWhenDetailOverflows="true" uuid="e6ac0474-32c3-438c-9f38-7976defa187a"/>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{FinancialStatus}==1||$F{FinancialStatus}==2)?$V{PeriodAmount_1}:
+$V{PeriodAmount_1}*-1]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
+					<reportElement x="453" y="2" width="105" height="16" isPrintWhenDetailOverflows="true" uuid="28e9e329-b752-4a6c-9190-c3db4f42d187"/>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{FinancialStatus}==1||$F{FinancialStatus}==2)?$V{YearAmount_1}:
+$V{YearAmount_1}*-1]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="78" y="2" width="268" height="16" isRemoveLineWhenBlank="true" uuid="4fde5135-2466-4f7c-a3df-b915889c6857"/>
+					<textElement>
+						<font size="10" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[( $V{PeriodAmount_1}.equals( BigDecimal.ZERO )
+  &&
+  $V{YearAmount_1}.equals( BigDecimal.ZERO )
+    ? "" :
+"TOTAL "+
+($F{FinancialStatus}==1  ? "INCOME" :
+($F{FinancialStatus}==2  ? "COST OF GOODS SOLD" : "EXPENSES"
+)
+)
+)]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="2" width="78" height="16" uuid="433a4f3a-1a97-4a24-a87e-e75429318857"/>
+					<text><![CDATA[]]></text>
+				</staticText>
+			</band>
+			<band height="18">
+				<printWhenExpression><![CDATA[( ($F{FinancialStatus}==2||$F{FinancialStatus}==1)? new Boolean(true) : new Boolean(false))]]></printWhenExpression>
+				<staticText>
+					<reportElement x="78" y="2" width="268" height="16" uuid="3f865130-9f80-4f5a-8f33-d118303f9a1e"/>
+					<textElement>
+						<font size="11" isBold="true" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL NET INCOME]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
+					<reportElement x="346" y="2" width="107" height="16" isPrintWhenDetailOverflows="true" uuid="145b54bb-b60a-436e-b987-1f0538c3218a"/>
+					<textElement textAlignment="Right">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PeriodAmount_1_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="2" width="78" height="16" uuid="cc92952a-a85b-470c-adc6-2be7a6f6bfa0"/>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
+					<reportElement x="453" y="2" width="105" height="16" isPrintWhenDetailOverflows="true" uuid="61e51e9a-e3cc-438a-a9ae-f53472de9672"/>
+					<textElement textAlignment="Right">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{YearAmount_1_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch">
+			<printWhenExpression><![CDATA[($V{PAGE_NUMBER} ==1? new Boolean("true"):new Boolean("false"))]]></printWhenExpression>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="17" splitType="Stretch">
+			<printWhenExpression><![CDATA[($V{PAGE_NUMBER} ==1? new Boolean("true"):new Boolean("false"))]]></printWhenExpression>
+			<staticText>
+				<reportElement x="453" y="1" width="105" height="16" uuid="9f17959b-5d65-4bf5-a213-ad1fae842955"/>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[YEAR TO DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="346" y="1" width="107" height="16" uuid="55781ade-6110-42ca-bfe8-c066986dbedf"/>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CURRENT PERIOD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="1" width="78" height="16" uuid="03bf15f0-983a-4816-a2bb-5834e8b2542d"/>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACCOUNT #]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="1" width="268" height="16" uuid="acb1092d-a531-42d1-83e0-9e9c1ca93d6a"/>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACCOUNT DESCRIPTION]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="453" y="1" width="105" height="16" isPrintWhenDetailOverflows="true" uuid="9ccc36c1-b29d-4c83-bc8c-baf756964ff3"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{FinancialStatus}==1||$F{FinancialStatus}==2)?$F{YearAmount}:
+$F{YearAmount}*-1]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="346" y="1" width="107" height="16" isPrintWhenDetailOverflows="true" uuid="b542ba0c-4bb2-4f27-82fb-85f8306a8bae"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{FinancialStatus}==1||$F{FinancialStatus}==2)?$F{PeriodAmount}:$F{PeriodAmount}*-1
+]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="1" width="78" height="16" uuid="932c01d3-c715-4597-9af0-f6a792c419af">
+					<printWhenExpression><![CDATA[$P{AccountStatus}]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Number}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="78" y="1" width="268" height="16" uuid="31a7acb1-ac45-4bd1-9410-c0072284b48c"/>
+				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="29">
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="346" y="3" width="107" height="24" isPrintWhenDetailOverflows="true" uuid="3922a9e4-0164-4034-bc29-f172a43e7b4d"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PeriodAmount_1_1}.subtract( $V{Exp_CurrAMT})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="453" y="3" width="105" height="24" isPrintWhenDetailOverflows="true" uuid="2ab4a757-892f-49c5-8611-5fa058ef9fd7"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{YearAmount_1_1}.subtract( $V{Exp_YrAMT} )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="78" y="3" width="268" height="24" uuid="4681f0ce-a266-4101-a22c-2e4fb764c368"/>
+				<textElement>
+					<font fontName="Serif" size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NET PROFIT(LOSS)"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="3" width="78" height="24" uuid="c59d5a10-bb6e-42d9-985c-0304eada92fb"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+</jasperReport>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AccountRecievablefirstgrid" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="204f0107-ba67-4fcb-822c-f9a3f9934dd4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="UserLoginId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT rxCustomerID,Name, SUM( (CASE WHEN Days>=0 AND Days<=30 THEN Balance ELSE 0 END) ) AS AmtCur,
+ SUM( (CASE WHEN Days>30 AND Days<=60 THEN Balance ELSE 0 END) ) AS Amt30,
+  SUM( (CASE WHEN Days>60 AND Days<=90 THEN Balance ELSE 0 END) ) AS Amt60,
+  SUM( (CASE WHEN Days>90 THEN Balance ELSE 0 END) ) AS Amt90 FROM
+  (SELECT cuInvoice.rxCustomerID,rxMaster.Name ,InvoiceAmount-AppliedAmount AS Balance,
+  DATEDIFF(DATE_FORMAT(NOW(),'%Y/%m/%d'),InvoiceDate) AS Days FROM cuInvoice
+  LEFT JOIN cuMaster ON cuMaster.cuMasterID = cuInvoice.rxCustomerID
+  LEFT JOIN rxMaster ON rxMaster.rxMasterID = cuInvoice.rxCustomerID
+  WHERE (TransactionStatus>0) AND (ABS(InvoiceAmount-AppliedAmount) > .02)
+) AS SubQuery
+GROUP BY rxCustomerID ORDER BY Name ASC]]>
+	</queryString>
+	<field name="rxCustomerID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AmtCur" class="java.math.BigDecimal"/>
+	<field name="Amt30" class="java.math.BigDecimal"/>
+	<field name="Amt60" class="java.math.BigDecimal"/>
+	<field name="Amt90" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="52" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="159" y="5" width="251" height="42" uuid="5c4c987b-9a87-40bd-b0d8-0e9cfe695c5f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="172" y="15" width="224" height="20" uuid="68ce45c9-af15-484f-9f68-981c795f3107"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Account Receivable]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="259" height="20" uuid="b1dcce73-b0e9-4613-91c3-c8f5f9b183fa"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Customer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="259" y="0" width="60" height="20" uuid="c8892426-f6fa-4b2a-a0de-3609da4b2fd8"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Current]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="318" y="1" width="60" height="20" uuid="a5007236-9cf6-48a9-b581-8cd170e9b760"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[30 Days]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="377" y="1" width="60" height="20" uuid="338f7dde-428c-42c3-a55a-6fd82d71eaae"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[60 Days]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="436" y="1" width="60" height="20" uuid="c0cc384a-6b61-4721-b00c-d7d80c51bba4"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[90 Days]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="495" y="1" width="60" height="20" uuid="e766ce21-ef93-46da-99c3-a5b76353981e"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="259" height="20" uuid="6606c970-a44f-4fee-8ea4-707929cc9689"/>
+				<textFieldExpression><![CDATA[$F{Name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="259" y="0" width="60" height="20" uuid="684415e7-5a79-4b82-93ad-9d988747a740"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{AmtCur}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="319" y="0" width="58" height="20" uuid="fa387eb8-fd86-4464-a0c2-1384d07f4386"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Amt30}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="378" y="0" width="58" height="20" uuid="815afbee-c10d-4234-ab2a-a56d8cdcd65e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Amt60}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="436" y="0" width="59" height="20" uuid="bcf14b29-7d2a-4f9f-b58d-40ae47349be9"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Amt90}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="494" y="0" width="60" height="20" uuid="2762fbf2-d8ac-441b-a6c6-64b8d2eba9bf"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{AmtCur}.add($F{Amt30}).add($F{Amt60}).add($F{Amt90})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

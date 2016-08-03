@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BatchInvoiceReport" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="35de86c0-16af-44d7-b699-f4837f07be00">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="137"/>
+	<parameter name="subReportPath" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT joRelease.ReleaseType, tsUserLogin.Initials AS SalesRep,
+ SUM((IFNULL(NULLIF(cuInvoiceDetail.UnitCost, '' ), 0) * IFNULL(NULLIF(cuInvoiceDetail.QuantityBilled, '' ), 0)*IFNULL(NULLIF(cuInvoiceDetail.PriceMultiplier , '' ),1))) AS total,
+ veShipVia.Description AS ShippedVia, joMaster.Description AS Job, cuInvoice.*,tsUserLogin.Initials,cuTerms.Description AS termsdesc,cuInvoice.ShipToMode AS ShipToMode,
+ (CASE WHEN cuInvoice.ShipToMode=0 THEN prWarehouse.Description ELSE      (CASE WHEN cuInvoice.ShipToMode=1 THEN (SELECT rxM.Name FROM rxAddress rxA,rxMaster rxM WHERE rxM.rxMasterId =rxA.rxMasterId AND rxA.rxMasterId=cuInvoice.rxCustomerID AND isShipTo = 1 GROUP BY rxM.rxMasterId) ELSE         (CASE WHEN cuInvoice.ShipToMode=2 THEN (SELECT rxM.Name FROM rxMaster rxM WHERE rxM.rxMasterId =cuInvoice.rxCustomerID) ELSE            (CASE WHEN cuInvoice.ShipToMode=3 THEN (SELECT rxA.Name FROM rxAddress rxA WHERE rxA.rxAddressId = cuInvoice.rxShipToAddressID)ELSE "" END ) END) END) END) AS shiptoName,
+ (CASE WHEN cuInvoice.ShipToMode=0 THEN prWarehouse.Address1 ELSE     (CASE WHEN cuInvoice.ShipToMode=1 THEN (SELECT rxA.address1 FROM rxAddress rxA,rxMaster rxM WHERE rxM.rxMasterId =rxA.rxMasterId AND rxA.rxMasterId=cuInvoice.rxCustomerID AND isShipTo = 1 GROUP BY rxA.rxMasterId)  ELSE          (CASE WHEN cuInvoice.ShipToMode=2 THEN (SELECT jom.LocationAddress1 FROM joMaster jom WHERE jom.joMasterID =(SELECT joMasterID FROM joMaster WHERE jobNumber =(SELECT JobNumber FROM joMaster WHERE joMaster.joMasterID IN ( SELECT joRelease.joMasterID FROM joRelease WHERE joRelease.joReleaseID IN (SELECT joReleaseID FROM joReleaseDetail WHERE joReleaseDetail.joReleaseDetailID=cuInvoice.joReleaseDetailID))))) ELSE             (CASE WHEN cuInvoice.ShipToMode=3 THEN (SELECT rxA.Address1 FROM rxAddress rxA WHERE rxA.rxAddressId = cuInvoice.rxShipToAddressID)ELSE "" END ) END)  END) END) AS shiptoAddress1,
+ (CASE WHEN cuInvoice.ShipToMode=0 THEN prWarehouse.Address2 ELSE (CASE WHEN cuInvoice.ShipToMode=1 THEN (SELECT rxA.address2 FROM rxAddress rxA,rxMaster rxM WHERE rxM.rxMasterId =rxA.rxMasterId AND rxA.rxMasterId=cuInvoice.rxCustomerID AND isShipTo = 1 GROUP BY rxA.rxMasterId) ELSE  (CASE WHEN cuInvoice.ShipToMode=2 THEN (SELECT jom.LocationAddress2 FROM joMaster jom WHERE jom.joMasterID =(SELECT joMasterID FROM joMaster WHERE jobNumber =(SELECT JobNumber FROM joMaster WHERE joMaster.joMasterID IN ( SELECT joRelease.joMasterID FROM joRelease WHERE joRelease.joReleaseID IN (SELECT joReleaseID FROM joReleaseDetail WHERE joReleaseDetail.joReleaseDetailID=cuInvoice.joReleaseDetailID))))) ELSE (CASE WHEN cuInvoice.ShipToMode=3 THEN (SELECT rxA.Address2 FROM rxAddress rxA WHERE rxA.rxAddressId = cuInvoice.rxShipToAddressID)ELSE "" END ) END)  END) END) AS shiptoAddress2,
+ (CASE WHEN cuInvoice.ShipToMode=0 THEN prWarehouse.City ELSE (CASE WHEN cuInvoice.ShipToMode=1 THEN (SELECT rxA.city FROM rxAddress rxA,rxMaster rxM WHERE rxM.rxMasterId =rxA.rxMasterId AND rxA.rxMasterId=cuInvoice.rxCustomerID AND isShipTo = 1 GROUP BY rxA.rxMasterId)   ELSE  (CASE WHEN cuInvoice.ShipToMode=2 THEN (SELECT jom.LocationCity FROM joMaster jom WHERE jom.joMasterID =(SELECT joMasterID FROM joMaster WHERE jobNumber =(SELECT JobNumber FROM joMaster WHERE joMaster.joMasterID IN ( SELECT joRelease.joMasterID FROM joRelease WHERE joRelease.joReleaseID IN (SELECT joReleaseID FROM joReleaseDetail WHERE joReleaseDetail.joReleaseDetailID=cuInvoice.joReleaseDetailID))))) ELSE (CASE WHEN cuInvoice.ShipToMode=3 THEN (SELECT rxA.City FROM rxAddress rxA WHERE rxA.rxAddressId = cuInvoice.rxShipToAddressID)ELSE "" END ) END) END) END) AS shiptoCity,
+ (CASE WHEN cuInvoice.ShipToMode=0 THEN prWarehouse.State ELSE (CASE WHEN cuInvoice.ShipToMode=1 THEN (SELECT rxA.state FROM rxAddress rxA,rxMaster rxM WHERE rxM.rxMasterId =rxA.rxMasterId AND rxA.rxMasterId=cuInvoice.rxCustomerID AND isShipTo = 1 GROUP BY rxA.rxMasterId)  ELSE  (CASE WHEN cuInvoice.ShipToMode=2 THEN (SELECT jom.LocationState FROM joMaster jom WHERE jom.joMasterID =(SELECT joMasterID FROM joMaster WHERE jobNumber =(SELECT JobNumber FROM joMaster WHERE joMaster.joMasterID IN ( SELECT joRelease.joMasterID FROM joRelease WHERE joRelease.joReleaseID IN (SELECT joReleaseID FROM joReleaseDetail WHERE joReleaseDetail.joReleaseDetailID=cuInvoice.joReleaseDetailID))))) ELSE (CASE WHEN cuInvoice.ShipToMode=3 THEN (SELECT rxA.State FROM rxAddress rxA WHERE rxA.rxAddressId = cuInvoice.rxShipToAddressID)ELSE "" END ) END) END) END) AS shiptoState,
+ (CASE WHEN cuInvoice.ShipToMode=0 THEN prWarehouse.Zip ELSE  (CASE WHEN cuInvoice.ShipToMode=1 THEN (SELECT rxA.zip FROM rxAddress rxA,rxMaster rxM WHERE rxM.rxMasterId =rxA.rxMasterId AND rxA.rxMasterId=cuInvoice.rxCustomerID AND isShipTo = 1 GROUP BY rxA.rxMasterId) ELSE   (CASE WHEN cuInvoice.ShipToMode=2 THEN (SELECT jom.LocationZip FROM joMaster jom WHERE jom.joMasterID =(SELECT joMasterID FROM joMaster WHERE jobNumber =(SELECT JobNumber FROM joMaster WHERE joMaster.joMasterID IN ( SELECT joRelease.joMasterID FROM joRelease WHERE joRelease.joReleaseID IN (SELECT joReleaseID FROM joReleaseDetail WHERE joReleaseDetail.joReleaseDetailID=cuInvoice.joReleaseDetailID))))) ELSE  (CASE WHEN cuInvoice.ShipToMode=3 THEN (SELECT rxA.Zip FROM rxAddress rxA WHERE rxA.rxAddressId = cuInvoice.rxShipToAddressID)ELSE "" END ) END) END) END) AS shiptoZip,
+ (SELECT rxMaster.Name FROM rxAddress LEFT JOIN rxMaster ON rxAddress.rxMasterID = rxMaster.rxMasterID WHERE rxAddress.rxMasterId =cuInvoice.rxBillToID AND IsMailing = 1 GROUP BY rxAddress.rxMasterID)  AS billtoName,
+ (SELECT rxAddress.address1 FROM rxAddress LEFT JOIN rxMaster ON rxAddress.rxMasterID = rxMaster.rxMasterID WHERE rxAddress.rxMasterId =cuInvoice.rxBillToID AND IsMailing = 1 GROUP BY rxAddress.rxMasterID) AS billtoAddress1,
+ (SELECT rxAddress.address2 FROM rxAddress LEFT JOIN rxMaster ON rxAddress.rxMasterID = rxMaster.rxMasterID WHERE rxAddress.rxMasterId =cuInvoice.rxBillToID AND IsMailing = 1 GROUP BY rxAddress.rxMasterID) AS billtoAddress2,
+ (SELECT rxAddress.city FROM rxAddress LEFT JOIN rxMaster ON rxAddress.rxMasterID = rxMaster.rxMasterID WHERE rxAddress.rxMasterId =cuInvoice.rxBillToID AND IsMailing = 1 GROUP BY rxAddress.rxMasterID) AS billtoCity,
+ (SELECT rxAddress.state FROM rxAddress LEFT JOIN rxMaster ON rxAddress.rxMasterID = rxMaster.rxMasterID WHERE rxAddress.rxMasterId =cuInvoice.rxBillToID AND IsMailing = 1 GROUP BY rxAddress.rxMasterID) AS billtoState,
+ (SELECT rxAddress.zip FROM rxAddress LEFT JOIN rxMaster ON rxAddress.rxMasterID = rxMaster.rxMasterID WHERE rxAddress.rxMasterId =cuInvoice.rxBillToID AND IsMailing = 1 GROUP BY rxAddress.rxMasterID) AS billtoZip,
+ (SELECT headertext FROM tsUserSetting) AS header, (SELECT companylogo FROM tsUserSetting) AS logo FROM (joMaster RIGHT JOIN joRelease ON joMaster.joMasterID = joRelease.joMasterID
+ LEFT JOIN joReleaseDetail ON joReleaseDetail.joReleaseID=joRelease.joReleaseID) RIGHT JOIN (veShipVia RIGHT JOIN (cuInvoice
+ LEFT JOIN UserLoginClone ON cuInvoice.cuAssignmentID0 = UserLoginClone.UserLoginID) ON veShipVia.veShipViaID = cuInvoice.veShipViaID) ON joReleaseDetail.joReleaseDetailID = cuInvoice.joReleaseDetailID
+LEFT JOIN cuInvoiceDetail ON cuInvoiceDetail.cuInvoiceID = cuInvoice.cuInvoiceID
+ LEFT JOIN tsUserLogin ON tsUserLogin.UserLoginID = cuInvoice.cuAssignmentID0
+ LEFT JOIN cuTerms ON cuTerms.cuTermsID = cuInvoice.cuTermsID
+ LEFT JOIN prWarehouse ON prWarehouse.prWarehouseID=cuInvoice.rxShipToAddressID
+ LEFT JOIN rxMaster ON rxMaster.rxMasterID=cuInvoice.rxCustomerID
+ LEFT JOIN rxAddress ON rxAddress.rxMasterId=cuInvoice.rxCustomerID
+WHERE cuInvoice.cuInvoiceID=187264
+GROUP BY cuInvoice.cuInvoiceID ORDER BY cuInvoice.cuInvoiceID]]>
+	</queryString>
+	<field name="ReleaseType" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SalesRep" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total" class="java.math.BigDecimal"/>
+	<field name="ShippedVia" class="java.lang.String"/>
+	<field name="Job" class="java.lang.String"/>
+	<field name="cuInvoiceID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CreatedByID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CreatedOn" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ChangedByID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ChangedOn" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TransactionStatus" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Applied" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joReleaseDetailID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuSOID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxCustomerID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxBillToID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxBillToAddressID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxShipToID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxShipToAddressID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="veShipViaID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prFromWarehouseID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prToWarehouseID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuTermsID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ShipToMode" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="coTaxTerritoryID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InvoiceNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CustomerPONumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QuickJobName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InvoiceDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ShipDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DueDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PrintDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="InvoiceAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AppliedAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Freight" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CostTotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Subtotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxTotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxRate" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuAssignmentID0" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuAssignmentID1" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuAssignmentID2" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuAssignmentID3" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuAssignmentID4" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TrackingNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SurtaxOverrideCap" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SurtaxTotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SurtaxRate" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SurtaxAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SingleItemTaxAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="coDivisionID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="FreightCost" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DoNotMail" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt1" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt2" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt3" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt4" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt5" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt6" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt7" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt8" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TaxExempt0" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CreditMemo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="IsCredit" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Note" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="HasGrandfatherRate" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="QuickEntry" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MethodSent" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DiscountAmt" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="memoStatus" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rxContactID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="jobnodescription" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cIopenStatus" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="reason" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="whseCostTotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="taxAdjustmentStatus" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Initials" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="termsdesc" class="java.lang.String"/>
+	<field name="shiptoName" class="java.lang.String"/>
+	<field name="shiptoAddress1" class="java.lang.String"/>
+	<field name="shiptoAddress2" class="java.lang.String"/>
+	<field name="shiptoCity" class="java.lang.String"/>
+	<field name="shiptoState" class="java.lang.String"/>
+	<field name="shiptoZip" class="java.lang.String"/>
+	<field name="billtoName" class="java.lang.String"/>
+	<field name="billtoAddress1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="billtoAddress2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="billtoCity" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="billtoState" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="billtoZip" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="header" class="java.lang.String"/>
+	<field name="logo" class="java.io.InputStream"/>
+	<variable name="total_1" class="java.math.BigDecimal" resetType="Group" resetGroup="GroupByInvoiceNumber" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="Tax Exempt" class="java.math.BigDecimal" resetType="Group" resetGroup="GroupByInvoiceNumber">
+		<variableExpression><![CDATA[1.00]]></variableExpression>
+	</variable>
+	<variable name="total_2" class="java.math.BigDecimal" resetType="Group" resetGroup="GroupByInvoiceNumber" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="newtotal" class="java.math.BigDecimal"/>
+	<group name="GroupByInvoiceNumber" isStartNewPage="true" footerPosition="ForceAtBottom">
+		<groupExpression><![CDATA[$F{cuInvoiceID}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<staticText>
+					<reportElement x="147" y="1" width="142" height="18" uuid="43487c45-1eab-486d-aea2-713dafc1baaa"/>
+					<textElement>
+						<font size="11" isBold="true" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[DESCRIPTION]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="100" y="1" width="39" height="18" uuid="fe3f4dcd-7349-4e5c-ab76-14a365abb24e"/>
+					<textElement textAlignment="Center">
+						<font size="11" isBold="true" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[QTY]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="289" y="1" width="50" height="18" uuid="3b4723d2-38ce-4d99-8928-b1b149843401"/>
+					<textElement textAlignment="Right">
+						<font size="11" isBold="true" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[LIST]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="339" y="1" width="73" height="18" uuid="4a6855f6-9c2e-4bc7-ab8d-66fbf2e4b90f"/>
+					<textElement textAlignment="Right">
+						<font size="11" isBold="true" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[EXT LIST]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="412" y="1" width="79" height="18" uuid="cd851a87-878d-4283-9686-86b5901a0c28"/>
+					<textElement textAlignment="Right">
+						<font size="11" isBold="true" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[MULT]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="492" y="1" width="76" height="18" uuid="e987ad53-52d7-4652-ac04-2d12ac8f7ec6"/>
+					<textElement textAlignment="Right">
+						<font size="11" isBold="true" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="11" y="1" width="88" height="18" uuid="1b44e84e-3483-4937-8c03-78f28424cd38"/>
+					<textElement>
+						<font size="11" isBold="true" isUnderline="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[ITEM CODE]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="93">
+				<rectangle radius="10">
+					<reportElement positionType="FixRelativeToBottom" x="2" y="8" width="354" height="77" uuid="e2ce5fbe-9b78-4ccc-9e68-c86776078144"/>
+				</rectangle>
+				<staticText>
+					<reportElement positionType="FixRelativeToBottom" x="9" y="13" width="56" height="28" uuid="29e32244-54f7-4015-9c9e-65568ff89391"/>
+					<textElement>
+						<font isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Terms:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement positionType="FixRelativeToBottom" x="65" y="13" width="194" height="28" uuid="3cc61c51-12c0-4628-ae72-f12496f067e5"/>
+					<textFieldExpression><![CDATA[$F{termsdesc}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="FixRelativeToBottom" x="9" y="41" width="347" height="18" uuid="eca31e9e-c0b0-4659-81e0-8c4dd2319fe9"/>
+					<text><![CDATA[No Retuns Without Written Approval.]]></text>
+				</staticText>
+				<rectangle radius="10">
+					<reportElement positionType="FixRelativeToBottom" x="365" y="8" width="205" height="77" uuid="8c6a796f-59dd-4a78-b76f-d5b4fdfa9b92"/>
+				</rectangle>
+				<staticText>
+					<reportElement positionType="FixRelativeToBottom" x="385" y="14" width="77" height="14" uuid="28ca33ad-e50f-44f2-9061-ec75184cafcf"/>
+					<textElement textAlignment="Right">
+						<font isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[SUBTOTAL:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="FixRelativeToBottom" x="385" y="30" width="77" height="14" uuid="1970ae45-726d-4c42-ab02-0400c33d6119"/>
+					<textElement textAlignment="Right">
+						<font isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[SHIPPING:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="FixRelativeToBottom" x="370" y="63" width="92" height="14" uuid="d00b6e5a-ac47-4d87-a83a-5248f154f4d6"/>
+					<textElement textAlignment="Right">
+						<font size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[ORDER TOTAL:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement positionType="FixRelativeToBottom" x="468" y="13" width="91" height="15" uuid="a4b0a7e7-4cd4-4a76-b8a1-41d6532953a4"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[($V{newtotal} == null) ? "" : new java.text.DecimalFormat("$ #,##0.00").format($V{newtotal})]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement positionType="FixRelativeToBottom" x="468" y="31" width="91" height="13" uuid="9800a0e5-ecda-4fac-8020-864d295b62b4"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[($F{Freight} == null) ? "" : new java.text.DecimalFormat("$ #,##0.00").format($F{Freight})]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement positionType="FixRelativeToBottom" x="468" y="63" width="91" height="15" uuid="f57d1359-5dbf-4aec-86ee-67a665a3f646"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[($V{newtotal}.add($F{Freight}).add($F{TaxTotal}) == null) ? "" : new java.text.DecimalFormat("$ #,##0.00").format($V{newtotal}.add($F{Freight}).add($F{TaxTotal}))]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="7" y="59" width="345" height="20" uuid="4d4f85d1-e67c-490a-91c3-e76362775c3f"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<text><![CDATA[Interest will be added to past due accounts at1.5%Per month(18% Annual Rate)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="385" y="46" width="77" height="13" uuid="649bb1b3-40ce-41f6-b2c0-68160690ed0f"/>
+					<textElement textAlignment="Right">
+						<font isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Tax (%) :]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="468" y="46" width="91" height="15" uuid="12f205fc-9bc5-4a1e-8d88-68d640d7a878"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[($F{TaxTotal} == null) ? "" : new java.text.DecimalFormat("$ #,##0.00").format($F{TaxTotal})]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="301" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="4" y="162" width="144" height="40" uuid="1663e1ae-d157-45c2-89e7-46341daed1b2"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="422" y="161" width="78" height="40" uuid="5d042e5b-d8cd-4feb-a786-5cd3e33fd2e6"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="4" y="208" width="270" height="68" uuid="356560e3-8e70-49ca-b02f-f79e7c50549b"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="313" y="208" width="254" height="68" uuid="8515e16d-5af8-43b1-912b-f8c5d2e88ae5"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="164" width="30" height="13" uuid="7b91703a-27e2-4fcb-9cef-720617ac6335"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[JOB:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="434" y="162" width="50" height="16" uuid="aa0b6abd-d183-49f1-a877-a67d6580f255"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Ship Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="213" width="57" height="20" uuid="b66d6d75-0ecd-4892-b39d-d279be5a32a7"/>
+				<textElement textAlignment="Right">
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[SOLD TO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="322" y="212" width="49" height="20" uuid="dd1bc62d-4576-4b5b-ac6e-ed5e87777903"/>
+				<textElement textAlignment="Right">
+					<font size="11" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[SHIP TO:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="40" y="164" width="107" height="16" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="9315daa8-5ff3-48ee-95b5-d8b1723b5e12"/>
+				<textFieldExpression><![CDATA[$F{Job}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="73" y="229" width="201" height="14" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="600d25ae-f831-4a10-a939-71165a538be1">
+					<printWhenExpression><![CDATA[new Boolean(!$P{donotMail})]]></printWhenExpression>
+				</reportElement>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[( $F{billtoAddress1}!=null && !$F{billtoAddress1}.equals("") ? $F{billtoAddress1}+"<br>" : "" )
++( $F{billtoAddress2}!=null && !$F{billtoAddress2}.equals("") ? $F{billtoAddress2}+"<br>" : "" )
++( $F{billtoCity}!=null && !$F{billtoCity}.equals("") ? $F{billtoCity}+", " : "" )
++( $F{billtoState}!=null && !$F{billtoState}.equals("") ? $F{billtoState}+" " : "" )
++( $F{billtoZip}!=null && !$F{billtoZip}.equals("") ? $F{billtoZip} : "" )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="373" y="229" width="194" height="16" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="75075df3-76c8-4120-aa27-c5e4c10a86fd"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[( $F{shiptoAddress1}!=null && !$F{shiptoAddress1}.equals("") ? $F{shiptoAddress1}+"<br>" : "" )
++( $F{shiptoAddress2}!=null && !$F{shiptoAddress2}.equals("") ? $F{shiptoAddress2}+"<br>" : "" )
++( $F{shiptoCity}!=null && !$F{shiptoCity}.equals("") ? $F{shiptoCity}+", " : "" )
++( $F{shiptoState}!=null && !$F{shiptoState}.equals("") ? $F{shiptoState}+" " : "" )
++( $F{shiptoZip}!=null && !$F{shiptoZip}.equals("") ? $F{shiptoZip} : "" )]]></textFieldExpression>
+			</textField>
+			<elementGroup/>
+			<componentElement>
+				<reportElement x="159" y="54" width="226" height="83" uuid="058f4159-dfd5-42c8-a6f7-48fdabca7d2a"/>
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RetainShape" horizontalAlign="Left" verticalAlign="Middle">
+					<hc:htmlContentExpression><![CDATA[(($F{header}.replaceAll("`and`nbsp;", " ")).replaceAll("`", "")).replaceAll("amp;"," ")]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
+			<line>
+				<reportElement x="437" y="27" width="135" height="1" uuid="b49fa665-84f5-431f-8661-93b37a54853d"/>
+				<graphicElement>
+					<pen lineWidth="1.5" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<elementGroup/>
+			<rectangle radius="10">
+				<reportElement x="415" y="0" width="156" height="54" uuid="659fc809-02eb-4a4c-aa69-aa5a619c5099"/>
+				<graphicElement>
+					<pen lineWidth="1.5" lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="422" y="28" width="23" height="20" uuid="49e6a0f7-ffdf-492d-87b8-5d6874684fb6"/>
+				<textElement textAlignment="Right">
+					<font size="13" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[#]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="447" y="28" width="123" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="7cf11418-e1e2-412a-bb65-aacc1c21be3d"/>
+				<textElement>
+					<font size="13" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{InvoiceNumber}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="422" y="9" width="141" height="19" uuid="01f63fd7-3b70-4b6a-b2e6-bc70dd077042"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Invoice]]></text>
+			</staticText>
+			<image>
+				<reportElement positionType="Float" x="28" y="61" width="111" height="66" uuid="b942ae8d-9e0b-4aef-814d-867785a17610"/>
+				<imageExpression><![CDATA[$F{logo}]]></imageExpression>
+			</image>
+			<rectangle radius="10">
+				<reportElement x="149" y="162" width="92" height="40" uuid="d5fd2fdb-e78e-4bf6-8716-f792bf9845f1"/>
+			</rectangle>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="427" y="180" width="66" height="15" uuid="40174176-0f74-4c22-a73b-527cc568b6a7"/>
+				<textFieldExpression><![CDATA[$F{ShipDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="153" y="164" width="87" height="14" uuid="9826101e-4fa2-421a-a76d-cfcf0cb718a5"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[CUSTOMER PO#:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="159" y="185" width="82" height="13" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="583e1d5a-90d2-473f-8a47-af1dda34192d"/>
+				<textFieldExpression><![CDATA[$F{CustomerPONumber}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="10">
+				<reportElement x="242" y="162" width="58" height="40" uuid="02784c60-e8e8-4dee-b0b4-a49afafc24b9"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="300" y="162" width="122" height="40" uuid="48005b24-8812-4e41-ad0a-a95ac1f2a7ec"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="255" y="164" width="34" height="14" uuid="86175a76-d367-4168-9307-f42c76fa838e"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[REP]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="250" y="180" width="50" height="16" isRemoveLineWhenBlank="true" uuid="208bb937-9d30-4b32-8515-6b570dc231e1"/>
+				<textFieldExpression><![CDATA[$F{Initials}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="299" y="164" width="54" height="16" uuid="8eab02a4-d5ac-47da-a118-4b908a78e616"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[SHIP VIA:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="354" y="164" width="65" height="13" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="7385b84b-882d-4a8d-8dd3-9d9dbdc080e0"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ShippedVia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="300" y="186" width="54" height="16" uuid="e8a95332-535b-4952-991a-a871052e3c22"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[PRO:]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement x="501" y="161" width="69" height="40" uuid="5f1e6bd3-a98b-40a4-a070-4fd3f684c094"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="511" y="162" width="50" height="16" uuid="52746b5e-48c7-4649-b7e4-9c3de2c0c71a"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Inv Date]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="MM/dd/yyyy">
+				<reportElement x="508" y="180" width="58" height="14" isPrintWhenDetailOverflows="true" uuid="bbc4ade0-c3d7-4831-9652-d769ac05883a"/>
+				<textFieldExpression><![CDATA[$F{InvoiceDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="355" y="187" width="64" height="13" isPrintWhenDetailOverflows="true" uuid="8b6f3357-9973-4c12-aee4-feee4df46d11"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TrackingNumber}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="11" y="238" width="260" height="35" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="00a465a7-b94d-40c7-8508-f79b6759706c">
+					<printWhenExpression><![CDATA[new Boolean($P{donotMail})]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DO NOT MAIL !"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="485" y="282" width="82" height="15" uuid="5e16035c-7e44-43a8-afc5-02cec0bcebcb"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="73" y="214" width="203" height="15" uuid="57e7dd57-6dc3-4758-8c33-dde218c8408d"/>
+				<textFieldExpression><![CDATA[$F{billtoName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="374" y="212" width="193" height="15" uuid="417fb2f8-c2a7-41f6-95fb-c9d8a193ea5c"/>
+				<textFieldExpression><![CDATA[$F{shiptoName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<subreport isUsingCache="true">
+				<reportElement x="4" y="2" width="566" height="28" uuid="54cb2c33-bd85-4233-8b95-cd5354b896b7"/>
+				<subreportParameter name="cuInvoiceID">
+					<subreportParameterExpression><![CDATA[$F{cuInvoiceID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="mytotal" toVariable="newtotal"/>
+				<subreportExpression><![CDATA["C:\\Users\\velmurugan\\Desktop\\Batch\\BatchInvoiceSubreport.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="16">
+			<printWhenExpression><![CDATA[( $F{Note}!=null && $F{Note}!="" ? new Boolean(true) : new Boolean(false) )]]></printWhenExpression>
+			<textField>
+				<reportElement x="14" y="0" width="477" height="16" uuid="82928af9-7c29-44a7-ac82-5fd16e5dca53"/>
+				<textFieldExpression><![CDATA[$F{Note}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band/>
+	</pageFooter>
+</jasperReport>

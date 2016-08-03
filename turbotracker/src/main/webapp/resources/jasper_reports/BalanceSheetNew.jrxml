@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TrailBalance" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="76d9585c-0d30-4839-abf0-35d79ee341f2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="HeaderText" class="java.lang.String"/>
+	<parameter name="StartDate" class="java.lang.String"/>
+	<parameter name="EndDate" class="java.lang.String"/>
+	<parameter name="AccountStatus" class="java.lang.Boolean"/>
+	<parameter name="companyLogo" class="java.io.InputStream"/>
+	<parameter name="netProfitLoss" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[SELECT coAccountID,Number,Description,accountType,FinancialStatus,(pdebits+pcredits) AS PeriodAmount,1 as overallaccounttype  FROM ( SELECT  cA.coAccountID,cA.Number,cA.Description,cA.accountType,cA.FinancialStatus, IF(pdebits-pcredits>0,pdebits-pcredits,0) AS pdebits,IF(pcredits-pdebits>0,pcredits-pdebits,0) AS pcredits, IF(ydebits-ycredits>0,ydebits-ycredits,0) AS ydebits, IF(ycredits-ydebits>0,ycredits-ydebits,0) AS ycredits FROM coAccount cA LEFT JOIN  (SELECT  gt.coAccountID, TRUNCATE(SUM(TRUNCATE(gt.debit,4)),2) pdebits,TRUNCATE(SUM(TRUNCATE(gt.credit,4)),2)pcredits FROM glTransaction gt  WHERE gt.coFiscalPeriodId = 159 AND  gt.coFiscalYearId = 12 GROUP BY gt.coAccountID) gl ON cA.coAccountID = gl.coAccountID AND cA.accountType IN ('Income','Expense')  LEFT JOIN (SELECT  gtt.coAccountID, TRUNCATE(SUM(TRUNCATE(gtt.debit,4)),2) ydebits, TRUNCATE(SUM(TRUNCATE(gtt.credit,4)),2) ycredits FROM glTransaction gtt WHERE gtt.coFiscalYearId = 12 GROUP BY gtt.coAccountID)  gll ON cA.coAccountID = gll.coAccountID AND cA.accountType IN ('Income','Expense') WHERE cA.InActive <> 1 AND pdebits IS NOT NULL OR pcredits IS NOT NULL OR ydebits IS NOT NULL OR ycredits IS NOT NULL  HAVING ycredits>0 OR ydebits>0 ORDER BY cA.Number) subquery  ORDER BY FinancialStatus]]>
+	</queryString>
+	<field name="coAccountID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="accountType" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="FinancialStatus" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PeriodAmount" class="java.math.BigDecimal"/>
+	<field name="overallaccounttype" class="java.lang.Long"/>
+	<variable name="PeriodAmount_1" class="java.math.BigDecimal" resetType="Group" resetGroup="AccountType" calculation="Sum">
+		<variableExpression><![CDATA[$F{PeriodAmount}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="PeriodAmount_1_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[( ($F{FinancialStatus}==1||$F{FinancialStatus}==2) ?
+    $F{PeriodAmount} : new BigDecimal(0) )]]></variableExpression>
+	</variable>
+	<variable name="typeTotals" class="java.math.BigDecimal" resetType="Group" resetGroup="AccountTypeGroup" incrementType="Group" incrementGroup="AccountType" calculation="Sum">
+		<variableExpression><![CDATA[$V{PeriodAmount_1}]]></variableExpression>
+	</variable>
+	<variable name="liabilityandequity" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[(($F{FinancialStatus}==7||$F{FinancialStatus}==8||$F{FinancialStatus}==9) ?  $F{PeriodAmount}: 0 )]]></variableExpression>
+	</variable>
+	<group name="AccountTypeGroup">
+		<groupExpression><![CDATA[$F{overallaccounttype}]]></groupExpression>
+		<groupHeader>
+			<band height="17">
+				<textField>
+					<reportElement x="76" y="1" width="174" height="16" uuid="a34ecb7c-b3f1-4fd2-b5b4-5b56e7ff731e"/>
+					<textElement>
+						<font fontName="Serif" size="11" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{accountType}=="Asset"  ? "ASSETS" : "LIABILITY & EQUITY")]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="31">
+				<textField>
+					<reportElement x="79" y="7" width="234" height="20" uuid="6c3a07db-e334-4bd7-b9af-f896ccb8539d"/>
+					<textElement>
+						<font fontName="Serif" size="10" isBold="false" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[("TOTAL "+
+($F{accountType}=="Asset"  ? "ASSETS" : "LIABILITY & EQUITY")
+)]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="485" y="3" width="68" height="1" uuid="10d2b9a7-69af-41bd-83ba-e7c1fc906bd9"/>
+				</line>
+				<line>
+					<reportElement x="485" y="5" width="68" height="1" uuid="e7a2c2ec-d2cc-46fd-9a03-7edfad136c48"/>
+				</line>
+				<textField pattern="">
+					<reportElement x="452" y="6" width="101" height="20" uuid="19b34722-c0ac-4d90-bd54-5c1add6ff6be"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{FinancialStatus}==9?new ConvertToWord().negativevalueinparanthesis($V{liabilityandequity}):ConvertToWord.negativevalueinparanthesis($V{typeTotals})]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="485" y="27" width="68" height="1" uuid="1d3520c6-cdea-4967-854c-07a6b7eade19"/>
+				</line>
+				<line>
+					<reportElement x="485" y="25" width="68" height="1" uuid="899bce23-cc06-466e-bfef-2ab3470a96ce"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="AccountType">
+		<groupExpression><![CDATA[$F{FinancialStatus}]]></groupExpression>
+		<groupHeader>
+			<band height="18">
+				<textField>
+					<reportElement x="76" y="1" width="236" height="16" uuid="63f786e0-37ea-42b8-a08e-bd5734bdfd76"/>
+					<textElement>
+						<font size="10" isBold="false" isItalic="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{FinancialStatus}==4 ? "CURRENT ASSETS" :
+($F{FinancialStatus}==5 ? "FIXED ASSETS" :
+($F{FinancialStatus}==6 ? "OTHER ASSETS" :
+($F{FinancialStatus}==7 ? "CURRENT LIABILITIES" :
+($F{FinancialStatus}==8 ? "LONG TERM LIABILITIES" :
+($F{FinancialStatus}==9 ? "EQUITY" : ""
+)
+)
+)
+)
+)
+)]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="16">
+				<printWhenExpression><![CDATA[new Boolean(false)]]></printWhenExpression>
+				<textField isBlankWhenNull="true">
+					<reportElement x="77" y="0" width="176" height="16" isRemoveLineWhenBlank="true" uuid="958ea776-6324-4e40-a467-0d0411756b01"/>
+					<textFieldExpression><![CDATA[$F{FinancialStatus}==9 ? "Net Profit (Loss)":""]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="265" y="0" width="134" height="16" isRemoveLineWhenBlank="true" uuid="b73bf570-9d92-4576-ba04-66129e52610e"/>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{FinancialStatus}==9 ?ConvertToWord.negativevalueinparanthesis($P{netProfitLoss}):""]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="23">
+				<textField pattern="">
+					<reportElement x="327" y="6" width="148" height="17" uuid="e6ac0474-32c3-438c-9f38-7976defa187a"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{FinancialStatus}==9?ConvertToWord.negativevalueinparanthesis($V{PeriodAmount_1}):ConvertToWord.negativevalueinparanthesis($V{PeriodAmount_1})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="76" y="4" width="236" height="17" isRemoveLineWhenBlank="true" uuid="4fde5135-2466-4f7c-a3df-b915889c6857"/>
+					<textElement>
+						<font size="10" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[( $V{PeriodAmount_1}.equals( BigDecimal.ZERO )
+     ? "" :
+"TOTAL "+
+($F{FinancialStatus}==4  ? "CURRENT ASSETS" :
+($F{FinancialStatus}==5  ? "FIXED ASSETS" :
+($F{FinancialStatus}==6  ? "OTHER ASSETS" :
+($F{FinancialStatus}==7  ? "CURRENT LIABILITIES" :
+($F{FinancialStatus}==8  ? "LONG TERM LIABILITIES" :
+($F{FinancialStatus}==9  ? "EQUITY" :"")
+)
+)
+)
+)
+)
+)]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="403" y="3" width="70" height="1" uuid="40324852-f936-44bf-8db7-fe74ac522d1a"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="131" splitType="Stretch">
+			<componentElement>
+				<reportElement x="166" y="0" width="299" height="92" uuid="4055352f-81c8-4a61-a5b9-63e0a44986b3"/>
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RetainShape" horizontalAlign="Left" verticalAlign="Middle">
+					<hc:htmlContentExpression><![CDATA[(($P{HeaderText}.replaceAll("`and`nbsp;", " ")).replaceAll("`", "")).replaceAll("amp;"," ")]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="0" y="95" width="100" height="20" uuid="d62cfb30-f0d9-4329-a581-fe3cab72fd94"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="200" y="95" width="193" height="16" uuid="229b92b0-926a-4e83-a9c9-3a26ea503e6d"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Balance Sheet]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="441" y="95" width="80" height="20" uuid="62822aec-d693-4728-8f0e-787e017ae59d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="521" y="95" width="40" height="20" uuid="83bd4854-cb75-415c-8916-25060b0a4155"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="2" y="93" width="550" height="1" uuid="381794b8-a10d-4da1-9d2e-839b21d096ab"/>
+				<graphicElement>
+					<pen lineWidth="1.5" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="286" y="111" width="89" height="16" uuid="8c5693e2-6839-4811-9c48-910c0a084da3"/>
+				<textFieldExpression><![CDATA[$P{EndDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="253" y="111" width="36" height="13" uuid="3316128f-9b44-400a-bf41-4ff3f56051bb"/>
+				<text><![CDATA[As OF]]></text>
+			</staticText>
+			<image isUsingCache="true" onErrorType="Blank">
+				<reportElement positionType="Float" x="16" y="15" width="126" height="66" uuid="e594dfa7-ccf7-4a39-805a-35e81d0f24d5"/>
+				<imageExpression><![CDATA[$P{companyLogo}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField pattern="">
+				<reportElement x="265" y="0" width="134" height="16" uuid="b542ba0c-4bb2-4f27-82fb-85f8306a8bae"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[ConvertToWord.negativevalueinparanthesis($F{PeriodAmount})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="76" height="16" uuid="932c01d3-c715-4597-9af0-f6a792c419af">
+					<printWhenExpression><![CDATA[$P{AccountStatus}]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Number}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="77" y="0" width="174" height="16" uuid="31a7acb1-ac45-4bd1-9410-c0072284b48c"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
